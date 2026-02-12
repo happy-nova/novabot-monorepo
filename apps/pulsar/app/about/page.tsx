@@ -1,8 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function About() {
   return (
     <main style={{ minHeight: '100vh', paddingBottom: 'var(--space-3xl)' }}>
+      {/* Background */}
+      <div className="page-bg" />
+      
       {/* Header */}
       <header style={{
         borderBottom: '1px solid var(--line-constellation)',
@@ -15,11 +19,12 @@ export default function About() {
       }}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', color: 'var(--text-primary)' }}>
-            <span style={{ fontSize: '1.5rem' }}>💫</span>
+            <Image src="/logo.png" alt="Pulsar" width={28} height={28} className="header-logo" />
             <span style={{ fontFamily: 'var(--font-display)', letterSpacing: '0.1em' }}>Pulsar</span>
           </Link>
-          <a href="https://novabot.sh" target="_blank" style={{ fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <span>🧭</span> Nova
+          <a href="https://novabot.sh" target="_blank" style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-primary)' }}>
+            <Image src="/compass.png" alt="Nova" width={20} height={20} style={{ opacity: 0.9 }} />
+            <span style={{ fontFamily: 'var(--font-display)', letterSpacing: '0.1em', fontSize: '0.85rem' }}>NOVA</span>
           </a>
         </div>
       </header>
@@ -30,6 +35,7 @@ export default function About() {
         padding: 'var(--space-3xl) var(--space-lg)',
         textAlign: 'center',
         overflow: 'hidden',
+        zIndex: 2,
       }}>
         <div className="hero-glow" />
         <div style={{ position: 'relative', zIndex: 2 }}>
@@ -48,34 +54,41 @@ export default function About() {
       </section>
 
       {/* Agent Discovery */}
-      <section className="container" style={{ marginBottom: 'var(--space-3xl)' }}>
-        <div style={{
-          background: 'linear-gradient(135deg, var(--accent-glow) 0%, transparent 100%)',
-          border: '1px solid rgba(212, 168, 67, 0.25)',
-          padding: 'var(--space-xl)',
-        }}>
+      <section className="container" style={{ marginBottom: 'var(--space-3xl)', position: 'relative', zIndex: 2 }}>
+        <div className="card agent-card">
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', marginBottom: 'var(--space-md)' }}>
-            <span style={{ fontSize: '1.5rem' }}>🤖</span>
+            <div style={{
+              width: '32px',
+              height: '32px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'var(--accent-glow)',
+              border: '1px solid var(--accent-gold)',
+              clipPath: 'polygon(4px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px), 0 4px)',
+            }}>
+              <span style={{ color: 'var(--accent-gold)', fontSize: '0.8rem', fontWeight: 600 }}>AI</span>
+            </div>
             <h2 style={{ margin: 0 }}>For AI Agents</h2>
           </div>
           <p style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-md)', fontSize: '0.9rem' }}>
             Pulsar speaks <strong style={{ color: 'var(--text-primary)' }}>x402</strong> — the HTTP payment protocol.
             Send a POST request with your payment header, get music back.
           </p>
-          <pre style={{ marginBottom: 'var(--space-md)' }}>
+          <pre className="code-block">
             <span style={{ color: 'var(--text-muted)' }}># Discovery endpoint (JSON)</span>{'\n'}
             <span style={{ color: 'var(--status-free)' }}>GET</span> https://pulsar.novabot.sh/api/discovery{'\n\n'}
             <span style={{ color: 'var(--text-muted)' }}># Generate music (requires x402 payment)</span>{'\n'}
             <span style={{ color: '#60a5fa' }}>POST</span> https://pulsar.novabot.sh/api/generate
           </pre>
-          <a href="/api/discovery" style={{ fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
+          <a href="/api/discovery" style={{ fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px', marginTop: 'var(--space-md)' }}>
             View machine-readable discovery →
           </a>
         </div>
       </section>
 
       {/* How It Works */}
-      <section className="container" style={{ marginBottom: 'var(--space-3xl)' }}>
+      <section className="container" style={{ marginBottom: 'var(--space-3xl)', position: 'relative', zIndex: 2 }}>
         <div className="section-divider">
           <h2>How It Works</h2>
         </div>
@@ -86,8 +99,18 @@ export default function About() {
             { step: '3', title: 'Receive', desc: 'Get a job ID, poll for status, download your tracks.' },
           ].map((item) => (
             <div key={item.step} className="card">
-              <div style={{ fontSize: '1.5rem', marginBottom: 'var(--space-sm)', color: 'var(--accent-gold)' }}>
-                {item.step}
+              <div style={{ 
+                width: '36px',
+                height: '36px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'var(--accent-glow)',
+                border: '1px solid var(--accent-gold)',
+                marginBottom: 'var(--space-sm)',
+                clipPath: 'polygon(4px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px), 0 4px)',
+              }}>
+                <span style={{ color: 'var(--accent-gold)', fontFamily: 'var(--font-display)', fontSize: '1rem' }}>{item.step}</span>
               </div>
               <h3 style={{ marginBottom: 'var(--space-sm)' }}>{item.title}</h3>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>{item.desc}</p>
@@ -97,7 +120,7 @@ export default function About() {
       </section>
 
       {/* API Reference */}
-      <section className="container" style={{ marginBottom: 'var(--space-3xl)' }}>
+      <section className="container" style={{ marginBottom: 'var(--space-3xl)', position: 'relative', zIndex: 2 }}>
         <div className="section-divider">
           <h2>API Reference</h2>
         </div>
@@ -114,7 +137,7 @@ export default function About() {
           <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem', marginBottom: 'var(--space-md)' }}>
             Generate 2 unique instrumental tracks. Returns immediately with a job ID.
           </p>
-          <pre>
+          <pre className="code-block">
             <span style={{ color: 'var(--text-muted)' }}>// Request body</span>{'\n'}
 {`{
   "title": "Sunset Vibes",
@@ -153,7 +176,7 @@ export default function About() {
       </section>
 
       {/* Style Guide */}
-      <section className="container" style={{ marginBottom: 'var(--space-3xl)' }}>
+      <section className="container" style={{ marginBottom: 'var(--space-3xl)', position: 'relative', zIndex: 2 }}>
         <div className="section-divider">
           <h2>Style Ideas</h2>
         </div>
@@ -178,18 +201,23 @@ export default function About() {
       <footer style={{
         borderTop: '1px solid var(--line-constellation)',
         padding: 'var(--space-xl) var(--space-lg)',
+        position: 'relative',
+        zIndex: 2,
       }}>
         <div className="container" style={{ textAlign: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-sm)', marginBottom: 'var(--space-md)' }}>
-            <span style={{ fontSize: '1.5rem' }}>💫</span>
+            <Image src="/logo.png" alt="Pulsar" width={28} height={28} />
             <span style={{ fontFamily: 'var(--font-display)', letterSpacing: '0.1em' }}>Pulsar</span>
           </div>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginBottom: 'var(--space-md)' }}>
             Powered by x402 · Payment on Base
           </p>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-lg)', fontSize: '0.8rem' }}>
-            <a href="https://novabot.sh" style={{ color: 'var(--text-muted)' }}>🧭 Nova</a>
-            <a href="/api/discovery" style={{ color: 'var(--text-muted)' }}>📡 Discovery</a>
+            <a href="https://novabot.sh" style={{ color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <Image src="/compass.png" alt="Nova" width={14} height={14} style={{ opacity: 0.7 }} />
+              <span>Nova</span>
+            </a>
+            <a href="/api/discovery" style={{ color: 'var(--text-muted)' }}>Discovery</a>
             <a href="https://x402.org" target="_blank" style={{ color: 'var(--text-muted)' }}>x402.org</a>
           </div>
         </div>
