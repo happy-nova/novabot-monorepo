@@ -243,9 +243,9 @@ button {
   width: 100px;
   height: 100px;
   pointer-events: none;
-  z-index: 5; /* Behind cards (z-index 10), above backgrounds */
+  z-index: 1; /* Below sections (z-index: 2), above backgrounds */
   filter: drop-shadow(0 0 15px var(--accent-glow));
-  opacity: 0.35;
+  opacity: 0.5;
   transition: opacity 0.3s ease;
 }
 
@@ -815,6 +815,7 @@ button {
   justify-content: center;
   align-items: center;
   position: relative;
+  z-index: 2; /* Above compass (z-index: 1) */
   padding: var(--space-3xl) var(--space-lg);
   padding-top: 100px; /* Account for HUD navbar */
   overflow: hidden;
@@ -1039,6 +1040,7 @@ button {
   flex-direction: column;
   justify-content: center;
   position: relative;
+  z-index: 2; /* Above compass */
   overflow: hidden;
   background: var(--bg-deep);
 }
@@ -1532,6 +1534,7 @@ button {
   flex-direction: column;
   justify-content: center;
   position: relative;
+  z-index: 2; /* Above compass */
   overflow: hidden;
   background: var(--bg-deep);
 }
@@ -1976,6 +1979,7 @@ button {
   justify-content: center;
   text-align: center;
   position: relative;
+  z-index: 2; /* Above compass */
   overflow: hidden;
   background: var(--bg-deep);
 }
