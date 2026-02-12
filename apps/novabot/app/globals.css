@@ -376,7 +376,11 @@ button {
   color: var(--accent-gold);
 }
 
+/* Center nav links absolutely on page */
 .hud-nav-links {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: var(--space-lg);
