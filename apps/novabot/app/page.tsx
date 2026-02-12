@@ -103,7 +103,7 @@ export default function NovaHome() {
     }
     
     // Section tracking for active nav
-    const sections = ['hero', 'about', 'dreams', 'contact'];
+    const sections = ['hero', 'about', 'dreams', 'services', 'contact'];
     sections.forEach(sectionId => {
       const el = document.getElementById(sectionId);
       if (el) {
