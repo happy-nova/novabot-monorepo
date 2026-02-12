@@ -1,0 +1,308 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap');
+
+:root {
+  /* Core palette - deep navy with warm gold accents */
+  --bg-deep: #060a12;
+  --bg-primary: #0a0e1a;
+  --bg-elevated: #0f1424;
+  --bg-card: #141a2e;
+  --bg-card-hover: #1a2240;
+  
+  /* Accent - warm gold/amber spectrum */
+  --accent-gold: #d4a843;
+  --accent-amber: #c99a45;
+  --accent-warm: #b8864a;
+  --accent-glow: rgba(212, 168, 67, 0.15);
+  --accent-glow-strong: rgba(212, 168, 67, 0.3);
+  
+  /* Text hierarchy */
+  --text-primary: #e8e4dc;
+  --text-secondary: #a8a29e;
+  --text-muted: #6b6560;
+  --text-gold: #d4a843;
+  
+  /* Status colors */
+  --status-active: #4ade80;
+  --status-paid: #d4a843;
+  --status-free: #4ade80;
+  
+  /* Constellation/star accents */
+  --star-bright: #f5f0e6;
+  --star-dim: rgba(245, 240, 230, 0.4);
+  --line-constellation: rgba(212, 168, 67, 0.2);
+  
+  /* Typography */
+  --font-display: 'Cinzel', serif;
+  --font-body: 'IBM Plex Mono', monospace;
+  
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Grain overlay for texture */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 1;
+}
+
+main {
+  position: relative;
+  z-index: 2;
+}
+
+a {
+  color: var(--accent-gold);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--text-primary);
+}
+
+/* Typography */
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--text-primary);
+}
+
+h2 {
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  color: var(--text-gold);
+}
+
+h3 {
+  font-size: 1.1rem;
+  font-weight: 400;
+}
+
+/* Container */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+/* Cards */
+.card {
+  background: var(--bg-card);
+  border: 1px solid rgba(212, 168, 67, 0.1);
+  padding: var(--space-lg);
+  transition: all var(--transition-base);
+  position: relative;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.card:hover {
+  background: var(--bg-card-hover);
+  border-color: rgba(212, 168, 67, 0.25);
+}
+
+.card:hover::before {
+  opacity: 0.6;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  background: transparent;
+  border: 1px solid var(--line-constellation);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn:hover {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+  background: var(--accent-glow);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-amber) 100%);
+  border: none;
+  color: var(--bg-deep);
+  font-weight: 500;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--accent-amber) 0%, var(--accent-warm) 100%);
+  color: var(--bg-deep);
+}
+
+/* Tags */
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--line-constellation);
+  color: var(--text-muted);
+}
+
+.tag-paid {
+  border-color: var(--accent-gold);
+  color: var(--accent-gold);
+  background: var(--accent-glow);
+}
+
+.tag-free {
+  border-color: var(--status-free);
+  color: var(--status-free);
+  background: rgba(74, 222, 128, 0.1);
+}
+
+/* Method badges */
+.method {
+  font-size: 0.65rem;
+  font-weight: 500;
+  padding: 2px 6px;
+  letter-spacing: 0.05em;
+}
+
+.method-post {
+  background: rgba(96, 165, 250, 0.15);
+  color: #60a5fa;
+}
+
+.method-get {
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+}
+
+/* Code blocks */
+code {
+  font-family: var(--font-body);
+  font-size: 0.85em;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 2px 6px;
+  color: var(--accent-gold);
+}
+
+pre {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  background: rgba(0, 0, 0, 0.4);
+  padding: var(--space-md);
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+/* Section dividers */
+.section-divider {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  margin: var(--space-3xl) 0 var(--space-xl);
+}
+
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--line-constellation), transparent);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-card);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--bg-card-hover);
+}
+
+/* Selection */
+::selection {
+  background: var(--accent-glow-strong);
+  color: var(--text-primary);
+}
+
+/* Hero glow effect */
+.hero-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
