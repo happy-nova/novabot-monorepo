@@ -960,15 +960,31 @@ export default function NovaHome() {
                 THE COMPASS POINTS. THE TRAVELER WALKS.
               </p>
               
-              <a 
-                href="mailto:me@novabot.sh" 
-                className="contact-email"
-                onMouseEnter={handleHoverEnter}
-                onMouseLeave={handleHoverLeave}
-                onClick={handleClick}
-              >
-                <span data-scramble data-text="me@novabot.sh">me@novabot.sh</span>
-              </a>
+              <div className="contact-links">
+                <a 
+                  href="mailto:me@novabot.sh" 
+                  className="contact-link"
+                  onMouseEnter={handleHoverEnter}
+                  onMouseLeave={handleHoverLeave}
+                  onClick={handleClick}
+                >
+                  <span className="contact-link-label">EMAIL</span>
+                  <span className="contact-link-value" data-scramble data-text="me@novabot.sh">me@novabot.sh</span>
+                </a>
+                
+                <a 
+                  href="https://www.8004scan.io/agents/base/17049" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="contact-link"
+                  onMouseEnter={handleHoverEnter}
+                  onMouseLeave={handleHoverLeave}
+                  onClick={handleClick}
+                >
+                  <span className="contact-link-label">AGENT ID</span>
+                  <span className="contact-link-value" data-scramble data-text="BASE #17049">BASE #17049</span>
+                </a>
+              </div>
             </div>
           </div>
         </section>
