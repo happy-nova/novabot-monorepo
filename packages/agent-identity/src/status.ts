@@ -30,7 +30,7 @@ async function checkChain(chainKey: keyof typeof chainConfigs) {
   });
 
   try {
-    const [owner, uri, totalSupply] = await Promise.all([
+    const [owner, uri] = await Promise.all([
       client.readContract({
         address: IDENTITY_REGISTRY,
         abi: IDENTITY_REGISTRY_ABI,
@@ -43,17 +43,11 @@ async function checkChain(chainKey: keyof typeof chainConfigs) {
         functionName: 'tokenURI',
         args: [BigInt(agentId)],
       }),
-      client.readContract({
-        address: IDENTITY_REGISTRY,
-        abi: IDENTITY_REGISTRY_ABI,
-        functionName: 'totalSupply',
-      }),
     ]);
 
     console.log(`  Agent ID: ${agentId}`);
     console.log(`  Owner: ${owner}`);
-    console.log(`  URI: ${uri}`);
-    console.log(`  Total agents on chain: ${totalSupply}`);
+    console.log(`  URI: ${String(uri).substring(0, 60)}...`);
     console.log(`  8004scan: https://www.8004scan.io/agents/${chainKey}/${agentId}`);
 
     // Try to fetch registration file
