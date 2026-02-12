@@ -217,8 +217,8 @@ export default function NovaHome() {
     let renderer: THREE.WebGLRenderer | null = null;
     let particles: THREE.Points | null = null;
     
-    // Particle data - sparse and slow
-    const PARTICLE_COUNT = 25;
+    // Particle data - very sparse and slow
+    const PARTICLE_COUNT = 15;
     const particleData: Array<{
       x: number; y: number;
       angle: number;
@@ -406,8 +406,8 @@ export default function NovaHome() {
           [0.85, 0.6, 0.3],   // Amber
         ];
         
-        // Sparse spawn: ~1 every 8-10 frames
-        if (Math.random() > 0.88) {
+        // Very sparse spawn: ~1 every 20-25 frames
+        if (Math.random() > 0.96) {
           for (const p of particleData) {
             if (p.life >= 1) {
               spawnParticle(p, compassX, compassY);
