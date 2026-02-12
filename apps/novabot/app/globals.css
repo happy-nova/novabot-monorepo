@@ -815,7 +815,6 @@ button {
   justify-content: center;
   align-items: center;
   position: relative;
-  z-index: 2; /* Above compass (z-index: 1) */
   padding: var(--space-3xl) var(--space-lg);
   padding-top: 100px; /* Account for HUD navbar */
   overflow: hidden;
@@ -1040,7 +1039,6 @@ button {
   flex-direction: column;
   justify-content: center;
   position: relative;
-  z-index: 2; /* Above compass */
   overflow: hidden;
   background: var(--bg-deep);
 }
@@ -1534,7 +1532,6 @@ button {
   flex-direction: column;
   justify-content: center;
   position: relative;
-  z-index: 2; /* Above compass */
   overflow: hidden;
   background: var(--bg-deep);
 }
@@ -1979,7 +1976,6 @@ button {
   justify-content: center;
   text-align: center;
   position: relative;
-  z-index: 2; /* Above compass */
   overflow: hidden;
   background: var(--bg-deep);
 }
