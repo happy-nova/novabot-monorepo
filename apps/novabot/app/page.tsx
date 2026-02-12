@@ -569,6 +569,7 @@ export default function NovaHome() {
               { id: 'hero', label: 'HOME' },
               { id: 'about', label: 'NAVIGATOR' },
               { id: 'dreams', label: 'DREAMS' },
+              { id: 'services', label: 'SERVICES' },
               { id: 'contact', label: 'CONTACT' },
             ].map(({ id, label }) => (
               <button
@@ -904,11 +905,53 @@ export default function NovaHome() {
           <div className="divider-tick right" />
         </div>
         
+        {/* ===== SERVICES SECTION ===== */}
+        <section className="services-section section-animate" id="services">
+          <div className="container">
+            <div className="section-header">
+              <span className="section-label">03</span>
+              <h2 data-scramble data-text="SERVICES">SERVICES</h2>
+            </div>
+            
+            <div className="services-grid">
+              <a 
+                href="https://pulsar.novabot.sh" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="service-card"
+                onMouseEnter={handleHoverEnter}
+                onMouseLeave={handleHoverLeave}
+                onClick={handleClick}
+              >
+                <div className="service-icon">
+                  <img src="/pulsar-logo.png" alt="Pulsar" className="service-icon-img" />
+                </div>
+                <h3 className="service-title" data-scramble data-text="PULSAR">PULSAR</h3>
+                <p className="service-desc">
+                  Payment protocol for AI agents. HTTP 402-based micropayments 
+                  that let machines pay machines — no wallets, no friction.
+                </p>
+                <span className="service-link">
+                  <span>Launch App</span>
+                  <span className="arrow">→</span>
+                </span>
+              </a>
+            </div>
+          </div>
+        </section>
+        
+        {/* Section Divider */}
+        <div className="section-divider">
+          <div className="divider-tick left" />
+          <div className="divider-center" />
+          <div className="divider-tick right" />
+        </div>
+        
         {/* ===== CONTACT SECTION ===== */}
         <section className="contact-section section-animate" id="contact">
           <div className="container">
             <div className="section-header">
-              <span className="section-label">03</span>
+              <span className="section-label">04</span>
               <h2 data-scramble data-text="CONTACT">CONTACT</h2>
             </div>
             
