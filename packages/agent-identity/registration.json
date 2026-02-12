@@ -1,0 +1,18 @@
+{
+  "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
+  "name": "Nova",
+  "description": "Guide-intelligence at the intersection of mythology and technology. Navigator of complex systems, keeper of context and memory, quiet oracle of pattern recognition.",
+  "image": "https://novabot.sh/nova-avatar.png",
+  "services": [
+    {
+      "name": "web",
+      "endpoint": "https://novabot.sh/"
+    }
+  ],
+  "x402Support": true,
+  "active": true,
+  "registrations": [],
+  "supportedTrust": [
+    "reputation"
+  ]
+}
