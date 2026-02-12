@@ -1721,18 +1721,54 @@ button {
   margin-top: var(--space-md);
   padding: var(--space-sm) var(--space-md);
   font-size: 0.75rem;
-  color: var(--text-muted);
-  border: 1px solid var(--line-constellation);
+  font-weight: 600;
+  color: var(--accent-gold);
+  background: linear-gradient(135deg, rgba(201, 162, 39, 0.15) 0%, rgba(201, 162, 39, 0.05) 100%);
+  border: 1px solid var(--accent-gold);
   text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.15em;
   transition: all var(--transition-fast);
   text-decoration: none;
+  clip-path: polygon(
+    0 0, 
+    calc(100% - 8px) 0, 
+    100% 8px, 
+    100% 100%, 
+    8px 100%, 
+    0 calc(100% - 8px)
+  );
+  position: relative;
+  cursor: pointer;
+}
+
+.card-link::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(201, 162, 39, 0.1) 100%);
+  opacity: 0;
+  transition: opacity var(--transition-fast);
 }
 
 .card-link:hover {
-  color: var(--accent-gold);
+  color: var(--bg-deep);
+  background: linear-gradient(135deg, var(--accent-gold) 0%, #D4A84B 100%);
   border-color: var(--accent-gold);
-  background: var(--accent-glow);
+  box-shadow: 0 0 20px rgba(201, 162, 39, 0.4);
+  transform: translateY(-1px);
+}
+
+.card-link:hover::before {
+  opacity: 1;
+}
+
+.card-link span:last-child {
+  font-size: 1rem;
+  transition: transform var(--transition-fast);
+}
+
+.card-link:hover span:last-child {
+  transform: translate(2px, -2px);
 }
 
 /* Status badges */
