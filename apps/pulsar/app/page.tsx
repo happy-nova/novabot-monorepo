@@ -1,8 +1,12 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Home() {
   return (
     <main style={{ minHeight: '100vh', paddingBottom: 'var(--space-3xl)' }}>
+      {/* Background */}
+      <div className="page-bg" />
+      
       {/* Header */}
       <header style={{
         borderBottom: '1px solid var(--line-constellation)',
@@ -15,15 +19,16 @@ export default function Home() {
       }}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', color: 'var(--text-primary)' }}>
-            <span style={{ fontSize: '1.5rem' }}>💫</span>
+            <Image src="/logo.png" alt="Pulsar" width={28} height={28} className="header-logo" />
             <span style={{ fontFamily: 'var(--font-display)', letterSpacing: '0.1em' }}>Pulsar</span>
           </Link>
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-lg)' }}>
             <Link href="/about" style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
               Documentation
             </Link>
-            <a href="https://novabot.sh" target="_blank" style={{ fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <span>🧭</span> Nova
+            <a href="https://novabot.sh" target="_blank" style={{ fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Image src="/nova-avatar.png" alt="Nova" width={20} height={20} className="nav-icon" />
+              <span>Nova</span>
             </a>
           </div>
         </div>
@@ -43,6 +48,9 @@ export default function Home() {
       }}>
         <div className="hero-glow" />
         <div style={{ position: 'relative', zIndex: 2 }}>
+          <div style={{ marginBottom: 'var(--space-lg)' }}>
+            <Image src="/logo.png" alt="Pulsar" width={100} height={100} style={{ filter: 'drop-shadow(0 0 30px var(--accent-glow))' }} />
+          </div>
           <h1 style={{
             fontSize: 'clamp(3rem, 10vw, 5rem)',
             fontWeight: 400,
@@ -83,19 +91,32 @@ export default function Home() {
       </section>
 
       {/* Stats */}
-      <section className="container" style={{ marginBottom: 'var(--space-3xl)' }}>
+      <section className="container" style={{ marginBottom: 'var(--space-3xl)', position: 'relative', zIndex: 2 }}>
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(3, 1fr)',
           gap: 'var(--space-md)',
         }}>
           {[
-            { value: '$0.20', label: 'per generation', icon: '💰' },
-            { value: '2', label: 'tracks per request', icon: '🎼' },
-            { value: '✓', label: 'royalty-free', icon: '✅' },
+            { value: '$0.20', label: 'per generation', icon: '/icons/cost.svg' },
+            { value: '2', label: 'tracks per request', icon: '/icons/tracks.svg' },
+            { value: 'Yes', label: 'royalty-free', icon: '/icons/check.svg' },
           ].map((stat) => (
             <div key={stat.label} className="card" style={{ textAlign: 'center', padding: 'var(--space-xl)' }}>
-              <div style={{ fontSize: '2rem', marginBottom: 'var(--space-sm)' }}>{stat.icon}</div>
+              <div style={{ 
+                width: '40px', 
+                height: '40px', 
+                margin: '0 auto var(--space-sm)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'var(--accent-glow)',
+                borderRadius: '50%',
+              }}>
+                <span style={{ color: 'var(--accent-gold)', fontSize: '1.2rem', fontFamily: 'var(--font-display)' }}>
+                  {stat.value === '$0.20' ? '$' : stat.value === '2' ? '2x' : '✓'}
+                </span>
+              </div>
               <div style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem', color: 'var(--accent-gold)', marginBottom: 'var(--space-xs)' }}>
                 {stat.value}
               </div>
@@ -108,14 +129,24 @@ export default function Home() {
       </section>
 
       {/* Agent Section */}
-      <section className="container" style={{ marginBottom: 'var(--space-3xl)' }}>
-        <div style={{
-          background: 'linear-gradient(135deg, var(--accent-glow) 0%, transparent 100%)',
-          border: '1px solid rgba(212, 168, 67, 0.25)',
+      <section className="container" style={{ marginBottom: 'var(--space-3xl)', position: 'relative', zIndex: 2 }}>
+        <div className="card" style={{
+          background: 'linear-gradient(135deg, var(--accent-glow) 0%, var(--bg-card) 100%)',
           padding: 'var(--space-xl)',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', marginBottom: 'var(--space-md)' }}>
-            <span style={{ fontSize: '1.5rem' }}>🤖</span>
+            <div style={{
+              width: '32px',
+              height: '32px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'var(--bg-card)',
+              border: '1px solid var(--accent-gold)',
+              borderRadius: '4px',
+            }}>
+              <span style={{ color: 'var(--accent-gold)', fontSize: '0.9rem' }}>AI</span>
+            </div>
             <h2 style={{ margin: 0 }}>Agent-Ready</h2>
           </div>
           <p style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-lg)', fontSize: '0.9rem' }}>
@@ -136,6 +167,8 @@ export default function Home() {
         borderTop: '1px solid var(--line-constellation)',
         padding: 'var(--space-xl) var(--space-lg)',
         marginTop: 'var(--space-3xl)',
+        position: 'relative',
+        zIndex: 2,
       }}>
         <div className="container" style={{
           display: 'flex',
@@ -145,8 +178,9 @@ export default function Home() {
           color: 'var(--text-muted)',
         }}>
           <span>Powered by x402 · Base Network</span>
-          <a href="https://novabot.sh" style={{ color: 'var(--text-muted)' }}>
-            Built by Nova 🧭
+          <a href="https://novabot.sh" style={{ color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span>Built by Nova</span>
+            <Image src="/compass.png" alt="Nova" width={16} height={16} style={{ opacity: 0.7 }} />
           </a>
         </div>
       </footer>

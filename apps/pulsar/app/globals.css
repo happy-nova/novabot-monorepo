@@ -130,34 +130,101 @@ h3 {
   padding: 0 var(--space-lg);
 }
 
-/* Cards */
-.card {
-  background: var(--bg-card);
-  border: 1px solid rgba(212, 168, 67, 0.1);
-  padding: var(--space-lg);
-  transition: all var(--transition-base);
-  position: relative;
-}
-
-.card::before {
-  content: '';
-  position: absolute;
+/* Background */
+.page-bg {
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
-  opacity: 0;
+  bottom: 0;
+  background: url('/backgrounds/pulsar-bg.jpg') center center / cover no-repeat;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* HUD Cards */
+.card {
+  background: var(--bg-card);
+  border: none;
+  padding: var(--space-lg);
+  padding-top: calc(var(--space-lg) + 6px);
+  transition: all var(--transition-base);
+  position: relative;
+  clip-path: polygon(
+    0 12px, 12px 0, calc(100% - 12px) 0, 100% 12px,
+    100% calc(100% - 12px), calc(100% - 12px) 100%,
+    12px 100%, 0 calc(100% - 12px)
+  );
+}
+
+/* HUD inner border */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  border: 1px solid var(--line-constellation);
+  clip-path: polygon(
+    0 8px, 8px 0, calc(100% - 8px) 0, 100% 8px,
+    100% calc(100% - 8px), calc(100% - 8px) 100%,
+    8px 100%, 0 calc(100% - 8px)
+  );
+  pointer-events: none;
+  transition: border-color var(--transition-base);
+}
+
+/* Corner accent */
+.card::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 16px;
+  height: 16px;
+  border-top: 2px solid var(--accent-gold);
+  border-left: 2px solid var(--accent-gold);
+  opacity: 0.5;
   transition: opacity var(--transition-base);
 }
 
 .card:hover {
   background: var(--bg-card-hover);
-  border-color: rgba(212, 168, 67, 0.25);
+  transform: translateY(-2px);
 }
 
 .card:hover::before {
-  opacity: 0.6;
+  border-color: rgba(212, 168, 67, 0.4);
+}
+
+.card:hover::after {
+  opacity: 1;
+}
+
+/* Stat card icon */
+.stat-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin-bottom: var(--space-sm);
+  filter: drop-shadow(0 0 8px var(--accent-glow));
+}
+
+/* Header logo */
+.header-logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+/* Nav icon */
+.nav-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  border-radius: 50%;
 }
 
 /* Buttons */
