@@ -26,9 +26,9 @@ export default function Home() {
             <Link href="/about" style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
               Documentation
             </Link>
-            <a href="https://novabot.sh" target="_blank" style={{ fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <Image src="/nova-avatar.png" alt="Nova" width={20} height={20} className="nav-icon" />
-              <span>Nova</span>
+            <a href="https://novabot.sh" target="_blank" style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-primary)' }}>
+              <Image src="/compass.png" alt="Nova" width={20} height={20} style={{ opacity: 0.9 }} />
+              <span style={{ fontFamily: 'var(--font-display)', letterSpacing: '0.1em', fontSize: '0.85rem' }}>NOVA</span>
             </a>
           </div>
         </div>
