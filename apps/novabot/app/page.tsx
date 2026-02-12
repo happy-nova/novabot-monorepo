@@ -211,40 +211,58 @@ export default function NovaHome() {
     const MAX_VELOCITY = 0.8;
     const ROTATION_SPEED = 0.02; // How fast compass rotates to point at cursor
     
-    // Three.js particle setup - emission from compass with swirl and fade
+    // Three.js particle setup - swirling outward from compass
     let scene: THREE.Scene | null = null;
     let camera: THREE.OrthographicCamera | null = null;
     let renderer: THREE.WebGLRenderer | null = null;
     let particles: THREE.Points | null = null;
-    let particlePositions: Float32Array | null = null;
-    let particleVelocities: Float32Array | null = null;
-    let particleSizes: Float32Array | null = null;
-    let particleLifetimes: Float32Array | null = null;
-    let particleAges: Float32Array | null = null;
-    const PARTICLE_COUNT = 80;
-    const MAX_LIFETIME = 120; // frames
     
-    // Helper to spawn a particle at compass position
-    const spawnParticle = (i: number, cx: number, cy: number) => {
-      if (!particlePositions || !particleVelocities || !particleLifetimes || !particleAges || !particleSizes) return;
-      const i3 = i * 3;
-      // Spawn at compass (converted to centered coords)
-      particlePositions[i3] = cx - window.innerWidth / 2;
-      particlePositions[i3 + 1] = window.innerHeight / 2 - cy;
-      particlePositions[i3 + 2] = 0;
-      // Random swirl velocity - faster initial burst
-      const angle = Math.random() * Math.PI * 2;
-      const speed = 4 + Math.random() * 4; // Much faster: 4-8 instead of 1.5-3.5
-      particleVelocities[i3] = Math.cos(angle) * speed;
-      particleVelocities[i3 + 1] = Math.sin(angle) * speed;
-      particleVelocities[i3 + 2] = 0;
-      // Random lifetime and reset age
-      particleLifetimes[i] = MAX_LIFETIME * (0.5 + Math.random() * 0.5);
-      particleAges[i] = 0;
-      particleSizes[i] = 2 + Math.random() * 3;
+    // Particle data arrays
+    const PARTICLE_COUNT = 40;
+    const particleData: Array<{
+      x: number; y: number;           // position (screen coords)
+      angle: number;                  // current angle from compass
+      radius: number;                 // current distance from compass
+      angularVel: number;             // rotation speed (radians/frame)
+      radialVel: number;              // outward speed (pixels/frame)
+      life: number;                   // 0-1, dies at 1
+      lifeSpeed: number;              // how fast it ages
+      size: number;                   // base size
+    }> = [];
+    
+    // Initialize particle pool
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particleData.push({
+        x: 0, y: 0,
+        angle: Math.random() * Math.PI * 2,
+        radius: 0,
+        angularVel: 0,
+        radialVel: 0,
+        life: 1, // Start dead
+        lifeSpeed: 0,
+        size: 0
+      });
+    }
+    
+    // Spawn a particle at compass edge with outward spiral motion
+    const spawnParticle = (p: typeof particleData[0], cx: number, cy: number) => {
+      p.angle = Math.random() * Math.PI * 2;
+      p.radius = 30 + Math.random() * 20; // Start at compass edge
+      p.angularVel = (0.01 + Math.random() * 0.02) * (Math.random() > 0.5 ? 1 : -1); // Spin direction
+      p.radialVel = 0.8 + Math.random() * 1.2; // Outward speed
+      p.life = 0;
+      p.lifeSpeed = 0.004 + Math.random() * 0.004; // Lives ~150-250 frames
+      p.size = 2 + Math.random() * 3;
+      // Set initial position
+      p.x = cx + Math.cos(p.angle) * p.radius;
+      p.y = cy + Math.sin(p.angle) * p.radius;
     };
     
     console.log('🧭 Compass effect running - Three.js imported:', !!THREE);
+    
+    // Buffer arrays for Three.js
+    const positions = new Float32Array(PARTICLE_COUNT * 3);
+    const sizes = new Float32Array(PARTICLE_COUNT);
     
     try {
       scene = new THREE.Scene();
@@ -258,35 +276,16 @@ export default function NovaHome() {
       renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.domElement.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:3;';
+      renderer.domElement.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:45;';
       document.body.appendChild(renderer.domElement);
       
       // Particle geometry
       const geometry = new THREE.BufferGeometry();
-      particlePositions = new Float32Array(PARTICLE_COUNT * 3);
-      particleVelocities = new Float32Array(PARTICLE_COUNT * 3);
-      particleSizes = new Float32Array(PARTICLE_COUNT);
-      particleLifetimes = new Float32Array(PARTICLE_COUNT);
-      particleAges = new Float32Array(PARTICLE_COUNT);
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
       
-      // Initialize all particles as "dead" (will spawn over time)
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
-        particlePositions[i * 3] = 0;
-        particlePositions[i * 3 + 1] = 0;
-        particlePositions[i * 3 + 2] = 0;
-        particleLifetimes[i] = 0;
-        particleAges[i] = 999; // Mark as dead
-        particleSizes[i] = 0;
-      }
-      
-      geometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
-      geometry.setAttribute('size', new THREE.BufferAttribute(particleSizes, 1));
-      
-      // Custom shader for glowing yellowish particles with fade
+      // Custom shader for glowing gold particles
       const material = new THREE.ShaderMaterial({
-        uniforms: {
-          time: { value: 0 }
-        },
         vertexShader: `
           attribute float size;
           varying float vSize;
@@ -298,17 +297,13 @@ export default function NovaHome() {
           }
         `,
         fragmentShader: `
-          uniform float time;
           varying float vSize;
           void main() {
             float dist = length(gl_PointCoord - vec2(0.5));
             if (dist > 0.5) discard;
-            // Yellowish gold gradient
-            vec3 innerColor = vec3(1.0, 0.9, 0.5); // Bright yellow
-            vec3 outerColor = vec3(0.85, 0.65, 0.2); // Gold
-            vec3 color = mix(innerColor, outerColor, dist * 2.0);
-            float alpha = smoothstep(0.5, 0.0, dist) * (vSize / 5.0);
-            gl_FragColor = vec4(color, alpha * 0.7);
+            vec3 gold = vec3(0.95, 0.8, 0.4);
+            float alpha = smoothstep(0.5, 0.0, dist) * (vSize / 5.0) * 0.6;
+            gl_FragColor = vec4(gold, alpha);
           }
         `,
         transparent: true,
@@ -317,8 +312,8 @@ export default function NovaHome() {
       });
       
       particles = new THREE.Points(geometry, material);
-      scene!.add(particles);
-      console.log('✨ Three.js particle emitter initialized:', PARTICLE_COUNT, 'particles');
+      scene.add(particles);
+      console.log('✨ Swirl particles initialized:', PARTICLE_COUNT);
     } catch (e) {
       console.error('Three.js initialization error:', e);
     }
@@ -391,59 +386,57 @@ export default function NovaHome() {
         compassRef.current.style.transform = `translate(-50%, -50%) rotate(${compassRotation}deg)`;
       }
       
-      // Three.js particle emission and animation
-      if (particles && particlePositions && particleVelocities && particleLifetimes && particleAges && particleSizes && renderer && scene && camera) {
-        const positions = particles.geometry.attributes.position.array as Float32Array;
-        const sizes = particles.geometry.attributes.size.array as Float32Array;
+      // Three.js particle swirl animation
+      if (particles && renderer && scene && camera) {
+        const posAttr = particles.geometry.attributes.position.array as Float32Array;
+        const sizeAttr = particles.geometry.attributes.size.array as Float32Array;
         
-        // Spawn new particles (1-2 per frame for less density)
-        const spawnCount = 1 + (Math.random() > 0.6 ? 1 : 0);
-        let spawned = 0;
-        
-        for (let i = 0; i < PARTICLE_COUNT && spawned < spawnCount; i++) {
-          if (particleAges[i] >= particleLifetimes[i]) {
-            spawnParticle(i, compassX, compassY);
-            spawned++;
+        // Spawn new particles occasionally (1 every ~3 frames)
+        if (Math.random() > 0.65) {
+          for (const p of particleData) {
+            if (p.life >= 1) {
+              spawnParticle(p, compassX, compassY);
+              break; // Only spawn one
+            }
           }
         }
         
         // Update all particles
         for (let i = 0; i < PARTICLE_COUNT; i++) {
+          const p = particleData[i];
           const i3 = i * 3;
           
-          // Age the particle
-          particleAges[i]++;
-          
-          // Calculate life ratio (0 = just born, 1 = dead)
-          const lifeRatio = particleAges[i] / particleLifetimes[i];
-          
-          if (lifeRatio < 1) {
-            // Add slight swirl/curve to movement
-            const swirlStrength = 0.03;
-            particleVelocities[i3] += Math.sin(time * 0.05 + i) * swirlStrength;
-            particleVelocities[i3 + 1] += Math.cos(time * 0.05 + i) * swirlStrength;
+          if (p.life < 1) {
+            // Age the particle
+            p.life += p.lifeSpeed;
             
-            // Slow down over time - less drag so they travel further
-            const drag = 0.985 - lifeRatio * 0.015;
-            particleVelocities[i3] *= drag;
-            particleVelocities[i3 + 1] *= drag;
+            // Spiral outward: increase angle and radius
+            p.angle += p.angularVel;
+            p.radius += p.radialVel;
             
-            // Update positions
-            positions[i3] += particleVelocities[i3];
-            positions[i3 + 1] += particleVelocities[i3 + 1];
+            // Slow down radial velocity slightly over time
+            p.radialVel *= 0.995;
             
-            // Fade out size based on life (size controls alpha in shader)
-            const fadeOut = 1 - Math.pow(lifeRatio, 0.5);
-            sizes[i] = particleSizes[i] * fadeOut;
+            // Update screen position based on compass center
+            p.x = compassX + Math.cos(p.angle) * p.radius;
+            p.y = compassY + Math.sin(p.angle) * p.radius;
+            
+            // Convert to Three.js centered coordinates
+            posAttr[i3] = p.x - window.innerWidth / 2;
+            posAttr[i3 + 1] = window.innerHeight / 2 - p.y;
+            posAttr[i3 + 2] = 0;
+            
+            // Fade out as life increases
+            const fade = 1 - p.life;
+            sizeAttr[i] = p.size * fade;
           } else {
-            // Dead particle - hide it
-            sizes[i] = 0;
+            // Dead particle
+            sizeAttr[i] = 0;
           }
         }
         
         particles.geometry.attributes.position.needsUpdate = true;
         particles.geometry.attributes.size.needsUpdate = true;
-        (particles.material as THREE.ShaderMaterial).uniforms.time.value = time * 0.01;
         
         renderer.render(scene, camera);
       }
