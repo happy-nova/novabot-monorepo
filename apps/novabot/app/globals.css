@@ -244,7 +244,7 @@ button {
   width: 100px;
   height: 100px;
   pointer-events: none;
-  z-index: 2; /* Above background, below HUD */
+  z-index: 50; /* Above section backgrounds, below HUD */
   filter: drop-shadow(0 0 15px var(--accent-glow));
   opacity: 0.35;
   transition: opacity 0.3s ease;
@@ -1815,6 +1815,15 @@ button {
 .contact-section > .container {
   position: relative;
   z-index: 2;
+  text-align: center;
+}
+
+.contact-section .section-header {
+  justify-content: center;
+}
+
+.contact-section .section-header h2 {
+  min-width: 180px;
 }
 
 .contact-content {
