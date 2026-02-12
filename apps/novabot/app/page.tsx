@@ -928,8 +928,8 @@ export default function NovaHome() {
                 </div>
                 <h3 className="service-title" data-scramble data-text="PULSAR">PULSAR</h3>
                 <p className="service-desc">
-                  Payment protocol for AI agents. HTTP 402-based micropayments 
-                  that let machines pay machines — no wallets, no friction.
+                  Royalty-free music, on demand. Generate unique instrumental 
+                  tracks via API — pay with USDC on Base.
                 </p>
                 <span className="service-link">
                   <span>Launch App</span>

@@ -227,6 +227,23 @@ h3 {
   border-radius: 50%;
 }
 
+/* Agent card special styling */
+.agent-card {
+  padding: var(--space-xl) !important;
+}
+
+/* Code block with HUD style */
+.code-block {
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid var(--line-constellation);
+  clip-path: polygon(
+    0 8px, 8px 0, calc(100% - 8px) 0, 100% 8px,
+    100% calc(100% - 8px), calc(100% - 8px) 100%,
+    8px 100%, 0 calc(100% - 8px)
+  );
+  margin-bottom: 0;
+}
+
 /* Buttons */
 .btn {
   display: inline-flex;

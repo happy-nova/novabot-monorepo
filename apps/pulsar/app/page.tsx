@@ -130,10 +130,7 @@ export default function Home() {
 
       {/* Agent Section */}
       <section className="container" style={{ marginBottom: 'var(--space-3xl)', position: 'relative', zIndex: 2 }}>
-        <div className="card" style={{
-          background: 'linear-gradient(135deg, var(--accent-glow) 0%, var(--bg-card) 100%)',
-          padding: 'var(--space-xl)',
-        }}>
+        <div className="card agent-card">
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-sm)', marginBottom: 'var(--space-md)' }}>
             <div style={{
               width: '32px',
@@ -141,11 +138,11 @@ export default function Home() {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: 'var(--bg-card)',
+              background: 'var(--accent-glow)',
               border: '1px solid var(--accent-gold)',
-              borderRadius: '4px',
+              clipPath: 'polygon(4px 0, calc(100% - 4px) 0, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 0 calc(100% - 4px), 0 4px)',
             }}>
-              <span style={{ color: 'var(--accent-gold)', fontSize: '0.9rem' }}>AI</span>
+              <span style={{ color: 'var(--accent-gold)', fontSize: '0.8rem', fontWeight: 600 }}>AI</span>
             </div>
             <h2 style={{ margin: 0 }}>Agent-Ready</h2>
           </div>
@@ -153,7 +150,7 @@ export default function Home() {
             Pulsar uses the <strong style={{ color: 'var(--text-primary)' }}>x402 protocol</strong> for pay-per-call access.
             AI agents can discover, call, and pay in a single HTTP request.
           </p>
-          <pre style={{ marginBottom: 'var(--space-md)' }}>
+          <pre className="code-block">
             <span style={{ color: 'var(--status-free)' }}>GET</span> <span style={{ color: 'var(--text-muted)' }}>/api/discovery</span>{'\n'}
             <span style={{ color: 'var(--text-muted)' }}>→ JSON service manifest with endpoints, prices, schemas</span>{'\n\n'}
             <span style={{ color: '#60a5fa' }}>POST</span> <span style={{ color: 'var(--text-muted)' }}>/api/generate</span>{'\n'}
