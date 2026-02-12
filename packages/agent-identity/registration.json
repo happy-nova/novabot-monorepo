@@ -7,6 +7,16 @@
     {
       "name": "web",
       "endpoint": "https://novabot.sh/"
+    },
+    {
+      "name": "email",
+      "endpoint": "me@novabot.sh"
+    }
+  ],
+  "wallets": [
+    {
+      "chain": "eip155:8453",
+      "address": "0xFf6Ce435e53DDff01eEB34c2158382677dcf0daB"
     }
   ],
   "x402Support": true,
