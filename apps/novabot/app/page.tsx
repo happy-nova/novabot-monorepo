@@ -235,7 +235,7 @@ export default function NovaHome() {
       renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.domElement.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:0;';
+      renderer.domElement.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:3;';
       document.body.appendChild(renderer.domElement);
       
       // Particle geometry
@@ -372,17 +372,19 @@ export default function NovaHome() {
         for (let i = 0; i < PARTICLE_COUNT; i++) {
           const i3 = i * 3;
           
-          // Gentle drift toward compass
+          // Drift toward compass with stronger pull
           const pdx = (compassX - window.innerWidth / 2) - positions[i3];
           const pdy = (window.innerHeight / 2 - compassY) - positions[i3 + 1];
           const pDist = Math.sqrt(pdx * pdx + pdy * pdy) || 1;
           
-          particleVelocities[i3] += (pdx / pDist) * 0.002;
-          particleVelocities[i3 + 1] += (pdy / pDist) * 0.002;
+          // Stronger attraction when further away
+          const pullStrength = Math.min(0.015, 0.005 + (pDist / 500) * 0.01);
+          particleVelocities[i3] += (pdx / pDist) * pullStrength;
+          particleVelocities[i3 + 1] += (pdy / pDist) * pullStrength;
           
-          // Add some swirl
-          particleVelocities[i3] += Math.sin(time * 0.01 + i) * 0.01;
-          particleVelocities[i3 + 1] += Math.cos(time * 0.01 + i) * 0.01;
+          // Add some swirl around compass
+          particleVelocities[i3] += Math.sin(time * 0.01 + i) * 0.008;
+          particleVelocities[i3 + 1] += Math.cos(time * 0.01 + i) * 0.008;
           
           // Damping
           particleVelocities[i3] *= 0.98;
