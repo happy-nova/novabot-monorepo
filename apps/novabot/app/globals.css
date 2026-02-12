@@ -245,7 +245,7 @@ button {
   pointer-events: none;
   z-index: 1; /* Below sections (z-index: 2), above backgrounds */
   filter: drop-shadow(0 0 15px var(--accent-glow));
-  opacity: 0.5;
+  opacity: 0.75;
   transition: opacity 0.3s ease;
 }
 
@@ -2209,7 +2209,7 @@ button {
   .floating-compass {
     width: 80px;
     height: 80px;
-    opacity: 0.4;
+    opacity: 0.6;
   }
 }
 
