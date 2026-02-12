@@ -1223,7 +1223,7 @@ button {
   background: var(--bg-card);
   border: none;
   padding: var(--space-lg);
-  padding-top: calc(var(--space-lg) + 8px);
+  padding-top: calc(var(--space-lg) + 20px); /* Extra space for badge */
   position: relative;
   z-index: 10;
   display: flex;
@@ -1232,38 +1232,38 @@ button {
   text-align: center;
   transition: all var(--transition-base);
   clip-path: polygon(
-    0 20px, 20px 0, calc(100% - 20px) 0, 100% 20px,
-    100% calc(100% - 20px), calc(100% - 20px) 100%,
-    20px 100%, 0 calc(100% - 20px)
-  );
-}
-
-/* HUD corner accents for evolution cards */
-.evolution-card::before {
-  content: '';
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  right: 8px;
-  bottom: 8px;
-  border: 1px solid var(--line-constellation);
-  clip-path: polygon(
     0 16px, 16px 0, calc(100% - 16px) 0, 100% 16px,
     100% calc(100% - 16px), calc(100% - 16px) 100%,
     16px 100%, 0 calc(100% - 16px)
+  );
+}
+
+/* HUD inner border - more padding from edges */
+.evolution-card::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  bottom: 14px;
+  border: 1px solid var(--line-constellation);
+  clip-path: polygon(
+    0 10px, 10px 0, calc(100% - 10px) 0, 100% 10px,
+    100% calc(100% - 10px), calc(100% - 10px) 100%,
+    10px 100%, 0 calc(100% - 10px)
   );
   pointer-events: none;
   transition: border-color var(--transition-base);
 }
 
-/* Corner markers */
+/* Corner markers - adjusted for new inset */
 .evolution-card::after {
   content: '';
   position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 24px;
-  height: 24px;
+  top: 8px;
+  left: 8px;
+  width: 20px;
+  height: 20px;
   border-top: 2px solid var(--accent-gold);
   border-left: 2px solid var(--accent-gold);
   opacity: 0.5;
@@ -1306,7 +1306,7 @@ button {
 
 .evolution-badge {
   position: absolute;
-  top: -12px;
+  top: 6px;
   left: 50%;
   transform: translateX(-50%);
   background: var(--accent-gold);
@@ -1314,7 +1314,9 @@ button {
   font-size: 0.6rem;
   font-weight: 600;
   letter-spacing: 0.15em;
-  padding: 4px 12px;
+  padding: 4px 16px;
+  clip-path: polygon(8px 0, calc(100% - 8px) 0, 100% 100%, 0 100%);
+  z-index: 5;
 }
 
 .evolution-image {
