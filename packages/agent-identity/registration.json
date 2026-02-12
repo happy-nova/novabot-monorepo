@@ -16,7 +16,7 @@
   "wallets": [
     {
       "chain": "eip155:8453",
-      "address": "0xFf6Ce435e53DDff01eEB34c2158382677dcf0daB"
+      "address": "0xFBD585aeBEefa896309801666fB56c998B85f53B"
     }
   ],
   "x402Support": true,
