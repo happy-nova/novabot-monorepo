@@ -888,6 +888,29 @@ button {
   background: var(--bg-deep);
 }
 
+.about-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('/backgrounds/navigator-bg.jpg') center center / cover no-repeat;
+  opacity: 0.4;
+  z-index: 0;
+}
+
+.about-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, var(--bg-deep) 0%, transparent 15%, transparent 85%, var(--bg-deep) 100%);
+  z-index: 1;
+}
+
 .about-section > .container {
   position: relative;
   z-index: 2;
