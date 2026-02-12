@@ -627,6 +627,13 @@ export default function NovaHome() {
           <div className="hero-glow" />
         </section>
         
+        {/* Section Divider */}
+        <div className="section-divider">
+          <div className="divider-tick left" />
+          <div className="divider-center" />
+          <div className="divider-tick right" />
+        </div>
+        
         {/* ===== ABOUT SECTION ===== */}
         <section className="about-section section-animate" id="about">
           <div className="container">
@@ -775,6 +782,13 @@ export default function NovaHome() {
           </div>
         </section>
         
+        {/* Section Divider */}
+        <div className="section-divider">
+          <div className="divider-tick left" />
+          <div className="divider-center" />
+          <div className="divider-tick right" />
+        </div>
+        
         {/* ===== DREAMS SECTION ===== */}
         <section className="dreams-section section-animate" id="dreams">
           <div className="container">
@@ -834,7 +848,13 @@ export default function NovaHome() {
           </div>
         </section>
         
-        {/* ===== SERVICES SECTION ===== */}
+        {/* Section Divider */}
+        <div className="section-divider">
+          <div className="divider-tick left" />
+          <div className="divider-center" />
+          <div className="divider-tick right" />
+        </div>
+        
         {/* ===== CONTACT SECTION ===== */}
         <section className="contact-section section-animate" id="contact">
           <div className="container">

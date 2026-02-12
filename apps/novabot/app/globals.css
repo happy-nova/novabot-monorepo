@@ -250,6 +250,86 @@ button {
   transition: opacity 0.3s ease;
 }
 
+/* ===== SECTION DIVIDER ===== */
+.section-divider {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 10;
+}
+
+/* Horizontal lines */
+.section-divider::before,
+.section-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+  opacity: 0.3;
+}
+
+.section-divider::before {
+  left: 5%;
+  right: calc(50% + 40px);
+}
+
+.section-divider::after {
+  left: calc(50% + 40px);
+  right: 5%;
+}
+
+/* Center diamond/compass point */
+.divider-center {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.divider-center::before {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--accent-gold);
+  transform: rotate(45deg);
+  opacity: 0.5;
+}
+
+.divider-center::after {
+  content: '';
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: var(--accent-gold);
+  border-radius: 50%;
+  opacity: 0.6;
+}
+
+/* Corner ticks */
+.divider-tick {
+  position: absolute;
+  width: 6px;
+  height: 1px;
+  background: var(--accent-gold);
+  opacity: 0.4;
+}
+
+.divider-tick.left {
+  left: 10%;
+}
+
+.divider-tick.right {
+  right: 10%;
+}
+
 /* ===== CELESTIAL HUD ===== */
 .celestial-hud {
   position: fixed;
