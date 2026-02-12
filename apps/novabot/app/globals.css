@@ -237,7 +237,7 @@ button {
   width: 100px;
   height: 100px;
   pointer-events: none;
-  z-index: 4; /* Behind interactive content */
+  z-index: 50; /* Above section backgrounds, below nav/cursor */
   filter: drop-shadow(0 0 15px var(--accent-glow));
   opacity: 0.35;
   transition: opacity 0.3s ease;
