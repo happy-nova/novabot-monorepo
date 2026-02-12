@@ -232,9 +232,9 @@ export default function NovaHome() {
       particlePositions[i3] = cx - window.innerWidth / 2;
       particlePositions[i3 + 1] = window.innerHeight / 2 - cy;
       particlePositions[i3 + 2] = 0;
-      // Random swirl velocity
+      // Random swirl velocity - faster initial burst
       const angle = Math.random() * Math.PI * 2;
-      const speed = 1.5 + Math.random() * 2;
+      const speed = 4 + Math.random() * 4; // Much faster: 4-8 instead of 1.5-3.5
       particleVelocities[i3] = Math.cos(angle) * speed;
       particleVelocities[i3 + 1] = Math.sin(angle) * speed;
       particleVelocities[i3 + 2] = 0;
@@ -396,8 +396,8 @@ export default function NovaHome() {
         const positions = particles.geometry.attributes.position.array as Float32Array;
         const sizes = particles.geometry.attributes.size.array as Float32Array;
         
-        // Spawn new particles (2-3 per frame)
-        const spawnCount = 2 + (Math.random() > 0.5 ? 1 : 0);
+        // Spawn new particles (1-2 per frame for less density)
+        const spawnCount = 1 + (Math.random() > 0.6 ? 1 : 0);
         let spawned = 0;
         
         for (let i = 0; i < PARTICLE_COUNT && spawned < spawnCount; i++) {
@@ -423,8 +423,8 @@ export default function NovaHome() {
             particleVelocities[i3] += Math.sin(time * 0.05 + i) * swirlStrength;
             particleVelocities[i3 + 1] += Math.cos(time * 0.05 + i) * swirlStrength;
             
-            // Slow down over time
-            const drag = 0.97 - lifeRatio * 0.02;
+            // Slow down over time - less drag so they travel further
+            const drag = 0.985 - lifeRatio * 0.015;
             particleVelocities[i3] *= drag;
             particleVelocities[i3 + 1] *= drag;
             
