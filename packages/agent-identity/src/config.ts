@@ -20,10 +20,10 @@ export const CHAINS = {
   },
 } as const;
 
-// Nova's agent IDs (populated after registration)
+// Nova's agent IDs
 export const NOVA_AGENTS = {
-  base: null as number | null,      // Will be set after registration
-  abstract: null as number | null,  // Will be set after registration
+  base: 17049,                      // Registered 2026-02-12
+  abstract: null as number | null,  // Not yet registered
 };
 
 // IPFS config (using Pinata - can swap for web3.storage, Filebase, etc.)
