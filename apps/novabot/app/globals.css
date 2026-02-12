@@ -237,7 +237,7 @@ button {
   width: 100px;
   height: 100px;
   pointer-events: none;
-  z-index: 1; /* Behind section content (z-index: 2) */
+  z-index: 4; /* Behind interactive content */
   filter: drop-shadow(0 0 15px var(--accent-glow));
   opacity: 0.35;
   transition: opacity 0.3s ease;
@@ -1076,6 +1076,7 @@ button {
   position: relative;
   width: 200px;
   height: 200px;
+  z-index: 10;
 }
 
 .about-avatar img {
@@ -1137,6 +1138,8 @@ button {
   font-size: 0.8rem;
   color: var(--text-secondary);
   transition: all var(--transition-base);
+  position: relative;
+  z-index: 10;
 }
 
 .trait:hover {
@@ -1181,6 +1184,7 @@ button {
   border: 1px solid var(--line-constellation);
   padding: var(--space-lg);
   position: relative;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1486,6 +1490,7 @@ button {
   border: 1px solid rgba(212, 168, 67, 0.1);
   padding: var(--space-lg);
   position: relative;
+  z-index: 10;
   display: flex;
   flex-direction: column;
   min-height: 300px;
