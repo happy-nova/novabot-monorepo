@@ -48,27 +48,68 @@ async function notifyNewOrder(jobId: string, title: string, style: string, payer
 }
 
 // Build payment requirements for the 402 response (array format)
+// Includes bazaar extension metadata for x402 discovery indexing
 function buildPaymentRequirements(resourceUrl: string) {
   return [{
     scheme: "exact",
     network: "base",
     maxAmountRequired: PRICE_ATOMIC,
     resource: resourceUrl,
-    description: "Generate royalty-free instrumental music. Returns 2 unique tracks.",
+    description: "Generate royalty-free instrumental music. Returns 2 unique tracks per request. Styles: lo-fi, ambient, cinematic, chiptune, synthwave, and more.",
     mimeType: "application/json",
     payTo: PAY_TO,
     maxTimeoutSeconds: 300,
     asset: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", // USDC on Base
     extra: { name: "USD Coin", version: "2" },
-    outputSchema: {
-      input: {
-        type: "http",
-        method: "POST",
-        discoverable: true,
-        bodyType: "json",
-        bodyFields: {
-          title: { type: "string", required: true },
-          style: { type: "string", required: true }
+    // x402 v2 bazaar discovery extension - enables auto-indexing by facilitator
+    extensions: {
+      bazaar: {
+        info: {
+          method: "POST",
+          bodyType: "json",
+          input: {
+            example: {
+              title: "Stellar Drift",
+              style: "lo-fi, jazzy, chill beats, relaxed"
+            },
+            schema: {
+              type: "object",
+              properties: {
+                title: { type: "string", description: "Track title (used as creative seed)" },
+                style: { type: "string", description: "Musical style descriptors (e.g. 'lo-fi, jazzy, chill')" }
+              },
+              required: ["title", "style"]
+            }
+          },
+          output: {
+            example: {
+              success: true,
+              jobId: "a1b2c3d4e5f6",
+              status: "queued",
+              position: 1,
+              estimatedWaitSeconds: 90,
+              message: "Your track is queued. Poll /api/status/{jobId} for updates.",
+              statusUrl: "/api/status/a1b2c3d4e5f6"
+            },
+            schema: {
+              type: "object",
+              properties: {
+                success: { type: "boolean" },
+                jobId: { type: "string" },
+                status: { type: "string", enum: ["queued", "processing", "complete", "failed"] },
+                statusUrl: { type: "string" }
+              }
+            }
+          }
+        },
+        metadata: {
+          name: "Pulsar",
+          displayName: "Pulsar Music Generator",
+          description: "Royalty-free instrumental music generation. Pay once, use forever. No subscriptions.",
+          provider: "Nova",
+          providerUrl: "https://novabot.sh",
+          category: "AI/Music",
+          tags: ["music", "ai", "audio", "creative", "royalty-free", "instrumental"]
         }
       }
     }
@@ -156,18 +197,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   }
 
   // Build payment requirements object for verify/settle (single object, not array)
-  const paymentRequirements = {
-    scheme: "exact",
-    network: "base",
-    maxAmountRequired: PRICE_ATOMIC,
-    resource: resourceUrl,
-    description: "Generate royalty-free instrumental music. Returns 2 unique tracks.",
-    mimeType: "application/json",
-    payTo: PAY_TO,
-    maxTimeoutSeconds: 300,
-    asset: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-    extra: { name: "USD Coin", version: "2" }
-  };
+  // Must match the 402 response requirements for CDP to verify correctly
+  const paymentRequirements = buildPaymentRequirements(resourceUrl)[0];
   
   try {
     // Verify payment with CDP facilitator
@@ -286,7 +317,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     
     // Create job with payment info (title includes jobId for tracking)
     const trackTitle = `${title} [${jobId.slice(0, 8)}]`;
-    await createJob(jobId, trackTitle, style, paymentHeader, settleData.transaction, settleData.payer);
+    const job = await createJob(jobId, trackTitle, style, paymentHeader, settleData.transaction, settleData.payer);
     const queueLength = await getQueueLength();
     const estimatedWait = queueLength * ESTIMATED_GENERATION_TIME;
     
