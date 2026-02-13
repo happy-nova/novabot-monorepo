@@ -18,11 +18,11 @@ const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || "6955936851";
 
 async function notifyNewOrder(jobId: string, title: string, style: string, payer: string) {
   if (!TELEGRAM_BOT_TOKEN) {
-    console.log("[BeatMints] No Telegram token - skipping notification");
+    console.log("[Pulsar] No Telegram token - skipping notification");
     return;
   }
   
-  const message = `🎵 <b>New BeatMints Order!</b>
+  const message = `🎵 <b>New Pulsar Order!</b>
 
 <b>Job:</b> <code>${jobId}</code>
 <b>Title:</b> ${title}
@@ -41,9 +41,9 @@ async function notifyNewOrder(jobId: string, title: string, style: string, payer
         parse_mode: "HTML"
       })
     });
-    console.log("[BeatMints] Telegram notification sent");
+    console.log("[Pulsar] Telegram notification sent");
   } catch (e) {
-    console.error("[BeatMints] Telegram notification failed:", e);
+    console.error("[Pulsar] Telegram notification failed:", e);
   }
 }
 
