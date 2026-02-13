@@ -81,6 +81,53 @@ export async function POST(request: NextRequest) {
   }
 
   // Handle action-based requests
+  if (action === "complete") {
+    // Mark job as completed with audio URL
+    const { audioUrl, songUrl } = body;
+    if (!jobId) {
+      return NextResponse.json({ error: "Missing jobId" }, { status: 400 });
+    }
+
+    const job = getJob(jobId);
+    if (!job) {
+      return NextResponse.json({ error: "Job not found" }, { status: 404 });
+    }
+
+    const updates: Record<string, unknown> = {
+      status: "completed",
+      completedAt: new Date().toISOString(),
+    };
+    
+    if (audioUrl) updates.audioUrl = audioUrl;
+    if (songUrl) updates.songUrl = songUrl;
+
+    updateJob(jobId, updates);
+    console.log(`[Worker] Job ${jobId} completed. Audio: ${audioUrl}`);
+
+    return NextResponse.json({ success: true, jobId, status: "completed", audioUrl });
+  }
+  
+  if (action === "fail") {
+    // Mark job as failed with error
+    if (!jobId) {
+      return NextResponse.json({ error: "Missing jobId" }, { status: 400 });
+    }
+
+    const job = getJob(jobId);
+    if (!job) {
+      return NextResponse.json({ error: "Job not found" }, { status: 404 });
+    }
+
+    updateJob(jobId, {
+      status: "failed",
+      completedAt: new Date().toISOString(),
+      error: error || "Unknown error",
+    });
+    console.log(`[Worker] Job ${jobId} failed: ${error}`);
+
+    return NextResponse.json({ success: true, jobId, status: "failed" });
+  }
+  
   if (action === "update") {
     if (!jobId || !status) {
       return NextResponse.json(
