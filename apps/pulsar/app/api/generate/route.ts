@@ -50,10 +50,12 @@ async function notifyNewOrder(jobId: string, title: string, style: string, payer
 // Build payment requirements for the 402 response (array format)
 // Includes bazaar extension metadata for x402 discovery indexing
 function buildPaymentRequirements(resourceUrl: string) {
+  const serviceBaseUrl = new URL(resourceUrl).origin;
   return [{
     scheme: "exact",
     network: "base",
     maxAmountRequired: PRICE_ATOMIC,
+    pricingCategory: "fixed",
     resource: resourceUrl,
     description: "Generate royalty-free instrumental music. Returns 2 unique tracks per request. Styles: lo-fi, ambient, cinematic, chiptune, synthwave, and more.",
     mimeType: "application/json",
@@ -61,34 +63,50 @@ function buildPaymentRequirements(resourceUrl: string) {
     maxTimeoutSeconds: 300,
     asset: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", // USDC on Base
     extra: { name: "USD Coin", version: "2" },
-    // x402 v2 bazaar discovery extension - enables auto-indexing by facilitator
-    // Format per https://github.com/coinbase/x402/go/extensions/types/types.go
+    discoverable: true,
+    inputSchema: {
+      type: "object",
+      properties: {
+        title: {
+          type: "string",
+          description: "Track title prompt (for example: Stellar Drift)."
+        },
+        style: {
+          type: "string",
+          description: "Genre/style prompt (for example: lo-fi, jazzy, chill beats)."
+        }
+      },
+      required: ["title", "style"],
+      additionalProperties: false
+    },
+    outputSchema: {
+      type: "object",
+      properties: {
+        success: { type: "boolean" },
+        jobId: { type: "string" },
+        status: { type: "string", enum: ["queued", "processing", "completed", "failed"] },
+        position: { type: "number" },
+        estimatedWaitSeconds: { type: "number" },
+        message: { type: "string" },
+        statusUrl: { type: "string" }
+      },
+      required: ["success", "jobId", "status", "position", "estimatedWaitSeconds", "message", "statusUrl"],
+      additionalProperties: true
+    },
+    // x402 Bazaar metadata for facilitator-driven discovery indexing.
     extensions: {
       bazaar: {
-        info: {
-          input: {
-            type: "http",
-            method: "POST",
-            bodyType: "json",
-            body: {
-              title: "Stellar Drift",
-              style: "lo-fi, jazzy, chill beats, relaxed"
-            }
-          },
-          output: {
-            type: "json",
-            example: {
-              success: true,
-              jobId: "a1b2c3d4e5f6",
-              status: "queued",
-              position: 1,
-              estimatedWaitSeconds: 90,
-              message: "Your track is queued. Poll /api/status/{jobId} for updates.",
-              statusUrl: "/api/status/a1b2c3d4e5f6"
-            }
-          }
-        }
-      }
+        name: "Pulsar AI Music Generator",
+        description: "Generate royalty-free instrumental tracks from title + style prompts.",
+        iconUrl: `${serviceBaseUrl}/favicon.ico`,
+        tags: ["music", "audio", "ai", "generation", "instrumental"],
+        category: "media",
+        integrationType: "api",
+        curator: "novabot",
+        payPerUse: true,
+        popUp: false
+      },
+      cdp: {}
     }
   }];
 }
