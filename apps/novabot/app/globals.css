@@ -2334,6 +2334,36 @@ button {
   .dreams-grid {
     grid-template-columns: 1fr;
   }
+  
+  /* Contact section mobile */
+  .contact-section {
+    padding: var(--space-xl) var(--space-md);
+    min-height: auto;
+  }
+  
+  .contact-lead {
+    min-width: unset;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    padding: 0 var(--space-sm);
+  }
+  
+  .contact-links {
+    flex-direction: column;
+    gap: var(--space-md);
+    width: 100%;
+    padding: 0 var(--space-md);
+  }
+  
+  .contact-link {
+    min-width: unset;
+    width: 100%;
+    padding: var(--space-md) var(--space-lg);
+  }
+  
+  .contact-link-value {
+    font-size: 1rem;
+  }
 }
 
 /* ===== SCROLLBAR ===== */

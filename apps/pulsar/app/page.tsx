@@ -79,7 +79,7 @@ export default function Home() {
           }}>
             Generate unique instrumental tracks via API. Pay with USDC on Base.
           </p>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-md)' }}>
+          <div className="hero-buttons" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-md)', flexWrap: 'wrap' }}>
             <Link href="/about" className="btn btn-primary">
               View Documentation
             </Link>
@@ -92,9 +92,9 @@ export default function Home() {
 
       {/* Stats */}
       <section className="container" style={{ marginBottom: 'var(--space-3xl)', position: 'relative', zIndex: 2 }}>
-        <div style={{
+        <div className="stats-grid" style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(3, 1fr)',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
           gap: 'var(--space-md)',
         }}>
           {[

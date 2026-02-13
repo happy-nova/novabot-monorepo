@@ -390,3 +390,75 @@ pre {
   pointer-events: none;
   z-index: 0;
 }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--space-md);
+  }
+  
+  /* Header mobile */
+  header {
+    padding: var(--space-sm) var(--space-md) !important;
+  }
+  
+  header .container {
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+  }
+  
+  /* Hero mobile */
+  section[style*="minHeight: '50vh'"] {
+    padding: var(--space-xl) var(--space-md) !important;
+    min-height: auto !important;
+  }
+  
+  .hero-glow {
+    width: 300px;
+    height: 300px;
+  }
+  
+  /* Footer mobile */
+  footer .container {
+    flex-direction: column;
+    gap: var(--space-md);
+    text-align: center;
+  }
+}
+
+@media (max-width: 640px) {
+  /* Stats cards - single column on mobile */
+  section.container > div[style*="gridTemplateColumns"] {
+    display: flex !important;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+  
+  .card {
+    padding: var(--space-md);
+    padding-top: calc(var(--space-md) + 6px);
+  }
+  
+  /* Agent card */
+  .agent-card {
+    padding: var(--space-lg) !important;
+  }
+  
+  .code-block,
+  pre {
+    font-size: 0.7rem;
+    padding: var(--space-sm);
+  }
+  
+  /* Buttons stack */
+  div[style*="display: 'flex'"][style*="gap"] {
+    flex-direction: column;
+    width: 100%;
+    max-width: 280px;
+  }
+  
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
