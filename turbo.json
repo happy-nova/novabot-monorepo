@@ -3,7 +3,16 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "dist/**"]
+      "outputs": [".next/**", "dist/**"],
+      "env": [
+        "TELEGRAM_CHAT_ID",
+        "TELEGRAM_BOT_TOKEN",
+        "WORKER_SECRET",
+        "CDP_API_KEY_SECRET",
+        "CDP_API_KEY_ID",
+        "KV_REST_API_URL",
+        "KV_REST_API_TOKEN"
+      ]
     },
     "dev": {
       "cache": false,
