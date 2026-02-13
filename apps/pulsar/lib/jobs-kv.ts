@@ -10,7 +10,6 @@
 import { kv } from '@vercel/kv';
 
 export interface Job {
-  [key: string]: string | undefined;  // Index signature for KV compatibility
   id: string;
   title: string;
   style: string;
@@ -24,6 +23,9 @@ export interface Job {
   songUrl?: string;
   error?: string;
 }
+
+// Type for KV storage (all values as strings)
+type JobRecord = Record<string, string | undefined>;
 
 // Worker secret from env
 export const WORKER_SECRET = process.env.WORKER_SECRET || process.env.BEATMINTS_WORKER_SECRET || '';
@@ -51,7 +53,7 @@ export async function createJob(
   };
 
   // Store job data
-  await kv.hset(`job:${jobId}`, job);
+  await kv.hset(`job:${jobId}`, job as unknown as JobRecord);
   
   // Add to queue
   await kv.lpush('queue', jobId);
@@ -64,8 +66,8 @@ export async function createJob(
  * Get a job by ID
  */
 export async function getJob(jobId: string): Promise<Job | null> {
-  const job = await kv.hgetall<Job>(`job:${jobId}`);
-  return job;
+  const job = await kv.hgetall(`job:${jobId}`);
+  return job as Job | null;
 }
 
 /**
@@ -115,7 +117,7 @@ export async function claimNextJob(): Promise<Job | null> {
  * Update job status
  */
 export async function updateJob(jobId: string, updates: Partial<Job>): Promise<void> {
-  await kv.hset(`job:${jobId}`, updates);
+  await kv.hset(`job:${jobId}`, updates as unknown as JobRecord);
   console.log(`[Jobs] Updated job ${jobId}:`, Object.keys(updates));
 }
 
