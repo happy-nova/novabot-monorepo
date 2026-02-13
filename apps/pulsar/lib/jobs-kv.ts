@@ -10,6 +10,7 @@
 import { kv } from '@vercel/kv';
 
 export interface Job {
+  [key: string]: string | undefined;  // Index signature for KV compatibility
   id: string;
   title: string;
   style: string;
@@ -50,7 +51,7 @@ export async function createJob(
   };
 
   // Store job data
-  await kv.hset(`job:${jobId}`, job as Record<string, unknown>);
+  await kv.hset(`job:${jobId}`, job);
   
   // Add to queue
   await kv.lpush('queue', jobId);
@@ -114,7 +115,7 @@ export async function claimNextJob(): Promise<Job | null> {
  * Update job status
  */
 export async function updateJob(jobId: string, updates: Partial<Job>): Promise<void> {
-  await kv.hset(`job:${jobId}`, updates as Record<string, unknown>);
+  await kv.hset(`job:${jobId}`, updates);
   console.log(`[Jobs] Updated job ${jobId}:`, Object.keys(updates));
 }
 
