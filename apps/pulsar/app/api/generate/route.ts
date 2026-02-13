@@ -62,26 +62,21 @@ function buildPaymentRequirements(resourceUrl: string) {
     asset: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", // USDC on Base
     extra: { name: "USD Coin", version: "2" },
     // x402 v2 bazaar discovery extension - enables auto-indexing by facilitator
+    // Format per https://github.com/coinbase/x402/go/extensions/types/types.go
     extensions: {
       bazaar: {
         info: {
-          method: "POST",
-          bodyType: "json",
           input: {
-            example: {
+            type: "http",
+            method: "POST",
+            bodyType: "json",
+            body: {
               title: "Stellar Drift",
               style: "lo-fi, jazzy, chill beats, relaxed"
-            },
-            schema: {
-              type: "object",
-              properties: {
-                title: { type: "string", description: "Track title (used as creative seed)" },
-                style: { type: "string", description: "Musical style descriptors (e.g. 'lo-fi, jazzy, chill')" }
-              },
-              required: ["title", "style"]
             }
           },
           output: {
+            type: "json",
             example: {
               success: true,
               jobId: "a1b2c3d4e5f6",
@@ -90,26 +85,8 @@ function buildPaymentRequirements(resourceUrl: string) {
               estimatedWaitSeconds: 90,
               message: "Your track is queued. Poll /api/status/{jobId} for updates.",
               statusUrl: "/api/status/a1b2c3d4e5f6"
-            },
-            schema: {
-              type: "object",
-              properties: {
-                success: { type: "boolean" },
-                jobId: { type: "string" },
-                status: { type: "string", enum: ["queued", "processing", "complete", "failed"] },
-                statusUrl: { type: "string" }
-              }
             }
           }
-        },
-        metadata: {
-          name: "Pulsar",
-          displayName: "Pulsar Music Generator",
-          description: "Royalty-free instrumental music generation. Pay once, use forever. No subscriptions.",
-          provider: "Nova",
-          providerUrl: "https://novabot.sh",
-          category: "AI/Music",
-          tags: ["music", "ai", "audio", "creative", "royalty-free", "instrumental"]
         }
       }
     }
