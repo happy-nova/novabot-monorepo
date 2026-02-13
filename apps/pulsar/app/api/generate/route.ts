@@ -197,8 +197,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   }
 
   // Build payment requirements object for verify/settle (single object, not array)
-  // Must match the 402 response requirements for CDP to verify correctly
-  const paymentRequirements = buildPaymentRequirements(resourceUrl)[0];
+  // Strip extensions for CDP - they don't expect bazaar metadata in verify/settle
+  const fullRequirements = buildPaymentRequirements(resourceUrl)[0];
+  const { extensions, ...paymentRequirements } = fullRequirements;
   
   try {
     // Verify payment with CDP facilitator
