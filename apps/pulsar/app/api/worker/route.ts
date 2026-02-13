@@ -72,14 +72,27 @@ export async function GET(request: NextRequest) {
   });
 }
 
-// POST /api/worker - Complete or fail a job
+// POST /api/worker - Complete, fail, or add a job
 export async function POST(request: NextRequest) {
   if (!authenticateWorker(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const body = await request.json();
-  const { action, jobId, audioUrl, songUrl, error } = body;
+  const { action, jobId, audioUrl, songUrl, error, style, title } = body;
+  
+  // Admin: add test job (for e2e testing without payment)
+  if (action === "add") {
+    if (!style) {
+      return NextResponse.json({ error: "Missing style" }, { status: 400 });
+    }
+    const { createJob } = await import("@/lib/jobs-kv");
+    const crypto = await import("crypto");
+    const testJobId = crypto.randomBytes(8).toString("hex");
+    const testTitle = title || `Test ${testJobId.slice(0, 8)}`;
+    const job = await createJob(testJobId, testTitle, style, undefined, undefined, "test-admin");
+    return NextResponse.json({ success: true, job });
+  }
   
   if (!jobId) {
     return NextResponse.json({ error: "Missing jobId" }, { status: 400 });
