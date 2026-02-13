@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateJwt } from "@coinbase/cdp-sdk/auth";
-import { createJob, getQueueLength } from "@/lib/jobs";
+import { createJob, getQueueLength } from "@/lib/jobs-kv";
 import crypto from "crypto";
 
 // Force Node.js runtime (not Edge)
@@ -243,11 +243,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       }, { status: 400 });
     }
     
-    // Create job BEFORE settling (so we don't lose money if job creation fails)
+    // Generate job ID first
     const jobId = crypto.randomBytes(8).toString("hex");
-    const job = createJob(jobId, title, style, paymentHeader);
-    const queueLength = getQueueLength();
-    const estimatedWait = queueLength * ESTIMATED_GENERATION_TIME;
     
     // Settle payment with CDP facilitator
     const settleJwt = await generateCdpJwt("/platform/v2/x402/settle", "POST");
@@ -286,10 +283,17 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
     
     console.log(`[BeatMints] Payment settled, tx: ${settleData.transaction}`);
-    console.log(`[BeatMints] Job ${jobId} created for "${title}"`);
+    
+    // Create job with payment info (title includes jobId for tracking)
+    const trackTitle = `${title} [${jobId.slice(0, 8)}]`;
+    await createJob(jobId, trackTitle, style, paymentHeader, settleData.transaction, settleData.payer);
+    const queueLength = await getQueueLength();
+    const estimatedWait = queueLength * ESTIMATED_GENERATION_TIME;
+    
+    console.log(`[BeatMints] Job ${jobId} created for "${trackTitle}"`);
     
     // Notify about new order (async, don't block response)
-    notifyNewOrder(jobId, title, style, settleData.payer).catch(() => {});
+    notifyNewOrder(jobId, trackTitle, style, settleData.payer).catch(() => {});
     
     // Return success with X-PAYMENT-RESPONSE header
     const paymentResponse = Buffer.from(JSON.stringify({

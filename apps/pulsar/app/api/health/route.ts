@@ -1,19 +1,26 @@
 import { NextResponse } from "next/server";
-import { getQueueLength, isProcessing } from "@/lib/jobs";
+import { getStats } from "@/lib/jobs-kv";
 
 export async function GET() {
+  const stats = await getStats();
+  
   return NextResponse.json({
-    service: "BeatMints",
-    version: "1.0.0",
+    service: "Pulsar",
+    version: "1.1.0",
     status: "operational",
     queue: {
-      length: getQueueLength(),
-      processing: isProcessing(),
-      estimatedWaitSeconds: getQueueLength() * 90,
+      length: stats.queueLength,
+      estimatedWaitSeconds: stats.queueLength * 90,
+    },
+    history: {
+      total: stats.historyLength,
+      recentCompleted: stats.recentCompleted,
+      recentFailed: stats.recentFailed,
     },
     pricing: {
       generate: "$0.20 USDC",
       status: "free",
+      history: "free",
     },
   });
 }
