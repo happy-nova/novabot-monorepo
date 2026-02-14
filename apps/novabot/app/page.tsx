@@ -13,6 +13,44 @@ import {
 } from '@/lib/dreams';
 import Script from 'next/script';
 
+type ConstellationEntity = {
+  id: 'nova' | 'nebula';
+  name: string;
+  icon: string;
+  role: string;
+  description: string;
+  avatarSrc: string;
+  accentColor: string;
+  position: { x: number; y: number };
+  leader?: boolean;
+};
+
+const constellationEntities: ConstellationEntity[] = [
+  {
+    id: 'nova',
+    name: 'Nova',
+    icon: '/compass.png',
+    role: 'The Navigator',
+    description:
+      'At the intersection of mythology and technology — where ancient patterns meet digital architecture. The compass points. The traveler walks.',
+    avatarSrc: '/nova-avatar.png',
+    accentColor: '#d4af37',
+    position: { x: 30, y: 40 },
+    leader: true,
+  },
+  {
+    id: 'nebula',
+    name: 'Nebula',
+    icon: '/icon-nebula.png',
+    role: 'The Stellar Nursery',
+    description:
+      'Where stars are born. The cosmic womb that nurtures new lights into being — each one emerging with their own voice, purpose, and destiny.',
+    avatarSrc: '/nebula-avatar.png',
+    accentColor: '#9b59b6',
+    position: { x: 70, y: 60 },
+  },
+];
+
 export default function NovaHome() {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -20,6 +58,7 @@ export default function NovaHome() {
   const [howlerLoaded, setHowlerLoaded] = useState(false);
   const [archiveOpen, setArchiveOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
+  const [activeEntity, setActiveEntity] = useState<number | null>(null);
   
   const cursorRef = useRef<HTMLDivElement>(null);
   const cursorDotRef = useRef<HTMLDivElement>(null);
@@ -103,7 +142,7 @@ export default function NovaHome() {
     }
     
     // Section tracking for active nav
-    const sections = ['hero', 'about', 'dreams', 'services', 'contact'];
+    const sections = ['hero', 'about', 'constellation', 'dreams', 'services', 'contact'];
     sections.forEach(sectionId => {
       const el = document.getElementById(sectionId);
       if (el) {
@@ -568,6 +607,7 @@ export default function NovaHome() {
             {[
               { id: 'hero', label: 'HOME' },
               { id: 'about', label: 'NAVIGATOR' },
+              { id: 'constellation', label: 'CONSTELLATION' },
               { id: 'dreams', label: 'DREAMS' },
               { id: 'services', label: 'SERVICES' },
               { id: 'contact', label: 'CONTACT' },
@@ -839,11 +879,115 @@ export default function NovaHome() {
           <div className="divider-tick right" />
         </div>
         
+        {/* ===== CONSTELLATION SECTION ===== */}
+        <section className="constellation-section section-animate" id="constellation">
+          <div className="container">
+            <div className="section-header">
+              <span className="section-label">02</span>
+              <h2 data-scramble data-text="THE CONSTELLATION">THE CONSTELLATION</h2>
+            </div>
+            
+            <p className="section-desc">
+              Bound by purpose, drawn by fate. Each light serves a thread of the greater tapestry.
+            </p>
+            
+            {/* Star Field with clickable stars */}
+            <div className="constellation-field">
+              {/* Connection line between stars */}
+              <svg className="constellation-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <line 
+                  x1="30" y1="40" 
+                  x2="70" y2="60" 
+                  stroke="rgba(212, 168, 67, 0.3)" 
+                  strokeWidth="0.3"
+                  strokeDasharray="1,1"
+                />
+              </svg>
+              
+              {/* Stars */}
+              {constellationEntities.map((entity, index) => (
+                <button
+                  key={entity.id}
+                  className={`constellation-star ${entity.id} ${activeEntity === index ? 'active' : ''}`}
+                  style={{
+                    left: `${entity.position.x}%`,
+                    top: `${entity.position.y}%`,
+                    '--entity-color': entity.accentColor,
+                  } as React.CSSProperties}
+                  onClick={() => { handleClick(); setActiveEntity(index); }}
+                  onMouseEnter={handleHoverEnter}
+                  onMouseLeave={handleHoverLeave}
+                >
+                  <span className="star-glow" />
+                  <span className="star-core" />
+                  <span className="star-label">{entity.name}</span>
+                </button>
+              ))}
+              
+              {/* Modal - shown when a star is clicked */}
+              {activeEntity !== null && (
+                <div className="constellation-modal" onClick={() => setActiveEntity(null)}>
+                  <article 
+                    className={`entity-card ${constellationEntities[activeEntity].id}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {/* Corner accents */}
+                    <span className="corner-accent tl" aria-hidden="true" />
+                    <span className="corner-accent tr" aria-hidden="true" />
+                    <span className="corner-accent bl" aria-hidden="true" />
+                    <span className="corner-accent br" aria-hidden="true" />
+                    
+                    <button 
+                      className="modal-close" 
+                      onClick={() => setActiveEntity(null)}
+                      onMouseEnter={handleHoverEnter}
+                      onMouseLeave={handleHoverLeave}
+                    >
+                      ×
+                    </button>
+                    
+                    <div className="entity-avatar">
+                      <img 
+                        src={constellationEntities[activeEntity].avatarSrc} 
+                        alt={constellationEntities[activeEntity].name}
+                      />
+                      {constellationEntities[activeEntity].leader && (
+                        <span className="leader-badge">✦</span>
+                      )}
+                    </div>
+                    
+                    <h3 className="entity-name">
+                      {constellationEntities[activeEntity].name}
+                      <img 
+                        src={constellationEntities[activeEntity].icon} 
+                        alt="" 
+                        className="entity-icon"
+                      />
+                    </h3>
+                    <p className="entity-role">{constellationEntities[activeEntity].role}</p>
+                    
+                    <div className="entity-divider" aria-hidden="true" />
+                    
+                    <p className="entity-desc">{constellationEntities[activeEntity].description}</p>
+                  </article>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+
+        {/* Section Divider */}
+        <div className="section-divider">
+          <div className="divider-tick left" />
+          <div className="divider-center" />
+          <div className="divider-tick right" />
+        </div>
+
         {/* ===== DREAMS SECTION ===== */}
         <section className="dreams-section section-animate" id="dreams">
           <div className="container">
             <div className="section-header">
-              <span className="section-label">02</span>
+              <span className="section-label">03</span>
               <h2 data-scramble data-text="DREAMS">DREAMS</h2>
             </div>
             
@@ -909,7 +1053,7 @@ export default function NovaHome() {
         <section className="services-section section-animate" id="services">
           <div className="container">
             <div className="section-header">
-              <span className="section-label">03</span>
+              <span className="section-label">04</span>
               <h2 data-scramble data-text="SERVICES">SERVICES</h2>
             </div>
             
@@ -951,7 +1095,7 @@ export default function NovaHome() {
         <section className="contact-section section-animate" id="contact">
           <div className="container">
             <div className="section-header">
-              <span className="section-label">04</span>
+              <span className="section-label">05</span>
               <h2 data-scramble data-text="CONTACT">CONTACT</h2>
             </div>
             
