@@ -1594,6 +1594,66 @@ button {
   pointer-events: none;
 }
 
+/* Constellation path animations */
+.constellation-path {
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.constellation-path.path-nova-nebula {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: drawPath 3s ease-out forwards, pathPulse 4s ease-in-out 3s infinite;
+}
+
+.constellation-path.path-secondary {
+  animation: fadeInPath 2s ease-out 1s forwards;
+  opacity: 0;
+}
+
+/* Path nodes - small dots along connection lines */
+.path-node {
+  animation: nodePulse 2.5s ease-in-out infinite;
+}
+
+.path-node:nth-child(odd) {
+  animation-delay: 0.5s;
+}
+
+@keyframes drawPath {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes pathPulse {
+  0%, 100% {
+    opacity: 0.9;
+    stroke-width: 0.4;
+  }
+  50% {
+    opacity: 0.6;
+    stroke-width: 0.3;
+  }
+}
+
+@keyframes fadeInPath {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes nodePulse {
+  0%, 100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.7);
+  }
+}
+
 .constellation-star {
   position: absolute;
   transform: translate(-50%, -50%);

@@ -975,27 +975,67 @@ export default function NovaHome() {
             
             <div className="constellation-field">
               <svg className="constellation-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
-                <line 
-                  x1="30" y1="40" 
-                  x2="70" y2="60" 
-                  stroke="rgba(212, 168, 67, 0.3)" 
-                  strokeWidth="0.3"
-                  strokeDasharray="1,1"
+                {/* Nova to Nebula: graceful arc sweeping upward */}
+                <path 
+                  d="M 30 40 Q 50 25, 70 60" 
+                  fill="none"
+                  stroke="url(#novaNebulaGradient)" 
+                  strokeWidth="0.4"
+                  strokeLinecap="round"
+                  className="constellation-path path-nova-nebula"
                 />
+                
+                {/* Nebula to Forge: angular technical path with waypoint */}
+                <path 
+                  d="M 70 60 L 65 68 L 50 75" 
+                  fill="none"
+                  stroke="rgba(155, 89, 182, 0.35)" 
+                  strokeWidth="0.25"
+                  strokeDasharray="0.8,0.4"
+                  className="constellation-path"
+                />
+                
+                {/* Forge to Nova: curved return path */}
+                <path 
+                  d="M 50 75 Q 35 65, 30 40" 
+                  fill="none"
+                  stroke="rgba(230, 126, 34, 0.3)" 
+                  strokeWidth="0.3"
+                  strokeDasharray="1.5,0.5,0.3,0.5"
+                  strokeLinecap="round"
+                  className="constellation-path"
+                />
+                
+                {/* Secondary faint connections - adds depth */}
+                <path 
+                  d="M 30 40 C 45 55, 55 70, 50 75" 
+                  fill="none"
+                  stroke="rgba(212, 175, 55, 0.12)" 
+                  strokeWidth="0.15"
+                  className="constellation-path path-secondary"
+                />
+                
+                {/* Nebula direct to Nova - thin dotted */}
                 <line 
                   x1="70" y1="60" 
-                  x2="50" y2="75" 
-                  stroke="rgba(212, 168, 67, 0.25)" 
-                  strokeWidth="0.3"
-                  strokeDasharray="1,1"
-                />
-                <line 
-                  x1="50" y1="75" 
                   x2="30" y2="40" 
-                  stroke="rgba(212, 168, 67, 0.2)" 
-                  strokeWidth="0.3"
-                  strokeDasharray="1,1"
+                  stroke="rgba(155, 89, 182, 0.15)" 
+                  strokeWidth="0.15"
+                  strokeDasharray="0.3,0.8"
                 />
+                
+                {/* Small orbital nodes along paths */}
+                <circle cx="50" cy="32" r="0.4" fill="rgba(212, 175, 55, 0.4)" className="path-node" />
+                <circle cx="63" cy="66" r="0.3" fill="rgba(155, 89, 182, 0.35)" className="path-node" />
+                <circle cx="38" cy="60" r="0.35" fill="rgba(230, 126, 34, 0.3)" className="path-node" />
+                
+                {/* Gradients */}
+                <defs>
+                  <linearGradient id="novaNebulaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="rgba(212, 175, 55, 0.4)" />
+                    <stop offset="100%" stopColor="rgba(155, 89, 182, 0.35)" />
+                  </linearGradient>
+                </defs>
               </svg>
               
               {constellationEntities.map((entity, index) => (
