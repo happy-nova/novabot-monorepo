@@ -847,6 +847,29 @@ export default function NovaHome() {
     setActiveEntity(newIndex);
   }, [activeEntity]);
 
+  // Touch swipe handling for modal navigation
+  const touchStartX = useRef<number | null>(null);
+  
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  }, []);
+  
+  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diff = touchStartX.current - touchEndX;
+    const threshold = 50; // minimum swipe distance
+    
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0) {
+        navigateEntity('next'); // swipe left = next
+      } else {
+        navigateEntity('prev'); // swipe right = prev
+      }
+    }
+    touchStartX.current = null;
+  }, [navigateEntity]);
+
   const selectedEntity = activeEntity !== null ? constellationEntities[activeEntity] : null;
 
   return (
@@ -1360,7 +1383,12 @@ export default function NovaHome() {
               ))}
               
               {selectedEntity && (
-                <div className="constellation-modal" onClick={() => setActiveEntity(null)}>
+                <div 
+                  className="constellation-modal" 
+                  onClick={() => setActiveEntity(null)}
+                  onTouchStart={handleTouchStart}
+                  onTouchEnd={handleTouchEnd}
+                >
                   {/* Navigation arrows */}
                   <button 
                     className="modal-nav modal-nav-prev"

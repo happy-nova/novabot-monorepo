@@ -2584,9 +2584,8 @@ body.modal-open {
   transform: translateY(-50%);
   width: 48px;
   height: 48px;
-  background: rgba(6, 10, 18, 0.8);
-  border: 1px solid rgba(212, 168, 67, 0.2);
-  border-radius: 50%;
+  background: transparent;
+  border: none;
   color: var(--text-secondary);
   cursor: none;
   display: flex;
@@ -2597,22 +2596,21 @@ body.modal-open {
 }
 
 .modal-nav:hover {
-  background: rgba(212, 168, 67, 0.1);
-  border-color: rgba(212, 168, 67, 0.4);
   color: var(--accent-gold);
 }
 
 .modal-nav svg {
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
+  filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.5));
 }
 
 .modal-nav-prev {
-  left: var(--space-xl);
+  left: calc(var(--space-xl) + 40px);
 }
 
 .modal-nav-next {
-  right: var(--space-xl);
+  right: calc(var(--space-xl) + 40px);
 }
 
 /* Mini constellation map */
@@ -3886,23 +3884,9 @@ body.modal-open {
     height: 6px;
   }
   
-  /* Modal navigation - smaller and closer on mobile */
+  /* Modal navigation - hidden on mobile (use swipe) */
   .modal-nav {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .modal-nav-prev {
-    left: var(--space-sm);
-  }
-  
-  .modal-nav-next {
-    right: var(--space-sm);
-  }
-  
-  .modal-nav svg {
-    width: 20px;
-    height: 20px;
+    display: none;
   }
   
   /* Minimap - smaller and repositioned on mobile */
