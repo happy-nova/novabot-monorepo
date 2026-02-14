@@ -2397,6 +2397,11 @@ button {
   animation-duration: 1.5s;
 }
 
+/* Body scroll lock when modal is open */
+body.modal-open {
+  overflow: hidden;
+}
+
 /* Modal overlay */
 .constellation-modal {
   position: fixed;
@@ -2406,7 +2411,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100;
+  z-index: 10000;
   animation: modalFadeIn 0.3s ease;
 }
 

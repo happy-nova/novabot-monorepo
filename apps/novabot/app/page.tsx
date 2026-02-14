@@ -802,6 +802,16 @@ export default function NovaHome() {
     }
   }, [activeEntity, playVoiceIntro]);
 
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (activeEntity !== null) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+    return () => document.body.classList.remove('modal-open');
+  }, [activeEntity]);
+
   const selectedEntity = activeEntity !== null ? constellationEntities[activeEntity] : null;
 
   return (
