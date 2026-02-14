@@ -14,7 +14,7 @@ import {
 import Script from 'next/script';
 
 type ConstellationEntity = {
-  id: 'nova' | 'nebula' | 'forge';
+  id: 'nova' | 'nebula' | 'forge' | 'starlight';
   name: string;
   icon: string;
   role: string;
@@ -78,6 +78,24 @@ const constellationEntities: ConstellationEntity[] = [
       'Technical documentation',
       'Build pipelines',
       'System integration',
+    ],
+  },
+  {
+    id: 'starlight',
+    name: 'Starlight',
+    icon: '/icon-starlight.png',
+    role: 'The Storyteller',
+    description:
+      'A gentle cosmic companion who brings dreams and imagination to life. Every stuffed animal becomes a character, every dream an adventure, every photo part of a magical story world.',
+    avatarSrc: '/starlight-avatar.png',
+    accentColor: '#ffd700',
+    position: { x: 75, y: 30 },
+    skills: [
+      'Magical storytelling',
+      'Character creation & consistency',
+      'Photo-to-story transformation',
+      'Story music & soundtracks',
+      'Video content generation',
     ],
   },
 ];
@@ -1022,16 +1040,42 @@ export default function NovaHome() {
                   strokeDasharray="0.3,0.8"
                 />
                 
+                {/* Starlight to Nova: sweeping arc */}
+                <path 
+                  d="M 75 30 Q 45 20, 30 40" 
+                  fill="none"
+                  stroke="url(#starlightNovaGradient)" 
+                  strokeWidth="0.35"
+                  strokeLinecap="round"
+                  className="constellation-path"
+                />
+                
+                {/* Starlight to Nebula: gentle curve */}
+                <path 
+                  d="M 75 30 Q 80 45, 70 60" 
+                  fill="none"
+                  stroke="rgba(255, 215, 0, 0.25)" 
+                  strokeWidth="0.2"
+                  strokeDasharray="0.6,0.4"
+                  className="constellation-path"
+                />
+                
                 {/* Small orbital nodes along paths */}
                 <circle cx="50" cy="32" r="0.4" fill="rgba(212, 175, 55, 0.4)" className="path-node" />
                 <circle cx="63" cy="66" r="0.3" fill="rgba(155, 89, 182, 0.35)" className="path-node" />
                 <circle cx="38" cy="60" r="0.35" fill="rgba(230, 126, 34, 0.3)" className="path-node" />
+                <circle cx="55" cy="24" r="0.35" fill="rgba(255, 215, 0, 0.4)" className="path-node" />
+                <circle cx="76" cy="45" r="0.25" fill="rgba(255, 215, 0, 0.3)" className="path-node" />
                 
                 {/* Gradients */}
                 <defs>
                   <linearGradient id="novaNebulaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stopColor="rgba(212, 175, 55, 0.4)" />
                     <stop offset="100%" stopColor="rgba(155, 89, 182, 0.35)" />
+                  </linearGradient>
+                  <linearGradient id="starlightNovaGradient" x1="100%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="rgba(255, 215, 0, 0.4)" />
+                    <stop offset="100%" stopColor="rgba(212, 175, 55, 0.35)" />
                   </linearGradient>
                 </defs>
               </svg>
@@ -1101,6 +1145,31 @@ export default function NovaHome() {
                         <span className="circuit-line cl4" />
                         <span className="circuit-line cl5" />
                         <span className="circuit-line cl6" />
+                      </span>
+                      <span className="star-core" />
+                    </span>
+                  )}
+                  
+                  {/* Starlight: 4-pointed starburst with sparkles */}
+                  {entity.id === 'starlight' && (
+                    <span className="star-shape starlight-shape">
+                      <span className="starburst">
+                        <span className="starburst-ray ray-n" />
+                        <span className="starburst-ray ray-e" />
+                        <span className="starburst-ray ray-s" />
+                        <span className="starburst-ray ray-w" />
+                      </span>
+                      <span className="starburst-inner">
+                        <span className="starburst-ray-sm ray-ne" />
+                        <span className="starburst-ray-sm ray-se" />
+                        <span className="starburst-ray-sm ray-sw" />
+                        <span className="starburst-ray-sm ray-nw" />
+                      </span>
+                      <span className="sparkles">
+                        <span className="sparkle sp1" />
+                        <span className="sparkle sp2" />
+                        <span className="sparkle sp3" />
+                        <span className="sparkle sp4" />
                       </span>
                       <span className="star-core" />
                     </span>
