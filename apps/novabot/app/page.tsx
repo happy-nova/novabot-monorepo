@@ -1013,9 +1013,11 @@ export default function NovaHome() {
                 >
                   <span className="star-glow" />
                   
-                  {/* Nova: 8-pointed compass rose with crown */}
+                  {/* Nova: 8-pointed compass rose with pulsating ring */}
                   {entity.id === 'nova' && (
                     <span className="star-shape nova-shape">
+                      <span className="nova-ring-outer" />
+                      <span className="nova-ring-inner" />
                       <span className="compass-rose">
                         <span className="compass-point n" />
                         <span className="compass-point ne" />
@@ -1027,7 +1029,6 @@ export default function NovaHome() {
                         <span className="compass-point nw" />
                       </span>
                       <span className="star-core" />
-                      <span className="leader-crown">♔</span>
                     </span>
                   )}
                   

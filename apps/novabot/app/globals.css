@@ -1690,19 +1690,53 @@ button {
 
 /* === NOVA: Compass Rose / 8-Pointed Star === */
 .constellation-star.nova {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
 }
 
 .constellation-star.nova .star-glow {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   background: radial-gradient(circle, #d4af37 0%, rgba(212, 175, 55, 0.3) 40%, transparent 70%);
 }
 
 .nova-shape {
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
+}
+
+/* Pulsating rings around Nova */
+.nova-ring-outer {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border: 1px solid var(--entity-color);
+  border-radius: 50%;
+  opacity: 0.4;
+  animation: novaRingPulse 3s ease-in-out infinite;
+}
+
+.nova-ring-inner {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--entity-color);
+  border-radius: 50%;
+  opacity: 0.6;
+  animation: novaRingPulse 3s ease-in-out infinite 0.5s;
+}
+
+@keyframes novaRingPulse {
+  0%, 100% { 
+    transform: scale(1); 
+    opacity: 0.6;
+    border-color: var(--entity-color);
+  }
+  50% { 
+    transform: scale(1.15); 
+    opacity: 0.2;
+    border-color: rgba(212, 175, 55, 0.8);
+  }
 }
 
 .nova-shape .star-core {
@@ -1769,26 +1803,9 @@ button {
   transform: rotate(-45deg);
 }
 
-/* Leader crown */
-.leader-crown {
-  position: absolute;
-  top: -22px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 14px;
-  color: var(--entity-color);
-  text-shadow: 0 0 10px var(--entity-color);
-  animation: crownFloat 3s ease-in-out infinite;
-}
-
 @keyframes compassRotate {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
-}
-
-@keyframes crownFloat {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(-3px); }
 }
 
 /* Hover states for Nova */
@@ -1797,9 +1814,12 @@ button {
   animation-duration: 5s;
 }
 
-.constellation-star.nova:hover .leader-crown,
-.constellation-star.nova.active .leader-crown {
-  text-shadow: 0 0 20px var(--entity-color), 0 0 30px var(--entity-color);
+.constellation-star.nova:hover .nova-ring-outer,
+.constellation-star.nova:hover .nova-ring-inner,
+.constellation-star.nova.active .nova-ring-outer,
+.constellation-star.nova.active .nova-ring-inner {
+  animation-duration: 1.5s;
+  opacity: 0.8;
 }
 
 /* === NEBULA: Spiral Galaxy === */
@@ -3151,9 +3171,13 @@ button {
   .compass-point.ne, .compass-point.se, .compass-point.sw, .compass-point.nw {
     height: 8px;
   }
-  .leader-crown {
-    font-size: 11px;
-    top: -18px;
+  .nova-ring-outer {
+    width: 50px;
+    height: 50px;
+  }
+  .nova-ring-inner {
+    width: 40px;
+    height: 40px;
   }
   
   /* Mobile: Nebula */
