@@ -662,45 +662,39 @@ export default function NovaHome() {
         
         setVoiceLevel(level);
         
-        // Update oscilloscope SVG path with smooth curves
+        // Generate smooth sine wave modulated by audio level
         if (waveformRef.current) {
           const path = waveformRef.current.querySelector('path');
           if (path) {
             const width = 100; // SVG viewBox width
             const height = 100; // SVG viewBox height
             const midY = height / 2;
-            const amplitude = 48; // Higher amplitude for more sensitivity
             
-            // Downsample for smoother curves (every 4th sample)
-            const step = 4;
-            const points: Array<{x: number, y: number}> = [];
+            // Use audio level to modulate amplitude
+            const amplitude = level * 40; // Wave height based on audio
+            const frequency = 4 + level * 2; // 4-6 waves, slightly more when louder
+            const phase = Date.now() / 200; // Animate wave movement
             
-            for (let i = 0; i < bufferLength; i += step) {
-              const v = (dataArray[i] - 128) / 128; // Normalize to -1 to 1
-              const x = (i / bufferLength) * width;
-              const y = midY - v * amplitude;
-              points.push({ x, y });
-            }
+            // Generate smooth sine wave points
+            const points = 60; // Number of points for smooth curve
+            let d = '';
             
-            // Build smooth curve using cubic bezier (catmull-rom to bezier)
-            if (points.length < 2) return;
-            
-            let d = `M ${points[0].x.toFixed(1)} ${points[0].y.toFixed(1)}`;
-            
-            for (let i = 0; i < points.length - 1; i++) {
-              const p0 = points[Math.max(0, i - 1)];
-              const p1 = points[i];
-              const p2 = points[i + 1];
-              const p3 = points[Math.min(points.length - 1, i + 2)];
+            for (let i = 0; i <= points; i++) {
+              const x = (i / points) * width;
+              const t = (i / points) * Math.PI * 2 * frequency + phase;
+              const y = midY - Math.sin(t) * amplitude;
               
-              // Catmull-Rom to Cubic Bezier conversion
-              const tension = 0.3; // Lower = smoother curves
-              const cp1x = p1.x + (p2.x - p0.x) * tension;
-              const cp1y = p1.y + (p2.y - p0.y) * tension;
-              const cp2x = p2.x - (p3.x - p1.x) * tension;
-              const cp2y = p2.y - (p3.y - p1.y) * tension;
-              
-              d += ` C ${cp1x.toFixed(1)} ${cp1y.toFixed(1)}, ${cp2x.toFixed(1)} ${cp2y.toFixed(1)}, ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
+              if (i === 0) {
+                d = `M ${x.toFixed(1)} ${y.toFixed(1)}`;
+              } else {
+                // Use quadratic curves for smooth sine
+                const prevX = ((i - 1) / points) * width;
+                const prevT = ((i - 1) / points) * Math.PI * 2 * frequency + phase;
+                const prevY = midY - Math.sin(prevT) * amplitude;
+                const cpX = (prevX + x) / 2;
+                const cpY = midY - Math.sin((prevT + t) / 2) * amplitude * 1.15; // Slight overshoot for rounder peaks
+                d += ` Q ${cpX.toFixed(1)} ${cpY.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)}`;
+              }
             }
             
             path.setAttribute('d', d);
