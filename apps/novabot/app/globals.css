@@ -2397,6 +2397,156 @@ button {
   animation-duration: 1.5s;
 }
 
+/* ===== AURORA: Artistic palette with swirling brushstrokes ===== */
+.aurora-shape {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Outer artistic glow ring */
+.aurora-glow-ring {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: radial-gradient(circle, 
+    rgba(20, 184, 166, 0.2) 0%, 
+    rgba(20, 184, 166, 0.08) 50%, 
+    transparent 70%
+  );
+  animation: auroraRingPulse 3s ease-in-out infinite;
+}
+
+/* Palette shape */
+.aurora-palette {
+  position: relative;
+  width: 18px;
+  height: 14px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: linear-gradient(135deg, 
+    var(--entity-color) 0%, 
+    rgba(20, 184, 166, 0.8) 50%,
+    rgba(212, 175, 55, 0.6) 100%
+  );
+  box-shadow: 
+    0 0 12px var(--entity-color),
+    0 0 24px var(--entity-color),
+    inset 0 0 8px rgba(255, 255, 255, 0.3);
+  animation: auroraPalettePulse 2.5s ease-in-out infinite;
+}
+
+/* Swirling brushstroke container */
+.aurora-swirls {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* Individual swirling strokes */
+.swirl-stroke {
+  position: absolute;
+  width: 3px;
+  height: 12px;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, var(--entity-color), rgba(212, 175, 55, 0.6));
+  box-shadow: 0 0 6px var(--entity-color);
+  transform-origin: bottom center;
+}
+
+.swirl-stroke.ss1 {
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-15deg);
+  animation: swirlFloat 2s ease-in-out infinite;
+}
+
+.swirl-stroke.ss2 {
+  top: 10px;
+  left: 10px;
+  transform: rotate(30deg);
+  animation: swirlFloat 2s ease-in-out infinite 0.3s;
+}
+
+.swirl-stroke.ss3 {
+  top: 10px;
+  right: 10px;
+  transform: rotate(-30deg);
+  animation: swirlFloat 2s ease-in-out infinite 0.6s;
+}
+
+.aurora-shape .star-core {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, var(--entity-color) 100%);
+  box-shadow: 0 0 8px var(--entity-color);
+}
+
+@keyframes auroraPalettePulse {
+  0%, 100% { 
+    transform: scale(1);
+    box-shadow: 
+      0 0 12px var(--entity-color),
+      0 0 24px var(--entity-color),
+      inset 0 0 8px rgba(255, 255, 255, 0.3);
+  }
+  50% { 
+    transform: scale(1.08);
+    box-shadow: 
+      0 0 18px var(--entity-color),
+      0 0 32px var(--entity-color),
+      inset 0 0 10px rgba(255, 255, 255, 0.4);
+  }
+}
+
+@keyframes auroraRingPulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% { 
+    transform: scale(1.15);
+    opacity: 0.9;
+  }
+}
+
+@keyframes swirlFloat {
+  0%, 100% { 
+    opacity: 0.5;
+    transform: translateY(0) rotate(var(--rotate, 0deg));
+  }
+  50% { 
+    opacity: 1;
+    transform: translateY(-3px) rotate(var(--rotate, 0deg));
+  }
+}
+
+/* Hover states for Aurora */
+.constellation-star.aurora:hover .aurora-swirls,
+.constellation-star.aurora.active .aurora-swirls {
+  animation: auroraSwirl 4s linear infinite;
+}
+
+.constellation-star.aurora:hover .aurora-palette,
+.constellation-star.aurora.active .aurora-palette {
+  animation-duration: 1s;
+}
+
+.constellation-star.aurora:hover .aurora-glow-ring,
+.constellation-star.aurora.active .aurora-glow-ring {
+  animation-duration: 1.5s;
+}
+
+@keyframes auroraSwirl {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 /* Body scroll lock when modal is open */
 body.modal-open {
   overflow: hidden;

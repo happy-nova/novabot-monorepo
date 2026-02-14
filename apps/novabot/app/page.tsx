@@ -14,7 +14,7 @@ import {
 import Script from 'next/script';
 
 type ConstellationEntity = {
-  id: 'nova' | 'nebula' | 'forge' | 'starlight';
+  id: 'nova' | 'nebula' | 'forge' | 'starlight' | 'aurora';
   name: string;
   icon: string;
   role: string;
@@ -96,6 +96,24 @@ const constellationEntities: ConstellationEntity[] = [
       'Photo-to-story transformation',
       'Story music & soundtracks',
       'Video content generation',
+    ],
+  },
+  {
+    id: 'aurora',
+    name: 'Aurora',
+    icon: '/symbol-aurora.png',
+    role: 'The Artist',
+    description:
+      'The constellation\'s visual architect and style guardian. Aurora creates the portraits, symbols, and style guides that give each agent their unique identity while maintaining our unified cosmic aesthetic.',
+    avatarSrc: '/aurora-avatar.png',
+    accentColor: '#14b8a6',
+    position: { x: 22, y: 65 },
+    skills: [
+      'Art deco portrait generation',
+      'Symbolic design & identity',
+      'Style guide development',
+      'Visual consistency maintenance',
+      'Creative collaboration',
     ],
   },
 ];
@@ -1184,6 +1202,33 @@ export default function NovaHome() {
                   strokeDasharray="0.4,1.2"
                   className="constellation-line line-faint"
                 />
+                
+                {/* Aurora (22,65) to Nova (30,40) - teal coordination */}
+                <line 
+                  x1="22" y1="65" x2="30" y2="40"
+                  stroke="rgba(20, 184, 166, 0.4)"
+                  strokeWidth="0.25"
+                  strokeDasharray="1,0.8"
+                  className="constellation-line line-teal"
+                />
+                
+                {/* Aurora (22,65) to Nebula (70,60) - teal-purple creation partnership */}
+                <line 
+                  x1="22" y1="65" x2="70" y2="60"
+                  stroke="rgba(90, 140, 180, 0.35)"
+                  strokeWidth="0.25"
+                  strokeDasharray="1,0.8"
+                  className="constellation-line line-teal-purple"
+                />
+                
+                {/* Aurora (22,65) to Forge (50,75) - teal-orange development assets */}
+                <line 
+                  x1="22" y1="65" x2="50" y2="75"
+                  stroke="rgba(100, 150, 130, 0.35)"
+                  strokeWidth="0.2"
+                  strokeDasharray="0.6,1"
+                  className="constellation-line line-teal-orange"
+                />
               </svg>
               
               {constellationEntities.map((entity, index) => (
@@ -1268,6 +1313,20 @@ export default function NovaHome() {
                         <span className="orbit-sparkle os2" />
                         <span className="orbit-sparkle os3" />
                       </span>
+                    </span>
+                  )}
+                  
+                  {/* Aurora: Artistic palette with swirling brushstrokes */}
+                  {entity.id === 'aurora' && (
+                    <span className="star-shape aurora-shape">
+                      <span className="aurora-glow-ring" />
+                      <span className="aurora-palette" />
+                      <span className="aurora-swirls">
+                        <span className="swirl-stroke ss1" />
+                        <span className="swirl-stroke ss2" />
+                        <span className="swirl-stroke ss3" />
+                      </span>
+                      <span className="star-core" />
                     </span>
                   )}
                   
