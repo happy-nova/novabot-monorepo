@@ -1802,7 +1802,7 @@ button {
   opacity: 0.15;
   pointer-events: none;
   z-index: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.8s ease-in-out;
 }
 
 .constellation-star:hover .star-symbol {
@@ -1811,7 +1811,7 @@ button {
 
 /* Fade out the CSS star shape on hover */
 .constellation-star .star-shape {
-  transition: opacity 0.4s ease;
+  transition: opacity 0.8s ease-in-out;
 }
 
 .constellation-star:hover .star-shape {
@@ -1819,6 +1819,10 @@ button {
 }
 
 /* Also fade the glow */
+.star-glow {
+  transition: opacity 0.8s ease-in-out;
+}
+
 .constellation-star:hover .star-glow {
   opacity: 0.2;
 }
