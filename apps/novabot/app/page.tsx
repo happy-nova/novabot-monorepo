@@ -1199,7 +1199,7 @@ export default function NovaHome() {
                       </span>
                     </button>
                     
-                    <div className="entity-avatar">
+                    <div className={`entity-avatar ${voicePlaying ? 'speaking' : ''}`}>
                       <img 
                         src={selectedEntity.avatarSrc} 
                         alt={selectedEntity.name}
