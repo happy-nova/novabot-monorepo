@@ -3652,6 +3652,10 @@ button {
     height: 110px;
   }
   
+  .voice-oscilloscope {
+    display: none;
+  }
+  
   .entity-name {
     font-size: 1.4rem;
   }
