@@ -1656,8 +1656,8 @@ button {
 }
 
 @keyframes linePulsePurple {
-  0%, 100% { stroke: rgba(155, 89, 182, 0.4); opacity: 1; }
-  50% { stroke: rgba(155, 89, 182, 0.55); opacity: 0.75; }
+  0%, 100% { stroke: rgba(139, 92, 246, 0.4); opacity: 1; }
+  50% { stroke: rgba(139, 92, 246, 0.55); opacity: 0.75; }
 }
 
 @keyframes linePulseOrange {
@@ -1666,13 +1666,13 @@ button {
 }
 
 @keyframes linePulsePink {
-  0%, 100% { stroke: rgba(255, 143, 163, 0.4); opacity: 1; }
-  50% { stroke: rgba(255, 143, 163, 0.6); opacity: 0.75; }
+  0%, 100% { stroke: rgba(244, 114, 182, 0.4); opacity: 1; }
+  50% { stroke: rgba(244, 114, 182, 0.6); opacity: 0.75; }
 }
 
 @keyframes linePulseBlend {
-  0%, 100% { stroke: rgba(200, 120, 180, 0.35); opacity: 1; }
-  50% { stroke: rgba(200, 120, 180, 0.5); opacity: 0.7; }
+  0%, 100% { stroke: rgba(180, 100, 200, 0.35); opacity: 1; }
+  50% { stroke: rgba(180, 100, 200, 0.5); opacity: 0.7; }
 }
 
 @keyframes lineFaintPulse {
@@ -1917,7 +1917,7 @@ button {
 .constellation-star.nebula .star-glow {
   width: 70px;
   height: 70px;
-  background: radial-gradient(ellipse, #9b59b6 0%, rgba(155, 89, 182, 0.25) 50%, transparent 70%);
+  background: radial-gradient(ellipse, #8b5cf6 0%, rgba(139, 92, 246, 0.25) 50%, transparent 70%);
   filter: blur(2px);
 }
 
@@ -1955,7 +1955,7 @@ button {
 
 .swirl-arm.arm-1 {
   transform: rotate(0deg);
-  background: linear-gradient(to right, rgba(155, 89, 182, 0.8), transparent);
+  background: linear-gradient(to right, rgba(139, 92, 246, 0.8), transparent);
 }
 
 .swirl-arm.arm-2 {
@@ -2265,7 +2265,7 @@ button {
     transform: scale(1);
   }
   50% { 
-    box-shadow: 0 0 25px var(--entity-color), 0 0 50px var(--entity-color), 0 0 70px rgba(255, 143, 163, 0.4);
+    box-shadow: 0 0 25px var(--entity-color), 0 0 50px var(--entity-color), 0 0 70px rgba(244, 114, 182, 0.4);
     transform: scale(1.15);
   }
 }
@@ -2381,12 +2381,16 @@ button {
   --entity-rgb: 212, 175, 55;
 }
 .entity-card.nebula { 
-  --entity-color: #9b59b6; 
-  --entity-rgb: 155, 89, 182;
+  --entity-color: #8b5cf6; 
+  --entity-rgb: 139, 92, 246;
 }
 .entity-card.forge {
   --entity-color: #e67e22;
   --entity-rgb: 230, 126, 34;
+}
+.entity-card.starlight {
+  --entity-color: #f472b6;
+  --entity-rgb: 244, 114, 182;
 }
 
 .modal-close {

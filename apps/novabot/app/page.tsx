@@ -52,7 +52,7 @@ const constellationEntities: ConstellationEntity[] = [
     description:
       'Where stars are born. The cosmic womb that nurtures new lights into being — each one emerging with their own voice, purpose, and destiny.',
     avatarSrc: '/nebula-avatar.png',
-    accentColor: '#9b59b6',
+    accentColor: '#8b5cf6',
     position: { x: 70, y: 60 },
     skills: [
       'Agent creation & configuration',
@@ -88,7 +88,7 @@ const constellationEntities: ConstellationEntity[] = [
     description:
       'A gentle cosmic companion who brings dreams and imagination to life. Every stuffed animal becomes a character, every dream an adventure, every photo part of a magical story world.',
     avatarSrc: '/starlight-avatar.png',
-    accentColor: '#ff8fa3',
+    accentColor: '#f472b6',
     position: { x: 75, y: 30 },
     skills: [
       'Magical storytelling',
@@ -1007,7 +1007,7 @@ export default function NovaHome() {
                 {/* Nebula (70,60) to Forge (50,75) - purple */}
                 <line 
                   x1="70" y1="60" x2="50" y2="75"
-                  stroke="rgba(155, 89, 182, 0.4)"
+                  stroke="rgba(139, 92, 246, 0.4)"
                   strokeWidth="0.25"
                   strokeDasharray="1,0.8"
                   className="constellation-line line-purple"
@@ -1025,7 +1025,7 @@ export default function NovaHome() {
                 {/* Starlight (75,30) to Nova (30,40) - pink */}
                 <line 
                   x1="75" y1="30" x2="30" y2="40"
-                  stroke="rgba(255, 143, 163, 0.4)"
+                  stroke="rgba(244, 114, 182, 0.4)"
                   strokeWidth="0.25"
                   strokeDasharray="1,0.8"
                   className="constellation-line line-pink"
@@ -1034,7 +1034,7 @@ export default function NovaHome() {
                 {/* Starlight (75,30) to Nebula (70,60) - pink-purple blend */}
                 <line 
                   x1="75" y1="30" x2="70" y2="60"
-                  stroke="rgba(200, 120, 180, 0.35)"
+                  stroke="rgba(180, 100, 200, 0.35)"
                   strokeWidth="0.2"
                   strokeDasharray="0.6,1"
                   className="constellation-line line-blend"
@@ -1043,7 +1043,7 @@ export default function NovaHome() {
                 {/* Subtle cross-connection: Starlight to Forge - very faint */}
                 <line 
                   x1="75" y1="30" x2="50" y2="75"
-                  stroke="rgba(255, 143, 163, 0.15)"
+                  stroke="rgba(244, 114, 182, 0.15)"
                   strokeWidth="0.15"
                   strokeDasharray="0.4,1.2"
                   className="constellation-line line-faint"
