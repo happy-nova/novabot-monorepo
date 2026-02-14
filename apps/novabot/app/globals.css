@@ -1027,6 +1027,25 @@ button {
   color: var(--accent-gold);
   letter-spacing: 0.15em;
   font-weight: 400;
+  line-height: 1.15;
+}
+
+/* Lock scramble headings to their final dimensions so glyph swapping can't shift layout */
+.section-header h2.scramble-lock {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.section-header h2.scramble-lock .scramble-sizer {
+  visibility: hidden;
+  white-space: nowrap;
+}
+
+.section-header h2.scramble-lock .scramble-text {
+  position: absolute;
+  inset: 0;
+  white-space: nowrap;
 }
 
 .section-desc {
@@ -1584,6 +1603,10 @@ button {
   height: 60vh;
   min-height: 400px;
   margin-top: var(--space-xl);
+  /* Keep the field width stable even if surrounding content reflows */
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .constellation-lines {

@@ -982,7 +982,11 @@ export default function NovaHome() {
           <div className="container">
             <div className="section-header">
               <span className="section-label">02</span>
-              <h2 data-scramble data-text="THE CONSTELLATION">THE CONSTELLATION</h2>
+              {/* Reserve space for the final text so scramble glyphs can't cause reflow */}
+              <h2 className="scramble-lock">
+                <span className="scramble-sizer" aria-hidden="true">THE CONSTELLATION</span>
+                <span className="scramble-text" data-scramble data-text="THE CONSTELLATION">THE CONSTELLATION</span>
+              </h2>
             </div>
             
             <p className="section-desc">
