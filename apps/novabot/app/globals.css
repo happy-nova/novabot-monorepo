@@ -2586,33 +2586,20 @@ button {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Avatar reacts to actual audio level when voice is playing */
+/* Avatar glow reacts to actual audio level when voice is playing */
 .entity-avatar.speaking img {
-  /* Scale from 1.0 to 1.12 based on voice level (0-1) */
-  transform: scale(calc(1 + var(--voice-level, 0) * 0.12));
-  /* Glow intensifies with voice level */
+  /* Glow intensifies with voice level - no scaling */
   box-shadow: 
-    0 0 calc(30px + var(--voice-level, 0) * 40px) rgba(var(--entity-rgb, 212, 168, 67), calc(0.25 + var(--voice-level, 0) * 0.5)),
-    0 0 calc(60px + var(--voice-level, 0) * 60px) rgba(var(--entity-rgb, 212, 168, 67), calc(0.1 + var(--voice-level, 0) * 0.3));
-  transition: transform 0.08s ease-out, box-shadow 0.08s ease-out;
+    0 0 calc(20px + var(--voice-level, 0) * 50px) rgba(var(--entity-rgb, 212, 168, 67), calc(0.2 + var(--voice-level, 0) * 0.6)),
+    0 0 calc(40px + var(--voice-level, 0) * 80px) rgba(var(--entity-rgb, 212, 168, 67), calc(0.1 + var(--voice-level, 0) * 0.4));
+  transition: box-shadow 0.06s ease-out;
 }
 
 .entity-avatar.speaking::before {
-  /* Ring reacts to voice level */
-  opacity: calc(0.3 + var(--voice-level, 0) * 0.7);
-  transform: scale(calc(1 + var(--voice-level, 0) * 0.1));
-  transition: opacity 0.08s ease-out, transform 0.08s ease-out;
-}
-
-/* Outer expanding ring that reacts to voice */
-.entity-avatar.speaking::after {
-  content: '';
-  position: absolute;
-  inset: calc(-8px - var(--voice-level, 0) * 12px);
-  border: 1px solid var(--entity-color, var(--accent-gold));
-  border-radius: 50%;
-  opacity: calc(0.6 - var(--voice-level, 0) * 0.4);
-  transition: inset 0.1s ease-out, opacity 0.1s ease-out;
+  /* Inner ring glow reacts to voice level */
+  opacity: calc(0.2 + var(--voice-level, 0) * 0.8);
+  box-shadow: 0 0 calc(var(--voice-level, 0) * 20px) var(--entity-color, var(--accent-gold));
+  transition: opacity 0.06s ease-out, box-shadow 0.06s ease-out;
 }
 
 .leader-badge {
