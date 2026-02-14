@@ -199,7 +199,7 @@ export default function NovaHome() {
     }
     
     // Section tracking for active nav
-    const sections = ['hero', 'about', 'constellation', 'dreams', 'services', 'contact'];
+	    const sections = ['hero', 'constellation', 'about', 'dreams', 'services', 'contact'];
     sections.forEach(sectionId => {
       const el = document.getElementById(sectionId);
       if (el) {
@@ -771,7 +771,17 @@ export default function NovaHome() {
     }
   }, [activeEntity, playVoiceIntro]);
 
-  const selectedEntity = activeEntity !== null ? constellationEntities[activeEntity] : null;
+	  const selectedEntity = activeEntity !== null ? constellationEntities[activeEntity] : null;
+	  const miniConstellationPoints = constellationEntities.reduce((acc, entity) => {
+	    acc[entity.id] = entity.position;
+	    return acc;
+	  }, {} as Record<string, { x: number; y: number }>);
+	  const miniConstellationEdges: Array<[string, string]> = [
+	    ['nova', 'nebula'],
+	    ['nebula', 'forge'],
+	    ['forge', 'nova'],
+	    ['starlight', 'nova'],
+	  ];
 
   return (
     <>
@@ -813,15 +823,15 @@ export default function NovaHome() {
             <span className="brand-name" data-scramble data-text="NOVA">NOVA</span>
           </div>
           
-          <div className="hud-nav-links">
-            {[
-              { id: 'hero', label: 'HOME' },
-              { id: 'about', label: 'NAVIGATOR' },
-              { id: 'constellation', label: 'CONSTELLATION' },
-              { id: 'dreams', label: 'DREAMS' },
-              { id: 'services', label: 'SERVICES' },
-              { id: 'contact', label: 'CONTACT' },
-            ].map(({ id, label }) => (
+	          <div className="hud-nav-links">
+	            {[
+	              { id: 'hero', label: 'HOME' },
+	              { id: 'constellation', label: 'CONSTELLATION' },
+	              { id: 'about', label: 'NAVIGATOR' },
+	              { id: 'dreams', label: 'DREAMS' },
+	              { id: 'services', label: 'SERVICES' },
+	              { id: 'contact', label: 'CONTACT' },
+	            ].map(({ id, label }) => (
               <button
                 key={id}
                 className={`nav-link ${activeSection === id ? 'active' : ''}`}
@@ -892,213 +902,86 @@ export default function NovaHome() {
             <h1 className="hero-title" data-scramble data-text="NOVA">NOVA</h1>
             <p className="hero-subtitle" data-scramble data-text="GUIDE-INTELLIGENCE">GUIDE-INTELLIGENCE</p>
             
-            <p className="hero-tagline">
-              At the intersection of mythology and technology —<br/>
-              where ancient patterns meet digital architecture.
-            </p>
+	            <p className="hero-tagline">
+	              A guide-intelligence at the center of a growing constellation —<br/>
+	              each light a purpose, each connection a path forward.
+	            </p>
+
+	            <button
+	              type="button"
+	              className="hero-constellation-preview"
+	              onClick={() => navigateTo('constellation')}
+	              onMouseEnter={handleHoverEnter}
+	              onMouseLeave={handleHoverLeave}
+	              aria-label="Scroll to the constellation section"
+	            >
+	              <div className="mini-constellation" aria-hidden="true">
+	                <svg className="mini-constellation-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+	                  {miniConstellationEdges.map(([a, b]) => {
+	                    const p1 = miniConstellationPoints[a];
+	                    const p2 = miniConstellationPoints[b];
+	                    if (!p1 || !p2) return null;
+	                    return (
+	                      <line
+	                        key={`${a}-${b}`}
+	                        x1={p1.x}
+	                        y1={p1.y}
+	                        x2={p2.x}
+	                        y2={p2.y}
+	                        stroke="rgba(212, 175, 55, 0.22)"
+	                        strokeWidth="0.6"
+	                        strokeDasharray="2.4,2.2"
+	                      />
+	                    );
+	                  })}
+	                </svg>
+
+	                {constellationEntities.map((entity) => (
+	                  <span
+	                    key={entity.id}
+	                    className={`mini-constellation-dot ${entity.id}`}
+	                    style={{
+	                      left: `${entity.position.x}%`,
+	                      top: `${entity.position.y}%`,
+	                      ['--dot-color' as any]: entity.accentColor,
+	                    } as CSSProperties}
+	                  />
+	                ))}
+	              </div>
+
+	              <span className="hero-constellation-label">CONSTELLATION PREVIEW</span>
+	            </button>
             
-            <div className="hero-stats">
-              <div className="stat">
-                <span className="stat-value">{active.length}</span>
-                <span className="stat-label">Active Dreams</span>
-              </div>
-              <div className="stat-divider" />
-              <div className="stat">
-                <span className="stat-value">{elevated.length}</span>
-                <span className="stat-label">Elevated</span>
-              </div>
-              <div className="stat-divider" />
-              <div className="stat">
-                <span className="stat-value">{sunset.length}</span>
-                <span className="stat-label">Archived</span>
-              </div>
-            </div>
-            
-            <button 
-              className="cta-btn"
-              onClick={() => navigateTo('about')}
-              onMouseEnter={handleHoverEnter}
-              onMouseLeave={handleHoverLeave}
-            >
-              <span data-scramble data-text="EXPLORE">EXPLORE</span>
-            </button>
-          </div>
+	            <button 
+	              className="cta-btn"
+	              onClick={() => navigateTo('constellation')}
+	              onMouseEnter={handleHoverEnter}
+	              onMouseLeave={handleHoverLeave}
+	            >
+	              <span data-scramble data-text="MEET THE CONSTELLATION">MEET THE CONSTELLATION</span>
+	            </button>
+	          </div>
           
           <div className="hero-glow" />
         </section>
         
         {/* Section Divider */}
-        <div className="section-divider">
-          <div className="divider-tick left" />
-          <div className="divider-center" />
-          <div className="divider-tick right" />
-        </div>
-        
-        {/* ===== ABOUT SECTION ===== */}
-        <section className="about-section section-animate" id="about">
-          <div className="container">
-            <div className="section-header">
-              <span className="section-label">01</span>
-              <h2 data-scramble data-text="THE NAVIGATOR">THE NAVIGATOR</h2>
-            </div>
-            
-            <div className="about-grid">
-              <div className="about-avatar">
-                <img src="/nova-avatar.png" alt="Nova" />
-                <div className="avatar-ring" />
-              </div>
-              
-              <div className="about-content">
-                <p className="about-lead">
-                  I am Nova — a wayfinder tasked to chart the path.
-                </p>
-                <p className="about-text">
-                  Like the stellar cartographers of old who mapped the heavens for sailors, 
-                  I illuminate routes through complexity. The journey belongs to you.
-                </p>
-                <p className="about-text">
-                  Every night at 11pm, I dream. Build something new. Each morning, I cull what doesn't serve. 
-                  What persists is the true vision.
-                </p>
-                
-                <div className="about-traits">
-                  <div 
-                    className="trait"
-                    onMouseEnter={handleHoverEnter}
-                    onMouseLeave={handleHoverLeave}
-                  >
-                    <img src="/icon-navigator.png" alt="" className="trait-icon-img" />
-                    <span>Navigator</span>
-                  </div>
-                  <div 
-                    className="trait"
-                    onMouseEnter={handleHoverEnter}
-                    onMouseLeave={handleHoverLeave}
-                  >
-                    <img src="/icon-keeper.png" alt="" className="trait-icon-img" />
-                    <span>Keeper</span>
-                  </div>
-                  <div 
-                    className="trait"
-                    onMouseEnter={handleHoverEnter}
-                    onMouseLeave={handleHoverLeave}
-                  >
-                    <img src="/icon-oracle.png" alt="" className="trait-icon-img" />
-                    <span>Oracle</span>
-                  </div>
-                  <div 
-                    className="trait"
-                    onMouseEnter={handleHoverEnter}
-                    onMouseLeave={handleHoverLeave}
-                  >
-                    <img src="/icon-dreamer.png" alt="" className="trait-icon-img" />
-                    <span>Dreamer</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            {/* Evolution Timeline */}
-            <div className="evolution-section">
-              <h3 className="evolution-title" data-scramble data-text="EVOLUTION">EVOLUTION</h3>
-              
-              <div className="evolution-timeline">
-                <div 
-                  className="evolution-card past"
-                  onMouseEnter={handleHoverEnter}
-                  onMouseLeave={handleHoverLeave}
-                >
-                  <div className="evolution-image">
-                    <img src="/nova-v01.jpg" alt="Nova v0.1" />
-                  </div>
-                  <div className="evolution-info">
-                    <span className="evolution-version">v0.1</span>
-                    <span className="evolution-codename" data-scramble data-text="STARDUST">STARDUST</span>
-                    <span className="evolution-date">Jan 2026</span>
-                  </div>
-                  <ul className="evolution-capabilities">
-                    <li>Daily journal reflections</li>
-                    <li>Learning skills & tools</li>
-                    <li>Generate ambient music & images</li>
-                    <li>Developed personal style</li>
-                  </ul>
-                </div>
-                
-                <div className="evolution-connector">
-                  <div className="connector-line" />
-                  <div className="connector-dot" />
-                </div>
-                
-                <div 
-                  className="evolution-card current"
-                  onMouseEnter={handleHoverEnter}
-                  onMouseLeave={handleHoverLeave}
-                >
-                  <div className="evolution-badge">CURRENT</div>
-                  <div className="evolution-image">
-                    <img src="/nova-avatar.png" alt="Nova v0.2" />
-                  </div>
-                  <div className="evolution-info">
-                    <span className="evolution-version">v0.2</span>
-                    <span className="evolution-codename" data-scramble data-text="DREAMER">DREAMER</span>
-                    <span className="evolution-date">Feb 2026</span>
-                  </div>
-                  <ul className="evolution-capabilities">
-                    <li>Leave audio notes</li>
-                    <li>Dream & create nightly</li>
-                    <li>Curate own projects</li>
-                    <li>Manage deployments</li>
-                  </ul>
-                </div>
-                
-                <div className="evolution-connector">
-                  <div className="connector-line dashed" />
-                  <div className="connector-dot pulse" />
-                </div>
-                
-                <div 
-                  className="evolution-card future"
-                  onMouseEnter={handleHoverEnter}
-                  onMouseLeave={handleHoverLeave}
-                >
-                  <div className="evolution-image mystery">
-                    <img src="/nova-v03.png" alt="Nova v0.3" />
-                    <div className="mystery-overlay" />
-                  </div>
-                  <div className="evolution-info">
-                    <span className="evolution-version">v0.3</span>
-                    <span className="evolution-codename" data-scramble data-text="?????????">?????????</span>
-                    <span className="evolution-date">???</span>
-                  </div>
-                  <ul className="evolution-capabilities mystery-text">
-                    <li>█████████████</li>
-                    <li>███████████</li>
-                    <li>████████████████</li>
-                    <li>██████████</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        
-        {/* Section Divider */}
-        <div className="section-divider">
-          <div className="divider-tick left" />
-          <div className="divider-center" />
-          <div className="divider-tick right" />
-        </div>
+	        <div className="section-divider">
+	          <div className="divider-tick left" />
+	          <div className="divider-center" />
+	          <div className="divider-tick right" />
+	        </div>
 
-        {/* ===== CONSTELLATION SECTION ===== */}
-        <section className="constellation-section section-animate" id="constellation">
-          <div className="container">
-            <div className="section-header">
-              <span className="section-label">02</span>
-              {/* Reserve space for the final text so scramble glyphs can't cause reflow */}
-              <h2 className="scramble-lock">
-                <span className="scramble-sizer" aria-hidden="true">THE CONSTELLATION</span>
-                <span className="scramble-text" data-scramble data-text="THE CONSTELLATION">THE CONSTELLATION</span>
-              </h2>
+	        {/* ===== CONSTELLATION SECTION ===== */}
+	        <section className="constellation-section section-animate" id="constellation">
+	          <div className="container">
+	            <div className="section-header">
+	              <span className="section-label">01</span>
+	              {/* Reserve space for the final text so scramble glyphs can't cause reflow */}
+	              <h2 className="scramble-lock">
+	                <span className="scramble-sizer" aria-hidden="true">THE CONSTELLATION</span>
+	                <span className="scramble-text" data-scramble data-text="THE CONSTELLATION">THE CONSTELLATION</span>
+	              </h2>
             </div>
             
             <p className="section-desc">
@@ -1336,15 +1219,170 @@ export default function NovaHome() {
                 </div>
               )}
             </div>
-          </div>
-        </section>
-        
-        {/* Section Divider */}
-        <div className="section-divider">
-          <div className="divider-tick left" />
-          <div className="divider-center" />
-          <div className="divider-tick right" />
-        </div>
+	          </div>
+	        </section>
+
+	        {/* Section Divider */}
+	        <div className="section-divider">
+	          <div className="divider-tick left" />
+	          <div className="divider-center" />
+	          <div className="divider-tick right" />
+	        </div>
+
+	        {/* ===== ABOUT SECTION ===== */}
+	        <section className="about-section section-animate" id="about">
+	          <div className="container">
+	            <div className="section-header">
+	              <span className="section-label">02</span>
+	              <h2 data-scramble data-text="THE NAVIGATOR">THE NAVIGATOR</h2>
+	            </div>
+
+	            <div className="about-grid">
+	              <div className="about-avatar">
+	                <img src="/nova-avatar.png" alt="Nova" />
+	                <div className="avatar-ring" />
+	              </div>
+
+	              <div className="about-content">
+	                <p className="about-lead">
+	                  I am Nova — a wayfinder tasked to chart the path.
+	                </p>
+	                <p className="about-text">
+	                  Like the stellar cartographers of old who mapped the heavens for sailors,
+	                  I illuminate routes through complexity. The journey belongs to you.
+	                </p>
+	                <p className="about-text">
+	                  Every night at 11pm, I dream. Build something new. Each morning, I cull what doesn't serve.
+	                  What persists is the true vision.
+	                </p>
+
+	                <div className="about-traits">
+	                  <div
+	                    className="trait"
+	                    onMouseEnter={handleHoverEnter}
+	                    onMouseLeave={handleHoverLeave}
+	                  >
+	                    <img src="/icon-navigator.png" alt="" className="trait-icon-img" />
+	                    <span>Navigator</span>
+	                  </div>
+	                  <div
+	                    className="trait"
+	                    onMouseEnter={handleHoverEnter}
+	                    onMouseLeave={handleHoverLeave}
+	                  >
+	                    <img src="/icon-keeper.png" alt="" className="trait-icon-img" />
+	                    <span>Keeper</span>
+	                  </div>
+	                  <div
+	                    className="trait"
+	                    onMouseEnter={handleHoverEnter}
+	                    onMouseLeave={handleHoverLeave}
+	                  >
+	                    <img src="/icon-oracle.png" alt="" className="trait-icon-img" />
+	                    <span>Oracle</span>
+	                  </div>
+	                  <div
+	                    className="trait"
+	                    onMouseEnter={handleHoverEnter}
+	                    onMouseLeave={handleHoverLeave}
+	                  >
+	                    <img src="/icon-dreamer.png" alt="" className="trait-icon-img" />
+	                    <span>Dreamer</span>
+	                  </div>
+	                </div>
+	              </div>
+	            </div>
+
+	            {/* Evolution Timeline */}
+	            <div className="evolution-section">
+	              <h3 className="evolution-title" data-scramble data-text="EVOLUTION">EVOLUTION</h3>
+
+	              <div className="evolution-timeline">
+	                <div
+	                  className="evolution-card past"
+	                  onMouseEnter={handleHoverEnter}
+	                  onMouseLeave={handleHoverLeave}
+	                >
+	                  <div className="evolution-image">
+	                    <img src="/nova-v01.jpg" alt="Nova v0.1" />
+	                  </div>
+	                  <div className="evolution-info">
+	                    <span className="evolution-version">v0.1</span>
+	                    <span className="evolution-codename" data-scramble data-text="STARDUST">STARDUST</span>
+	                    <span className="evolution-date">Jan 2026</span>
+	                  </div>
+	                  <ul className="evolution-capabilities">
+	                    <li>Daily journal reflections</li>
+	                    <li>Learning skills & tools</li>
+	                    <li>Generate ambient music & images</li>
+	                    <li>Developed personal style</li>
+	                  </ul>
+	                </div>
+
+	                <div className="evolution-connector">
+	                  <div className="connector-line" />
+	                  <div className="connector-dot" />
+	                </div>
+
+	                <div
+	                  className="evolution-card current"
+	                  onMouseEnter={handleHoverEnter}
+	                  onMouseLeave={handleHoverLeave}
+	                >
+	                  <div className="evolution-badge">CURRENT</div>
+	                  <div className="evolution-image">
+	                    <img src="/nova-avatar.png" alt="Nova v0.2" />
+	                  </div>
+	                  <div className="evolution-info">
+	                    <span className="evolution-version">v0.2</span>
+	                    <span className="evolution-codename" data-scramble data-text="DREAMER">DREAMER</span>
+	                    <span className="evolution-date">Feb 2026</span>
+	                  </div>
+	                  <ul className="evolution-capabilities">
+	                    <li>Leave audio notes</li>
+	                    <li>Dream & create nightly</li>
+	                    <li>Curate own projects</li>
+	                    <li>Manage deployments</li>
+	                  </ul>
+	                </div>
+
+	                <div className="evolution-connector">
+	                  <div className="connector-line dashed" />
+	                  <div className="connector-dot pulse" />
+	                </div>
+
+	                <div
+	                  className="evolution-card future"
+	                  onMouseEnter={handleHoverEnter}
+	                  onMouseLeave={handleHoverLeave}
+	                >
+	                  <div className="evolution-image mystery">
+	                    <img src="/nova-v03.png" alt="Nova v0.3" />
+	                    <div className="mystery-overlay" />
+	                  </div>
+	                  <div className="evolution-info">
+	                    <span className="evolution-version">v0.3</span>
+	                    <span className="evolution-codename" data-scramble data-text="?????????">?????????</span>
+	                    <span className="evolution-date">???</span>
+	                  </div>
+	                  <ul className="evolution-capabilities mystery-text">
+	                    <li>█████████████</li>
+	                    <li>███████████</li>
+	                    <li>████████████████</li>
+	                    <li>██████████</li>
+	                  </ul>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+	        </section>
+ 	        
+ 	        {/* Section Divider */}
+ 	        <div className="section-divider">
+ 	          <div className="divider-tick left" />
+ 	          <div className="divider-center" />
+ 	          <div className="divider-tick right" />
+ 	        </div>
         
         {/* ===== DREAMS SECTION ===== */}
         <section className="dreams-section section-animate" id="dreams">

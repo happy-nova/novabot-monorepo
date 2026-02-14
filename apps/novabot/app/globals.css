@@ -892,7 +892,104 @@ button {
   color: var(--text-secondary);
   max-width: 500px;
   line-height: 1.8;
+  margin-bottom: var(--space-xl);
+}
+
+.hero-constellation-preview {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 14px 18px;
   margin-bottom: var(--space-2xl);
+  background:
+    radial-gradient(120px 60px at 50% 30%, rgba(212, 175, 55, 0.08), transparent 60%),
+    rgba(0, 0, 0, 0.18);
+  border: 1px solid rgba(212, 175, 55, 0.22);
+  border-radius: 10px;
+  cursor: none;
+  transition: transform var(--transition-base), border-color var(--transition-base), background var(--transition-base);
+}
+
+.hero-constellation-preview::before {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(212, 175, 55, 0.10);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.hero-constellation-preview::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(212, 175, 55, 0.0), rgba(212, 175, 55, 0.12), rgba(212, 175, 55, 0.0)) top/100% 1px no-repeat,
+    linear-gradient(90deg, rgba(212, 175, 55, 0.0), rgba(212, 175, 55, 0.10), rgba(212, 175, 55, 0.0)) bottom/100% 1px no-repeat;
+  opacity: 0.9;
+}
+
+.hero-constellation-preview:hover {
+  transform: translateY(-2px);
+  border-color: rgba(212, 175, 55, 0.35);
+  background:
+    radial-gradient(120px 60px at 50% 30%, rgba(212, 175, 55, 0.12), transparent 60%),
+    rgba(0, 0, 0, 0.22);
+}
+
+.mini-constellation {
+  position: relative;
+  width: 180px;
+  height: 86px;
+}
+
+.mini-constellation-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.10));
+}
+
+.mini-constellation-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--dot-color, var(--accent-gold));
+  box-shadow:
+    0 0 14px color-mix(in srgb, var(--dot-color, var(--accent-gold)) 70%, transparent),
+    0 0 0 1px rgba(255, 255, 255, 0.12);
+  opacity: 0.95;
+}
+
+.mini-constellation-dot::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--dot-color, var(--accent-gold)) 35%, transparent);
+  opacity: 0.75;
+}
+
+.hero-constellation-preview:hover .mini-constellation-dot {
+  box-shadow:
+    0 0 18px color-mix(in srgb, var(--dot-color, var(--accent-gold)) 80%, transparent),
+    0 0 0 1px rgba(255, 255, 255, 0.16);
+}
+
+.hero-constellation-label {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--text-muted);
 }
 
 .hero-stats {
@@ -2482,11 +2579,13 @@ button {
 /* Voice waveform behind avatar */
 .voice-waveform {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  left: 50%;
+  transform: translateX(-50%);
+  top: calc(var(--space-2xl) + 45px); /* Centered on avatar: top-padding + half-avatar - half-waveform */
   height: 60px;
+  width: 200px;
+  max-height: 80px;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2494,7 +2593,7 @@ button {
   z-index: 0;
   opacity: 0;
   transition: opacity 0.3s ease;
-  margin-top: -30px; /* Offset to align with avatar center */
+  pointer-events: none;
 }
 
 .voice-waveform.active {
@@ -3427,6 +3526,15 @@ button {
   .hero-section {
     padding: var(--space-xl) var(--space-md);
     padding-top: 80px;
+  }
+
+  .mini-constellation {
+    width: 160px;
+    height: 78px;
+  }
+
+  .hero-constellation-preview {
+    padding: 12px 16px;
   }
   
   .hero-stats {
