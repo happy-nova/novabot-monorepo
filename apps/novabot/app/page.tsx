@@ -1267,21 +1267,30 @@ export default function NovaHome() {
                     </button>
                     
                     <button
-                      className={`voice-replay-btn ${voicePlaying ? 'playing' : ''}`}
+                      className={`voice-toggle-btn ${voicePlaying ? 'playing' : ''}`}
                       onClick={() => playVoiceIntro(selectedEntity.id)}
                       onMouseEnter={handleHoverEnter}
                       onMouseLeave={handleHoverLeave}
-                      aria-label={voicePlaying ? 'Pause voice introduction' : 'Play voice introduction'}
+                      aria-label={voicePlaying ? 'Stop voice' : 'Play voice introduction'}
                       aria-pressed={voicePlaying}
-                      title={voicePlaying ? 'Pause voice introduction' : 'Play voice introduction'}
+                      title={voicePlaying ? 'Stop voice' : 'Play voice introduction'}
                     >
-                      <span className="voice-spectrum" aria-hidden="true">
-                        <span className="voice-bar" />
-                        <span className="voice-bar" />
-                        <span className="voice-bar" />
-                        <span className="voice-bar" />
-                        <span className="voice-bar" />
-                      </span>
+                      <svg className="voice-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        {voicePlaying ? (
+                          /* Speaker with waves (playing) */
+                          <>
+                            <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor"/>
+                            <path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                            <path d="M18.07 5.93a9 9 0 0 1 0 12.14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                          </>
+                        ) : (
+                          /* Speaker muted (not playing) */
+                          <>
+                            <path d="M11 5L6 9H2v6h4l5 4V5z" fill="currentColor" opacity="0.6"/>
+                            <path d="M23 9l-6 6M17 9l6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                          </>
+                        )}
+                      </svg>
                     </button>
                     
                     {/* Voice waveform behind avatar */}

@@ -2483,12 +2483,12 @@ button {
   background: rgba(212, 168, 67, 0.1);
 }
 
-.voice-replay-btn {
+.voice-toggle-btn {
   position: absolute;
   top: var(--space-md);
   left: var(--space-md);
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   background: rgba(6, 10, 18, 0.6);
   border: 1px solid rgba(212, 168, 67, 0.2);
   border-radius: 999px;
@@ -2498,81 +2498,27 @@ button {
   justify-content: center;
   transition: all var(--transition-fast);
   z-index: 10;
+  color: var(--entity-color, var(--accent-gold));
 }
 
-.voice-replay-btn:hover {
+.voice-toggle-btn:hover {
   border-color: var(--entity-color, var(--accent-gold));
   background: rgba(var(--entity-rgb, 212, 168, 67), 0.08);
 }
 
-.voice-replay-btn.playing {
+.voice-toggle-btn.playing {
   border-color: var(--entity-color, var(--accent-gold));
-  box-shadow: 0 0 18px rgba(var(--entity-rgb, 212, 168, 67), 0.25);
-  animation: voiceBtnGlow 1.25s ease-in-out infinite;
+  background: rgba(var(--entity-rgb, 212, 168, 67), 0.12);
 }
 
-@keyframes voiceBtnGlow {
-  0%, 100% { 
-    box-shadow:
-      0 0 0 0 rgba(var(--entity-rgb, 212, 168, 67), 0.35),
-      0 0 18px rgba(var(--entity-rgb, 212, 168, 67), 0.18);
-  }
-  50% { 
-    box-shadow:
-      0 0 0 7px rgba(var(--entity-rgb, 212, 168, 67), 0),
-      0 0 26px rgba(var(--entity-rgb, 212, 168, 67), 0.28);
-  }
-}
-
-.voice-spectrum {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: 3px;
+.voice-icon {
+  width: 18px;
   height: 18px;
 }
 
-.voice-spectrum .voice-bar {
-  width: 3px;
-  height: 12px; /* default: medium height */
-  background: var(--entity-color, var(--accent-gold));
-  border-radius: 2px;
-  transform-origin: 50% 100%;
-  filter: drop-shadow(0 0 6px rgba(var(--entity-rgb, 212, 168, 67), 0.25));
-}
-
-/* Static "spectrum" silhouette when not playing */
-.voice-spectrum .voice-bar:nth-child(1) { height: 9px; }
-.voice-spectrum .voice-bar:nth-child(2) { height: 13px; }
-.voice-spectrum .voice-bar:nth-child(3) { height: 17px; }
-.voice-spectrum .voice-bar:nth-child(4) { height: 12px; }
-.voice-spectrum .voice-bar:nth-child(5) { height: 15px; }
-
-/* Animated analyzer when playing */
-.voice-replay-btn.playing .voice-spectrum .voice-bar {
-  animation-name: voiceSpectrum;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  animation-direction: alternate;
-}
-.voice-replay-btn.playing .voice-spectrum .voice-bar:nth-child(1) { animation-duration: 520ms; animation-delay: -120ms; }
-.voice-replay-btn.playing .voice-spectrum .voice-bar:nth-child(2) { animation-duration: 430ms; animation-delay: -220ms; }
-.voice-replay-btn.playing .voice-spectrum .voice-bar:nth-child(3) { animation-duration: 610ms; animation-delay: -310ms; }
-.voice-replay-btn.playing .voice-spectrum .voice-bar:nth-child(4) { animation-duration: 460ms; animation-delay: -170ms; }
-.voice-replay-btn.playing .voice-spectrum .voice-bar:nth-child(5) { animation-duration: 560ms; animation-delay: -260ms; }
-
-@keyframes voiceSpectrum {
-  0%   { transform: scaleY(0.45); opacity: 0.7; }
-  100% { transform: scaleY(1.05); opacity: 1; }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .voice-replay-btn.playing {
-    animation: none;
-    box-shadow: 0 0 18px rgba(var(--entity-rgb, 212, 168, 67), 0.18);
-  }
-  .voice-replay-btn.playing .voice-spectrum .voice-bar {
-    animation: none;
+  .voice-toggle-btn.playing {
+    box-shadow: 0 0 12px rgba(var(--entity-rgb, 212, 168, 67), 0.18);
   }
 }
 
@@ -2643,6 +2589,10 @@ button {
 }
 
 /* Avatar reacts to actual audio level when voice is playing */
+.entity-avatar.speaking {
+  animation: avatarPulseGlow 1.25s ease-in-out infinite;
+}
+
 .entity-avatar.speaking img {
   /* Scale from 1.0 to 1.08 based on voice level (0-1) */
   transform: scale(calc(1 + var(--voice-level, 0) * 0.08));
@@ -2656,6 +2606,36 @@ button {
   /* Ring also reacts to voice level */
   opacity: calc(0.4 + var(--voice-level, 0) * 0.4);
   transform: scale(calc(1 + var(--voice-level, 0) * 0.06));
+}
+
+/* Pulsing outer ring when speaking */
+.entity-avatar.speaking::after {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border: 1px solid var(--entity-color, var(--accent-gold));
+  border-radius: 50%;
+  animation: avatarRingPulse 1.25s ease-in-out infinite;
+}
+
+@keyframes avatarPulseGlow {
+  0%, 100% { 
+    filter: drop-shadow(0 0 0 rgba(var(--entity-rgb, 212, 168, 67), 0.4));
+  }
+  50% { 
+    filter: drop-shadow(0 0 20px rgba(var(--entity-rgb, 212, 168, 67), 0.5));
+  }
+}
+
+@keyframes avatarRingPulse {
+  0%, 100% { 
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0;
+    transform: scale(1.15);
+  }
 }
 
 .leader-badge {
