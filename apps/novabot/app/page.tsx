@@ -92,8 +92,10 @@ export default function NovaHome() {
   const [archiveOpen, setArchiveOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const [activeEntity, setActiveEntity] = useState<number | null>(null);
+  const [voicePlaying, setVoicePlaying] = useState(false);
   
   const cursorRef = useRef<HTMLDivElement>(null);
+  const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
   const cursorDotRef = useRef<HTMLDivElement>(null);
   const soundsRef = useRef<{ hover?: any; click?: any; ambient?: any }>({});
   const compassRef = useRef<HTMLImageElement>(null);
@@ -596,6 +598,51 @@ export default function NovaHome() {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Voice intro playback for constellation entities
+  const playVoiceIntro = useCallback((entityId: string) => {
+    // Stop any currently playing voice audio
+    if (voiceAudioRef.current) {
+      voiceAudioRef.current.pause();
+      voiceAudioRef.current = null;
+    }
+    
+    const audioPath = `/audio/${entityId}-intro.mp3`;
+    const audio = new Audio(audioPath);
+    voiceAudioRef.current = audio;
+    
+    audio.volume = 0.8;
+    audio.onplay = () => setVoicePlaying(true);
+    audio.onended = () => setVoicePlaying(false);
+    audio.onpause = () => setVoicePlaying(false);
+    audio.onerror = () => setVoicePlaying(false);
+    
+    audio.play().catch(err => {
+      console.log('Voice intro playback failed:', err);
+      setVoicePlaying(false);
+    });
+  }, []);
+
+  // Stop voice when modal closes
+  useEffect(() => {
+    if (activeEntity === null && voiceAudioRef.current) {
+      voiceAudioRef.current.pause();
+      voiceAudioRef.current = null;
+      setVoicePlaying(false);
+    }
+  }, [activeEntity]);
+
+  // Play voice intro when entity is selected
+  useEffect(() => {
+    if (activeEntity !== null) {
+      const entity = constellationEntities[activeEntity];
+      // Small delay to let modal animate in
+      const timer = setTimeout(() => {
+        playVoiceIntro(entity.id);
+      }, 200);
+      return () => clearTimeout(timer);
+    }
+  }, [activeEntity, playVoiceIntro]);
+
   const selectedEntity = activeEntity !== null ? constellationEntities[activeEntity] : null;
 
   return (
@@ -965,7 +1012,61 @@ export default function NovaHome() {
                   onMouseLeave={handleHoverLeave}
                 >
                   <span className="star-glow" />
-                  <span className="star-core" />
+                  
+                  {/* Nova: 8-pointed compass rose with crown */}
+                  {entity.id === 'nova' && (
+                    <span className="star-shape nova-shape">
+                      <span className="compass-rose">
+                        <span className="compass-point n" />
+                        <span className="compass-point ne" />
+                        <span className="compass-point e" />
+                        <span className="compass-point se" />
+                        <span className="compass-point s" />
+                        <span className="compass-point sw" />
+                        <span className="compass-point w" />
+                        <span className="compass-point nw" />
+                      </span>
+                      <span className="star-core" />
+                      <span className="leader-crown">♔</span>
+                    </span>
+                  )}
+                  
+                  {/* Nebula: Spiral galaxy with swirl */}
+                  {entity.id === 'nebula' && (
+                    <span className="star-shape nebula-shape">
+                      <span className="nebula-swirl">
+                        <span className="swirl-arm arm-1" />
+                        <span className="swirl-arm arm-2" />
+                        <span className="swirl-arm arm-3" />
+                      </span>
+                      <span className="nebula-particles">
+                        <span className="particle p1" />
+                        <span className="particle p2" />
+                        <span className="particle p3" />
+                        <span className="particle p4" />
+                        <span className="particle p5" />
+                      </span>
+                      <span className="star-core" />
+                    </span>
+                  )}
+                  
+                  {/* Forge: Hexagonal circuit pattern */}
+                  {entity.id === 'forge' && (
+                    <span className="star-shape forge-shape">
+                      <span className="hex-outer" />
+                      <span className="hex-inner" />
+                      <span className="circuit-lines">
+                        <span className="circuit-line cl1" />
+                        <span className="circuit-line cl2" />
+                        <span className="circuit-line cl3" />
+                        <span className="circuit-line cl4" />
+                        <span className="circuit-line cl5" />
+                        <span className="circuit-line cl6" />
+                      </span>
+                      <span className="star-core" />
+                    </span>
+                  )}
+                  
                   <span className="star-label">{entity.name}</span>
                 </button>
               ))}
@@ -988,6 +1089,25 @@ export default function NovaHome() {
                       onMouseLeave={handleHoverLeave}
                     >
                       ×
+                    </button>
+                    
+                    <button
+                      className={`voice-replay-btn ${voicePlaying ? 'playing' : ''}`}
+                      onClick={() => playVoiceIntro(selectedEntity.id)}
+                      onMouseEnter={handleHoverEnter}
+                      onMouseLeave={handleHoverLeave}
+                      aria-label="Play voice introduction"
+                      title="Play voice introduction"
+                    >
+                      {voicePlaying ? (
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+                        </svg>
+                      ) : (
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                        </svg>
+                      )}
                     </button>
                     
                     <div className="entity-avatar">
