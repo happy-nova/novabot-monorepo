@@ -3653,7 +3653,18 @@ button {
   }
   
   .voice-oscilloscope {
-    display: none;
+    /* Compact centered bar on mobile */
+    top: calc(var(--space-lg) + 20px);
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: 130px;
+    height: 40px;
+  }
+  
+  .voice-oscilloscope path {
+    stroke-width: 1.8;
+    filter: drop-shadow(0 0 2px currentColor);
   }
   
   .entity-name {
