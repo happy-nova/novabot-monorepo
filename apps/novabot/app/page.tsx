@@ -112,6 +112,7 @@ export default function NovaHome() {
   
   const cursorRef = useRef<HTMLDivElement>(null);
   const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
+  const voiceAudioEntityRef = useRef<string | null>(null);
   const cursorDotRef = useRef<HTMLDivElement>(null);
   const soundsRef = useRef<{ hover?: any; click?: any; ambient?: any }>({});
   const compassRef = useRef<HTMLImageElement>(null);
@@ -616,22 +617,44 @@ export default function NovaHome() {
 
   // Voice intro playback for constellation entities
   const playVoiceIntro = useCallback((entityId: string) => {
-    // Stop any currently playing voice audio
-    if (voiceAudioRef.current) {
-      voiceAudioRef.current.pause();
-      voiceAudioRef.current = null;
+    const currentAudio = voiceAudioRef.current;
+    const currentEntity = voiceAudioEntityRef.current;
+
+    // Toggle playback if the current audio matches this entity.
+    if (currentAudio && currentEntity === entityId) {
+      if (!currentAudio.paused) {
+        currentAudio.pause();
+        return;
+      }
+
+      // If it ended, restart from the beginning.
+      if (currentAudio.ended || (currentAudio.duration && currentAudio.currentTime >= currentAudio.duration - 0.05)) {
+        currentAudio.currentTime = 0;
+      }
+
+      currentAudio.play().catch(err => {
+        console.log('Voice intro playback failed:', err);
+        setVoicePlaying(false);
+      });
+      return;
     }
-    
+
+    // Stop any currently playing voice audio (switching entities).
+    if (currentAudio) {
+      currentAudio.pause();
+    }
+
     const audioPath = `/audio/${entityId}-intro.mp3`;
     const audio = new Audio(audioPath);
     voiceAudioRef.current = audio;
-    
+    voiceAudioEntityRef.current = entityId;
+
     audio.volume = 0.8;
     audio.onplay = () => setVoicePlaying(true);
     audio.onended = () => setVoicePlaying(false);
     audio.onpause = () => setVoicePlaying(false);
     audio.onerror = () => setVoicePlaying(false);
-    
+
     audio.play().catch(err => {
       console.log('Voice intro playback failed:', err);
       setVoicePlaying(false);
@@ -643,6 +666,7 @@ export default function NovaHome() {
     if (activeEntity === null && voiceAudioRef.current) {
       voiceAudioRef.current.pause();
       voiceAudioRef.current = null;
+      voiceAudioEntityRef.current = null;
       setVoicePlaying(false);
     }
   }, [activeEntity]);
@@ -1174,18 +1198,17 @@ export default function NovaHome() {
                       onClick={() => playVoiceIntro(selectedEntity.id)}
                       onMouseEnter={handleHoverEnter}
                       onMouseLeave={handleHoverLeave}
-                      aria-label="Play voice introduction"
-                      title="Play voice introduction"
+                      aria-label={voicePlaying ? 'Pause voice introduction' : 'Play voice introduction'}
+                      aria-pressed={voicePlaying}
+                      title={voicePlaying ? 'Pause voice introduction' : 'Play voice introduction'}
                     >
-                      {voicePlaying ? (
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
-                        </svg>
-                      ) : (
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                        </svg>
-                      )}
+                      <span className="voice-spectrum" aria-hidden="true">
+                        <span className="voice-bar" />
+                        <span className="voice-bar" />
+                        <span className="voice-bar" />
+                        <span className="voice-bar" />
+                        <span className="voice-bar" />
+                      </span>
                     </button>
                     
                     <div className="entity-avatar">
