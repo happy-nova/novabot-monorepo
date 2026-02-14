@@ -2648,6 +2648,10 @@ body.modal-open {
   --entity-color: #f472b6;
   --entity-rgb: 244, 114, 182;
 }
+.entity-card.aurora {
+  --entity-color: #14b8a6;
+  --entity-rgb: 20, 184, 166;
+}
 
 .modal-close {
   position: absolute;
