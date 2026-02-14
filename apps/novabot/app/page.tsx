@@ -602,10 +602,11 @@ export default function NovaHome() {
   const [cursorColor, setCursorColor] = useState<string | null>(null);
 
   // Sound handlers
-  const handleHoverEnter = useCallback((color?: string) => {
+  const handleHoverEnter = useCallback((colorOrEvent?: string | React.MouseEvent) => {
     cursorRef.current?.classList.add('hover');
-    if (color) {
-      setCursorColor(color);
+    // Only set color if it's actually a color string (not a MouseEvent)
+    if (typeof colorOrEvent === 'string') {
+      setCursorColor(colorOrEvent);
     }
     if (soundEnabled && soundsRef.current.hover) {
       soundsRef.current.hover.play();
