@@ -109,10 +109,14 @@ export default function NovaHome() {
   const [activeSection, setActiveSection] = useState('hero');
   const [activeEntity, setActiveEntity] = useState<number | null>(null);
   const [voicePlaying, setVoicePlaying] = useState(false);
+  const [voiceLevel, setVoiceLevel] = useState(0);
   
   const cursorRef = useRef<HTMLDivElement>(null);
   const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
   const voiceAudioEntityRef = useRef<string | null>(null);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const analyserRef = useRef<AnalyserNode | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
   const cursorDotRef = useRef<HTMLDivElement>(null);
   const soundsRef = useRef<{ hover?: any; click?: any; ambient?: any }>({});
   const compassRef = useRef<HTMLImageElement>(null);
@@ -615,6 +619,54 @@ export default function NovaHome() {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // Audio level sampling for reactive avatar
+  const startAudioAnalysis = useCallback((audio: HTMLAudioElement) => {
+    try {
+      // Create or reuse AudioContext
+      if (!audioContextRef.current) {
+        audioContextRef.current = new AudioContext();
+      }
+      const ctx = audioContextRef.current;
+      
+      // Create analyser
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 256;
+      analyserRef.current = analyser;
+      
+      // Connect audio to analyser
+      const source = ctx.createMediaElementSource(audio);
+      source.connect(analyser);
+      analyser.connect(ctx.destination);
+      
+      // Sample audio levels
+      const dataArray = new Uint8Array(analyser.frequencyBinCount);
+      const sampleLevel = () => {
+        if (!analyserRef.current) return;
+        analyserRef.current.getByteFrequencyData(dataArray);
+        
+        // Calculate average level (0-255) and normalize to 0-1
+        const sum = dataArray.reduce((a, b) => a + b, 0);
+        const avg = sum / dataArray.length;
+        const level = Math.min(avg / 128, 1); // Normalize and cap at 1
+        
+        setVoiceLevel(level);
+        animationFrameRef.current = requestAnimationFrame(sampleLevel);
+      };
+      
+      sampleLevel();
+    } catch (e) {
+      console.log('Audio analysis not available:', e);
+    }
+  }, []);
+  
+  const stopAudioAnalysis = useCallback(() => {
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+      animationFrameRef.current = null;
+    }
+    setVoiceLevel(0);
+  }, []);
+
   // Voice intro playback for constellation entities
   const playVoiceIntro = useCallback((entityId: string) => {
     const currentAudio = voiceAudioRef.current;
@@ -624,6 +676,7 @@ export default function NovaHome() {
     if (currentAudio && currentEntity === entityId) {
       if (!currentAudio.paused) {
         currentAudio.pause();
+        stopAudioAnalysis();
         return;
       }
 
@@ -642,24 +695,38 @@ export default function NovaHome() {
     // Stop any currently playing voice audio (switching entities).
     if (currentAudio) {
       currentAudio.pause();
+      stopAudioAnalysis();
     }
 
     const audioPath = `/audio/${entityId}-intro.mp3`;
     const audio = new Audio(audioPath);
+    audio.crossOrigin = 'anonymous'; // Required for Web Audio API
     voiceAudioRef.current = audio;
     voiceAudioEntityRef.current = entityId;
 
     audio.volume = 0.8;
-    audio.onplay = () => setVoicePlaying(true);
-    audio.onended = () => setVoicePlaying(false);
-    audio.onpause = () => setVoicePlaying(false);
-    audio.onerror = () => setVoicePlaying(false);
+    audio.onplay = () => {
+      setVoicePlaying(true);
+      startAudioAnalysis(audio);
+    };
+    audio.onended = () => {
+      setVoicePlaying(false);
+      stopAudioAnalysis();
+    };
+    audio.onpause = () => {
+      setVoicePlaying(false);
+      stopAudioAnalysis();
+    };
+    audio.onerror = () => {
+      setVoicePlaying(false);
+      stopAudioAnalysis();
+    };
 
     audio.play().catch(err => {
       console.log('Voice intro playback failed:', err);
       setVoicePlaying(false);
     });
-  }, []);
+  }, [startAudioAnalysis, stopAudioAnalysis]);
 
   // Stop voice when modal closes
   useEffect(() => {
@@ -668,8 +735,9 @@ export default function NovaHome() {
       voiceAudioRef.current = null;
       voiceAudioEntityRef.current = null;
       setVoicePlaying(false);
+      stopAudioAnalysis();
     }
-  }, [activeEntity]);
+  }, [activeEntity, stopAudioAnalysis]);
 
   // Play voice intro when entity is selected
   useEffect(() => {
@@ -1199,7 +1267,12 @@ export default function NovaHome() {
                       </span>
                     </button>
                     
-                    <div className={`entity-avatar ${voicePlaying ? 'speaking' : ''}`}>
+                    <div 
+                      className={`entity-avatar ${voicePlaying ? 'speaking' : ''}`}
+                      style={{
+                        '--voice-level': voiceLevel,
+                      } as CSSProperties}
+                    >
                       <img 
                         src={selectedEntity.avatarSrc} 
                         alt={selectedEntity.name}
