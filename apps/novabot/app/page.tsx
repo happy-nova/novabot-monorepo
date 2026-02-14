@@ -88,7 +88,7 @@ const constellationEntities: ConstellationEntity[] = [
     description:
       'A gentle cosmic companion who brings dreams and imagination to life. Every stuffed animal becomes a character, every dream an adventure, every photo part of a magical story world.',
     avatarSrc: '/starlight-avatar.png',
-    accentColor: '#ffd700',
+    accentColor: '#ff8fa3',
     position: { x: 75, y: 30 },
     skills: [
       'Magical storytelling',
@@ -991,93 +991,59 @@ export default function NovaHome() {
             
             <div className="constellation-field">
               <svg className="constellation-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
-                {/* Nova to Nebula: graceful arc sweeping upward */}
-                <path 
-                  d="M 30 40 Q 50 25, 70 60" 
-                  fill="none"
-                  stroke="url(#novaNebulaGradient)" 
-                  strokeWidth="0.4"
-                  strokeLinecap="round"
-                  className="constellation-path path-nova-nebula"
-                />
-                
-                {/* Nebula to Forge: angular technical path with waypoint */}
-                <path 
-                  d="M 70 60 L 65 68 L 50 75" 
-                  fill="none"
-                  stroke="rgba(155, 89, 182, 0.35)" 
-                  strokeWidth="0.25"
-                  strokeDasharray="0.8,0.4"
-                  className="constellation-path"
-                />
-                
-                {/* Forge to Nova: curved return path */}
-                <path 
-                  d="M 50 75 Q 35 65, 30 40" 
-                  fill="none"
-                  stroke="rgba(230, 126, 34, 0.3)" 
-                  strokeWidth="0.3"
-                  strokeDasharray="1.5,0.5,0.3,0.5"
-                  strokeLinecap="round"
-                  className="constellation-path"
-                />
-                
-                {/* Secondary faint connections - adds depth */}
-                <path 
-                  d="M 30 40 C 45 55, 55 70, 50 75" 
-                  fill="none"
-                  stroke="rgba(212, 175, 55, 0.12)" 
-                  strokeWidth="0.15"
-                  className="constellation-path path-secondary"
-                />
-                
-                {/* Nebula direct to Nova - thin dotted */}
+                {/* Nova (30,40) to Nebula (70,60) - gold */}
                 <line 
-                  x1="70" y1="60" 
-                  x2="30" y2="40" 
-                  stroke="rgba(155, 89, 182, 0.15)" 
-                  strokeWidth="0.15"
-                  strokeDasharray="0.3,0.8"
+                  x1="30" y1="40" x2="70" y2="60"
+                  stroke="rgba(212, 175, 55, 0.4)"
+                  strokeWidth="0.25"
+                  strokeDasharray="1,0.8"
+                  className="constellation-line line-gold"
                 />
                 
-                {/* Starlight to Nova: sweeping arc */}
-                <path 
-                  d="M 75 30 Q 45 20, 30 40" 
-                  fill="none"
-                  stroke="url(#starlightNovaGradient)" 
-                  strokeWidth="0.35"
-                  strokeLinecap="round"
-                  className="constellation-path"
+                {/* Nebula (70,60) to Forge (50,75) - purple */}
+                <line 
+                  x1="70" y1="60" x2="50" y2="75"
+                  stroke="rgba(155, 89, 182, 0.4)"
+                  strokeWidth="0.25"
+                  strokeDasharray="1,0.8"
+                  className="constellation-line line-purple"
                 />
                 
-                {/* Starlight to Nebula: gentle curve */}
-                <path 
-                  d="M 75 30 Q 80 45, 70 60" 
-                  fill="none"
-                  stroke="rgba(255, 215, 0, 0.25)" 
+                {/* Forge (50,75) to Nova (30,40) - orange */}
+                <line 
+                  x1="50" y1="75" x2="30" y2="40"
+                  stroke="rgba(230, 126, 34, 0.35)"
+                  strokeWidth="0.25"
+                  strokeDasharray="1,0.8"
+                  className="constellation-line line-orange"
+                />
+                
+                {/* Starlight (75,30) to Nova (30,40) - pink */}
+                <line 
+                  x1="75" y1="30" x2="30" y2="40"
+                  stroke="rgba(255, 143, 163, 0.4)"
+                  strokeWidth="0.25"
+                  strokeDasharray="1,0.8"
+                  className="constellation-line line-pink"
+                />
+                
+                {/* Starlight (75,30) to Nebula (70,60) - pink-purple blend */}
+                <line 
+                  x1="75" y1="30" x2="70" y2="60"
+                  stroke="rgba(200, 120, 180, 0.35)"
                   strokeWidth="0.2"
-                  strokeDasharray="0.6,0.4"
-                  className="constellation-path"
+                  strokeDasharray="0.6,1"
+                  className="constellation-line line-blend"
                 />
                 
-                {/* Small orbital nodes along paths */}
-                <circle cx="50" cy="32" r="0.4" fill="rgba(212, 175, 55, 0.4)" className="path-node" />
-                <circle cx="63" cy="66" r="0.3" fill="rgba(155, 89, 182, 0.35)" className="path-node" />
-                <circle cx="38" cy="60" r="0.35" fill="rgba(230, 126, 34, 0.3)" className="path-node" />
-                <circle cx="55" cy="24" r="0.35" fill="rgba(255, 215, 0, 0.4)" className="path-node" />
-                <circle cx="76" cy="45" r="0.25" fill="rgba(255, 215, 0, 0.3)" className="path-node" />
-                
-                {/* Gradients */}
-                <defs>
-                  <linearGradient id="novaNebulaGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="rgba(212, 175, 55, 0.4)" />
-                    <stop offset="100%" stopColor="rgba(155, 89, 182, 0.35)" />
-                  </linearGradient>
-                  <linearGradient id="starlightNovaGradient" x1="100%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="rgba(255, 215, 0, 0.4)" />
-                    <stop offset="100%" stopColor="rgba(212, 175, 55, 0.35)" />
-                  </linearGradient>
-                </defs>
+                {/* Subtle cross-connection: Starlight to Forge - very faint */}
+                <line 
+                  x1="75" y1="30" x2="50" y2="75"
+                  stroke="rgba(255, 143, 163, 0.15)"
+                  strokeWidth="0.15"
+                  strokeDasharray="0.4,1.2"
+                  className="constellation-line line-faint"
+                />
               </svg>
               
               {constellationEntities.map((entity, index) => (
