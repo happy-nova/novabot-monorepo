@@ -1144,28 +1144,16 @@ export default function NovaHome() {
                     </span>
                   )}
                   
-                  {/* Starlight: 4-pointed starburst with sparkles */}
+                  {/* Starlight: Soft glowing orb with orbiting sparkles */}
                   {entity.id === 'starlight' && (
                     <span className="star-shape starlight-shape">
-                      <span className="starburst">
-                        <span className="starburst-ray ray-n" />
-                        <span className="starburst-ray ray-e" />
-                        <span className="starburst-ray ray-s" />
-                        <span className="starburst-ray ray-w" />
+                      <span className="starlight-glow-ring" />
+                      <span className="starlight-orb" />
+                      <span className="starlight-orbits">
+                        <span className="orbit-sparkle os1" />
+                        <span className="orbit-sparkle os2" />
+                        <span className="orbit-sparkle os3" />
                       </span>
-                      <span className="starburst-inner">
-                        <span className="starburst-ray-sm ray-ne" />
-                        <span className="starburst-ray-sm ray-se" />
-                        <span className="starburst-ray-sm ray-sw" />
-                        <span className="starburst-ray-sm ray-nw" />
-                      </span>
-                      <span className="sparkles">
-                        <span className="sparkle sp1" />
-                        <span className="sparkle sp2" />
-                        <span className="sparkle sp3" />
-                        <span className="sparkle sp4" />
-                      </span>
-                      <span className="star-core" />
                     </span>
                   )}
                   

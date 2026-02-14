@@ -2124,7 +2124,7 @@ button {
   animation-duration: 0.8s;
 }
 
-/* ===== STARLIGHT: 4-pointed starburst with sparkles ===== */
+/* ===== STARLIGHT: Soft glowing orb with orbiting sparkles ===== */
 .starlight-shape {
   position: relative;
   width: 50px;
@@ -2134,167 +2134,136 @@ button {
   justify-content: center;
 }
 
-.starlight-shape .star-core {
-  width: 10px;
-  height: 10px;
-  background: var(--entity-color);
-  box-shadow: 0 0 15px var(--entity-color), 0 0 30px var(--entity-color);
-  animation: starlightCorePulse 2s ease-in-out infinite;
-}
-
-/* Main 4-pointed starburst rays */
-.starburst {
+/* Outer soft glow ring */
+.starlight-glow-ring {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  animation: starlightRotate 12s linear infinite;
-}
-
-.starburst-ray {
-  position: absolute;
-  background: linear-gradient(to top, transparent 0%, var(--entity-color) 50%, transparent 100%);
-  left: 50%;
-  top: 50%;
-  transform-origin: center center;
-  opacity: 0.7;
-}
-
-.starburst-ray.ray-n {
-  width: 2px;
-  height: 22px;
-  transform: translate(-50%, -100%);
-}
-
-.starburst-ray.ray-s {
-  width: 2px;
-  height: 22px;
-  transform: translate(-50%, 0%);
-}
-
-.starburst-ray.ray-e {
-  width: 22px;
-  height: 2px;
-  transform: translate(0%, -50%);
-  background: linear-gradient(to right, transparent 0%, var(--entity-color) 50%, transparent 100%);
-}
-
-.starburst-ray.ray-w {
-  width: 22px;
-  height: 2px;
-  transform: translate(-100%, -50%);
-  background: linear-gradient(to right, transparent 0%, var(--entity-color) 50%, transparent 100%);
-}
-
-/* Inner smaller rays (45 degree offset) */
-.starburst-inner {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  animation: starlightRotateReverse 8s linear infinite;
-}
-
-.starburst-ray-sm {
-  position: absolute;
-  width: 1.5px;
-  height: 14px;
-  background: linear-gradient(to top, transparent 0%, var(--entity-color) 50%, transparent 100%);
-  left: 50%;
-  top: 50%;
-  transform-origin: center center;
-  opacity: 0.5;
-}
-
-.starburst-ray-sm.ray-ne { transform: translate(-50%, -100%) rotate(45deg); }
-.starburst-ray-sm.ray-se { transform: translate(-50%, -100%) rotate(135deg); }
-.starburst-ray-sm.ray-sw { transform: translate(-50%, -100%) rotate(225deg); }
-.starburst-ray-sm.ray-nw { transform: translate(-50%, -100%) rotate(315deg); }
-
-/* Sparkles */
-.sparkles {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-.sparkle {
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  background: var(--entity-color);
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  animation: sparkleFloat 3s ease-in-out infinite;
+  background: radial-gradient(circle, 
+    rgba(244, 114, 182, 0.15) 0%, 
+    rgba(244, 114, 182, 0.05) 50%, 
+    transparent 70%
+  );
+  animation: starlightRingPulse 3s ease-in-out infinite;
 }
 
-.sparkle.sp1 {
-  top: 8px;
-  left: 35px;
-  animation-delay: 0s;
+/* Center glowing orb */
+.starlight-orb {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, 
+    #fff 0%, 
+    var(--entity-color) 40%, 
+    rgba(244, 114, 182, 0.8) 100%
+  );
+  box-shadow: 
+    0 0 12px var(--entity-color),
+    0 0 24px var(--entity-color),
+    0 0 36px rgba(244, 114, 182, 0.4),
+    inset 0 0 8px rgba(255, 255, 255, 0.3);
+  animation: starlightOrbPulse 2.5s ease-in-out infinite;
 }
 
-.sparkle.sp2 {
-  top: 35px;
+/* Orbiting sparkles container */
+.starlight-orbits {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  animation: starlightOrbit 8s linear infinite;
+}
+
+/* Individual orbiting sparkles */
+.orbit-sparkle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--entity-color);
+  box-shadow: 0 0 6px var(--entity-color), 0 0 10px rgba(244, 114, 182, 0.5);
+}
+
+.orbit-sparkle.os1 {
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: sparkletwinkle 1.5s ease-in-out infinite;
+}
+
+.orbit-sparkle.os2 {
+  bottom: 8px;
+  left: 8px;
+  animation: sparkletwinkle 1.5s ease-in-out infinite 0.5s;
+}
+
+.orbit-sparkle.os3 {
+  bottom: 8px;
   right: 8px;
-  animation-delay: 0.75s;
+  animation: sparkletwinkle 1.5s ease-in-out infinite 1s;
 }
 
-.sparkle.sp3 {
-  bottom: 10px;
-  left: 12px;
-  animation-delay: 1.5s;
-}
-
-.sparkle.sp4 {
-  top: 18px;
-  left: 10px;
-  animation-delay: 2.25s;
-}
-
-@keyframes starlightRotate {
+@keyframes starlightOrbit {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-@keyframes starlightRotateReverse {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(-360deg); }
-}
-
-@keyframes starlightCorePulse {
+@keyframes starlightOrbPulse {
   0%, 100% { 
-    box-shadow: 0 0 15px var(--entity-color), 0 0 30px var(--entity-color);
     transform: scale(1);
+    box-shadow: 
+      0 0 12px var(--entity-color),
+      0 0 24px var(--entity-color),
+      0 0 36px rgba(244, 114, 182, 0.4),
+      inset 0 0 8px rgba(255, 255, 255, 0.3);
   }
   50% { 
-    box-shadow: 0 0 25px var(--entity-color), 0 0 50px var(--entity-color), 0 0 70px rgba(244, 114, 182, 0.4);
-    transform: scale(1.15);
+    transform: scale(1.1);
+    box-shadow: 
+      0 0 18px var(--entity-color),
+      0 0 32px var(--entity-color),
+      0 0 48px rgba(244, 114, 182, 0.5),
+      inset 0 0 10px rgba(255, 255, 255, 0.4);
   }
 }
 
-@keyframes sparkleFloat {
-  0%, 100% {
-    opacity: 0.3;
+@keyframes starlightRingPulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% { 
+    transform: scale(1.15);
+    opacity: 0.9;
+  }
+}
+
+@keyframes sparkletwinkle {
+  0%, 100% { 
+    opacity: 0.4;
     transform: scale(0.8);
   }
-  50% {
+  50% { 
     opacity: 1;
     transform: scale(1.2);
   }
 }
 
 /* Hover states for Starlight */
-.constellation-star.starlight:hover .starburst,
-.constellation-star.starlight.active .starburst {
-  animation-duration: 6s;
-}
-
-.constellation-star.starlight:hover .starburst-inner,
-.constellation-star.starlight.active .starburst-inner {
+.constellation-star.starlight:hover .starlight-orbits,
+.constellation-star.starlight.active .starlight-orbits {
   animation-duration: 4s;
 }
 
-.constellation-star.starlight:hover .starlight-shape .star-core,
-.constellation-star.starlight.active .starlight-shape .star-core {
-  animation-duration: 0.8s;
+.constellation-star.starlight:hover .starlight-orb,
+.constellation-star.starlight.active .starlight-orb {
+  animation-duration: 1s;
+}
+
+.constellation-star.starlight:hover .starlight-glow-ring,
+.constellation-star.starlight.active .starlight-glow-ring {
+  animation-duration: 1.5s;
 }
 
 /* Modal overlay */
