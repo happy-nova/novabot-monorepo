@@ -657,16 +657,30 @@ export default function NovaHome() {
         // Update waveform bars directly for performance
         if (waveformRef.current) {
           const bars = waveformRef.current.children;
-          const binSize = Math.floor(dataArray.length / WAVEFORM_BARS);
+          const numBins = dataArray.length;
           
           for (let i = 0; i < bars.length; i++) {
-            // Sample frequency bin for this bar
-            const binIndex = Math.floor(i * binSize);
-            const value = dataArray[binIndex] / 255;
+            // Use logarithmic scale to spread low frequencies across more bars
+            // This makes voice audio (low freq heavy) animate all bars
+            const logScale = Math.pow(i / bars.length, 0.6); // Compress towards low freq
+            const binStart = Math.floor(logScale * numBins * 0.5); // Only use lower half of spectrum
+            const binEnd = Math.floor(((i + 1) / bars.length) ** 0.6 * numBins * 0.5);
+            
+            // Average multiple bins for smoother response
+            let sum = 0;
+            let count = Math.max(1, binEnd - binStart);
+            for (let b = binStart; b < binEnd && b < numBins; b++) {
+              sum += dataArray[b];
+            }
+            const value = (sum / count) / 255;
+            
+            // Add some randomness for liveliness
+            const jitter = 0.9 + Math.random() * 0.2;
+            const finalValue = Math.min(1, value * jitter);
+            
             const bar = bars[i] as HTMLElement;
-            // Scale from 4px to 40px based on level
-            bar.style.height = `${4 + value * 36}px`;
-            bar.style.opacity = `${0.3 + value * 0.7}`;
+            bar.style.height = `${4 + finalValue * 36}px`;
+            bar.style.opacity = `${0.3 + finalValue * 0.7}`;
           }
         }
         
