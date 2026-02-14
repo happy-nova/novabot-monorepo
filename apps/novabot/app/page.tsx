@@ -629,9 +629,9 @@ export default function NovaHome() {
       }
       const ctx = audioContextRef.current;
       
-      // Create analyser
+      // Create analyser for oscilloscope view
       const analyser = ctx.createAnalyser();
-      analyser.fftSize = 256;
+      analyser.fftSize = 512; // More samples for smoother wave
       analyserRef.current = analyser;
       
       // Connect audio to analyser
@@ -639,48 +639,53 @@ export default function NovaHome() {
       source.connect(analyser);
       analyser.connect(ctx.destination);
       
-      // Sample audio levels
-      const dataArray = new Uint8Array(analyser.frequencyBinCount);
-      const WAVEFORM_BARS = 32;
+      // Time domain data for oscilloscope
+      const bufferLength = analyser.fftSize;
+      const dataArray = new Uint8Array(bufferLength);
       
       const sampleLevel = () => {
         if (!analyserRef.current) return;
-        analyserRef.current.getByteFrequencyData(dataArray);
         
-        // Calculate average level (0-255) and normalize to 0-1
-        const sum = dataArray.reduce((a, b) => a + b, 0);
-        const avg = sum / dataArray.length;
-        const level = Math.min(avg / 128, 1);
+        // Get time domain data (waveform) instead of frequency
+        analyserRef.current.getByteTimeDomainData(dataArray);
+        
+        // Calculate RMS level for avatar glow
+        let sumSquares = 0;
+        for (let i = 0; i < bufferLength; i++) {
+          const normalized = (dataArray[i] - 128) / 128;
+          sumSquares += normalized * normalized;
+        }
+        const rms = Math.sqrt(sumSquares / bufferLength);
+        const level = Math.min(rms * 3, 1); // Amplify for visibility
         
         setVoiceLevel(level);
         
-        // Update waveform bars directly for performance
+        // Update oscilloscope SVG path
         if (waveformRef.current) {
-          const bars = waveformRef.current.children;
-          const numBins = dataArray.length;
-          
-          for (let i = 0; i < bars.length; i++) {
-            // Use logarithmic scale to spread low frequencies across more bars
-            // This makes voice audio (low freq heavy) animate all bars
-            const logScale = Math.pow(i / bars.length, 0.6); // Compress towards low freq
-            const binStart = Math.floor(logScale * numBins * 0.5); // Only use lower half of spectrum
-            const binEnd = Math.floor(((i + 1) / bars.length) ** 0.6 * numBins * 0.5);
+          const path = waveformRef.current.querySelector('path');
+          if (path) {
+            const width = 100; // SVG viewBox width
+            const height = 100; // SVG viewBox height
+            const midY = height / 2;
+            const amplitude = 35; // Max wave amplitude
             
-            // Average multiple bins for smoother response
-            let sum = 0;
-            let count = Math.max(1, binEnd - binStart);
-            for (let b = binStart; b < binEnd && b < numBins; b++) {
-              sum += dataArray[b];
+            // Build SVG path from time domain data
+            let d = '';
+            const sliceWidth = width / bufferLength;
+            
+            for (let i = 0; i < bufferLength; i++) {
+              const v = (dataArray[i] - 128) / 128; // Normalize to -1 to 1
+              const y = midY - v * amplitude;
+              const x = i * sliceWidth;
+              
+              if (i === 0) {
+                d = `M ${x.toFixed(1)} ${y.toFixed(1)}`;
+              } else {
+                d += ` L ${x.toFixed(1)} ${y.toFixed(1)}`;
+              }
             }
-            const value = (sum / count) / 255;
             
-            // Add some randomness for liveliness
-            const jitter = 0.9 + Math.random() * 0.2;
-            const finalValue = Math.min(1, value * jitter);
-            
-            const bar = bars[i] as HTMLElement;
-            bar.style.height = `${4 + finalValue * 36}px`;
-            bar.style.opacity = `${0.3 + finalValue * 0.7}`;
+            path.setAttribute('d', d);
           }
         }
         
@@ -1293,15 +1298,22 @@ export default function NovaHome() {
                       </svg>
                     </button>
                     
-                    {/* Voice waveform behind avatar */}
+                    {/* Oscilloscope waveform behind avatar */}
                     <div 
                       ref={waveformRef}
-                      className={`voice-waveform ${voicePlaying ? 'active' : ''}`}
+                      className={`voice-oscilloscope ${voicePlaying ? 'active' : ''}`}
                       aria-hidden="true"
                     >
-                      {Array.from({ length: 32 }).map((_, i) => (
-                        <span key={i} className="waveform-bar" />
-                      ))}
+                      <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <path 
+                          d="M 0 50 L 100 50" 
+                          fill="none" 
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
                     </div>
                     
                     <div 
