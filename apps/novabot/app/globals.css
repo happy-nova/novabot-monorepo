@@ -2566,12 +2566,6 @@ button {
   inset: -8px;
   border: 1px solid rgba(212, 168, 67, 0.15);
   border-radius: 50%;
-  animation: avatarRingPulse 4s ease-in-out infinite;
-}
-
-@keyframes avatarRingPulse {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.02); }
 }
 
 .entity-avatar img {
@@ -2593,13 +2587,6 @@ button {
     0 0 calc(20px + var(--voice-level, 0) * 50px) rgba(var(--entity-rgb, 212, 168, 67), calc(0.2 + var(--voice-level, 0) * 0.6)),
     0 0 calc(40px + var(--voice-level, 0) * 80px) rgba(var(--entity-rgb, 212, 168, 67), calc(0.1 + var(--voice-level, 0) * 0.4));
   transition: box-shadow 0.06s ease-out;
-}
-
-.entity-avatar.speaking::before {
-  /* Inner ring glow reacts to voice level */
-  opacity: calc(0.2 + var(--voice-level, 0) * 0.8);
-  box-shadow: 0 0 calc(var(--voice-level, 0) * 20px) var(--entity-color, var(--accent-gold));
-  transition: opacity 0.06s ease-out, box-shadow 0.06s ease-out;
 }
 
 .leader-badge {
