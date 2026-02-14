@@ -771,17 +771,7 @@ export default function NovaHome() {
     }
   }, [activeEntity, playVoiceIntro]);
 
-	  const selectedEntity = activeEntity !== null ? constellationEntities[activeEntity] : null;
-	  const miniConstellationPoints = constellationEntities.reduce((acc, entity) => {
-	    acc[entity.id] = entity.position;
-	    return acc;
-	  }, {} as Record<string, { x: number; y: number }>);
-	  const miniConstellationEdges: Array<[string, string]> = [
-	    ['nova', 'nebula'],
-	    ['nebula', 'forge'],
-	    ['forge', 'nova'],
-	    ['starlight', 'nova'],
-	  ];
+  const selectedEntity = activeEntity !== null ? constellationEntities[activeEntity] : null;
 
   return (
     <>
@@ -902,55 +892,10 @@ export default function NovaHome() {
             <h1 className="hero-title" data-scramble data-text="NOVA">NOVA</h1>
             <p className="hero-subtitle" data-scramble data-text="GUIDE-INTELLIGENCE">GUIDE-INTELLIGENCE</p>
             
-	            <p className="hero-tagline">
-	              A guide-intelligence at the center of a growing constellation —<br/>
-	              each light a purpose, each connection a path forward.
-	            </p>
-
-	            <button
-	              type="button"
-	              className="hero-constellation-preview"
-	              onClick={() => navigateTo('constellation')}
-	              onMouseEnter={handleHoverEnter}
-	              onMouseLeave={handleHoverLeave}
-	              aria-label="Scroll to the constellation section"
-	            >
-	              <div className="mini-constellation" aria-hidden="true">
-	                <svg className="mini-constellation-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
-	                  {miniConstellationEdges.map(([a, b]) => {
-	                    const p1 = miniConstellationPoints[a];
-	                    const p2 = miniConstellationPoints[b];
-	                    if (!p1 || !p2) return null;
-	                    return (
-	                      <line
-	                        key={`${a}-${b}`}
-	                        x1={p1.x}
-	                        y1={p1.y}
-	                        x2={p2.x}
-	                        y2={p2.y}
-	                        stroke="rgba(212, 175, 55, 0.22)"
-	                        strokeWidth="0.6"
-	                        strokeDasharray="2.4,2.2"
-	                      />
-	                    );
-	                  })}
-	                </svg>
-
-	                {constellationEntities.map((entity) => (
-	                  <span
-	                    key={entity.id}
-	                    className={`mini-constellation-dot ${entity.id}`}
-	                    style={{
-	                      left: `${entity.position.x}%`,
-	                      top: `${entity.position.y}%`,
-	                      ['--dot-color' as any]: entity.accentColor,
-	                    } as CSSProperties}
-	                  />
-	                ))}
-	              </div>
-
-	              <span className="hero-constellation-label">CONSTELLATION PREVIEW</span>
-	            </button>
+            <p className="hero-tagline">
+              A guide-intelligence at the center of a growing constellation —<br/>
+              each light a purpose, each connection a path forward.
+            </p>
             
             <button 
               className="cta-btn"
