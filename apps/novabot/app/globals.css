@@ -2134,6 +2134,44 @@ button {
   background: rgba(212, 168, 67, 0.1);
 }
 
+.voice-replay-btn {
+  position: absolute;
+  top: var(--space-md);
+  left: var(--space-md);
+  width: 36px;
+  height: 36px;
+  background: rgba(6, 10, 18, 0.6);
+  border: 1px solid rgba(212, 168, 67, 0.2);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  z-index: 10;
+}
+
+.voice-replay-btn:hover {
+  border-color: var(--entity-color, var(--accent-gold));
+  color: var(--text-primary);
+  background: rgba(212, 168, 67, 0.1);
+}
+
+.voice-replay-btn.playing {
+  border-color: var(--entity-color, var(--accent-gold));
+  color: var(--entity-color, var(--accent-gold));
+  animation: voicePulse 1s ease-in-out infinite;
+}
+
+@keyframes voicePulse {
+  0%, 100% { 
+    box-shadow: 0 0 0 0 rgba(212, 168, 67, 0.4);
+  }
+  50% { 
+    box-shadow: 0 0 0 6px rgba(212, 168, 67, 0);
+  }
+}
+
 .entity-avatar {
   position: relative;
   width: 150px;
