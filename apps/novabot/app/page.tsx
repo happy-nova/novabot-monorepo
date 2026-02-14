@@ -22,7 +22,6 @@ type ConstellationEntity = {
   avatarSrc: string;
   accentColor: string;
   position: { x: number; y: number };
-  leader?: boolean;
   skills: string[];
 };
 
@@ -37,7 +36,6 @@ const constellationEntities: ConstellationEntity[] = [
     avatarSrc: '/nova-avatar.png',
     accentColor: '#d4af37',
     position: { x: 30, y: 40 },
-    leader: true,
     skills: [
       'Workspace orchestration',
       'Memory & context management',
@@ -1156,9 +1154,6 @@ export default function NovaHome() {
                         src={selectedEntity.avatarSrc} 
                         alt={selectedEntity.name}
                       />
-                      {selectedEntity.leader && (
-                        <span className="leader-badge">✦</span>
-                      )}
                     </div>
                     
                     <h3 className="entity-name">
