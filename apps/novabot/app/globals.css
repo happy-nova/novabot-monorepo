@@ -2616,8 +2616,8 @@ body.modal-open {
 /* Mini constellation map */
 .modal-minimap {
   position: fixed;
-  bottom: var(--space-xl);
-  right: var(--space-xl);
+  bottom: calc(var(--space-xl) + 30px);
+  right: calc(var(--space-xl) + 30px);
   width: 120px;
   height: 120px;
   background: rgba(6, 10, 18, 0.85);
@@ -3886,6 +3886,11 @@ body.modal-open {
   
   /* Modal navigation - hidden on mobile (use swipe) */
   .modal-nav {
+    display: none;
+  }
+  
+  /* Minimap hidden on mobile */
+  .modal-minimap {
     display: none;
   }
   
