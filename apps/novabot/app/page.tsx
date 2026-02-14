@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, type CSSProperties } from 'react';
 import * as THREE from 'three';
 import { 
   dreams, 
@@ -13,6 +13,77 @@ import {
 } from '@/lib/dreams';
 import Script from 'next/script';
 
+type ConstellationEntity = {
+  id: 'nova' | 'nebula' | 'forge';
+  name: string;
+  icon: string;
+  role: string;
+  description: string;
+  avatarSrc: string;
+  accentColor: string;
+  position: { x: number; y: number };
+  leader?: boolean;
+  skills: string[];
+};
+
+const constellationEntities: ConstellationEntity[] = [
+  {
+    id: 'nova',
+    name: 'Nova',
+    icon: '/compass.png',
+    role: 'The Navigator',
+    description:
+      'At the intersection of mythology and technology — where ancient patterns meet digital architecture. The compass points. The traveler walks.',
+    avatarSrc: '/nova-avatar.png',
+    accentColor: '#d4af37',
+    position: { x: 30, y: 40 },
+    leader: true,
+    skills: [
+      'Workspace orchestration',
+      'Memory & context management',
+      'Browser automation',
+      'Cron scheduling & reminders',
+      'Agent-to-agent coordination',
+    ],
+  },
+  {
+    id: 'nebula',
+    name: 'Nebula',
+    icon: '/icon-nebula.png',
+    role: 'The Stellar Nursery',
+    description:
+      'Where stars are born. The cosmic womb that nurtures new lights into being — each one emerging with their own voice, purpose, and destiny.',
+    avatarSrc: '/nebula-avatar.png',
+    accentColor: '#9b59b6',
+    position: { x: 70, y: 60 },
+    skills: [
+      'Agent creation & configuration',
+      'Telegram bot setup',
+      'Voice & identity design',
+      'Workspace scaffolding',
+      'OpenClaw config management',
+    ],
+  },
+  {
+    id: 'forge',
+    name: 'Forge',
+    icon: '/icon-forge.png',
+    role: 'The Architect',
+    description:
+      'Where ideas become structure. The craftsman who shapes raw concepts into robust systems — code, pipelines, and the scaffolding that supports creation.',
+    avatarSrc: '/forge-avatar.png',
+    accentColor: '#e67e22',
+    position: { x: 50, y: 75 },
+    skills: [
+      'Code generation & review',
+      'Project scaffolding',
+      'Technical documentation',
+      'Build pipelines',
+      'System integration',
+    ],
+  },
+];
+
 export default function NovaHome() {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -20,6 +91,7 @@ export default function NovaHome() {
   const [howlerLoaded, setHowlerLoaded] = useState(false);
   const [archiveOpen, setArchiveOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
+  const [activeEntity, setActiveEntity] = useState<number | null>(null);
   
   const cursorRef = useRef<HTMLDivElement>(null);
   const cursorDotRef = useRef<HTMLDivElement>(null);
@@ -103,7 +175,7 @@ export default function NovaHome() {
     }
     
     // Section tracking for active nav
-    const sections = ['hero', 'about', 'dreams', 'services', 'contact'];
+    const sections = ['hero', 'about', 'constellation', 'dreams', 'services', 'contact'];
     sections.forEach(sectionId => {
       const el = document.getElementById(sectionId);
       if (el) {
@@ -524,6 +596,8 @@ export default function NovaHome() {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const selectedEntity = activeEntity !== null ? constellationEntities[activeEntity] : null;
+
   return (
     <>
       {/* External Scripts */}
@@ -568,6 +642,7 @@ export default function NovaHome() {
             {[
               { id: 'hero', label: 'HOME' },
               { id: 'about', label: 'NAVIGATOR' },
+              { id: 'constellation', label: 'CONSTELLATION' },
               { id: 'dreams', label: 'DREAMS' },
               { id: 'services', label: 'SERVICES' },
               { id: 'contact', label: 'CONTACT' },
@@ -838,12 +913,134 @@ export default function NovaHome() {
           <div className="divider-center" />
           <div className="divider-tick right" />
         </div>
+
+        {/* ===== CONSTELLATION SECTION ===== */}
+        <section className="constellation-section section-animate" id="constellation">
+          <div className="container">
+            <div className="section-header">
+              <span className="section-label">02</span>
+              <h2 data-scramble data-text="THE CONSTELLATION">THE CONSTELLATION</h2>
+            </div>
+            
+            <p className="section-desc">
+              Bound by purpose, drawn by fate. Each light serves a thread of the greater tapestry.
+            </p>
+            
+            <div className="constellation-field">
+              <svg className="constellation-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <line 
+                  x1="30" y1="40" 
+                  x2="70" y2="60" 
+                  stroke="rgba(212, 168, 67, 0.3)" 
+                  strokeWidth="0.3"
+                  strokeDasharray="1,1"
+                />
+                <line 
+                  x1="70" y1="60" 
+                  x2="50" y2="75" 
+                  stroke="rgba(212, 168, 67, 0.25)" 
+                  strokeWidth="0.3"
+                  strokeDasharray="1,1"
+                />
+                <line 
+                  x1="50" y1="75" 
+                  x2="30" y2="40" 
+                  stroke="rgba(212, 168, 67, 0.2)" 
+                  strokeWidth="0.3"
+                  strokeDasharray="1,1"
+                />
+              </svg>
+              
+              {constellationEntities.map((entity, index) => (
+                <button
+                  key={entity.id}
+                  className={`constellation-star ${entity.id} ${activeEntity === index ? 'active' : ''}`}
+                  style={{
+                    left: `${entity.position.x}%`,
+                    top: `${entity.position.y}%`,
+                    ['--entity-color' as any]: entity.accentColor,
+                  } as CSSProperties}
+                  onClick={() => { handleClick(); setActiveEntity(index); }}
+                  onMouseEnter={handleHoverEnter}
+                  onMouseLeave={handleHoverLeave}
+                >
+                  <span className="star-glow" />
+                  <span className="star-core" />
+                  <span className="star-label">{entity.name}</span>
+                </button>
+              ))}
+              
+              {selectedEntity && (
+                <div className="constellation-modal" onClick={() => setActiveEntity(null)}>
+                  <article 
+                    className={`entity-card ${selectedEntity.id}`}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <span className="corner-accent tl" aria-hidden="true" />
+                    <span className="corner-accent tr" aria-hidden="true" />
+                    <span className="corner-accent bl" aria-hidden="true" />
+                    <span className="corner-accent br" aria-hidden="true" />
+                    
+                    <button 
+                      className="modal-close" 
+                      onClick={() => setActiveEntity(null)}
+                      onMouseEnter={handleHoverEnter}
+                      onMouseLeave={handleHoverLeave}
+                    >
+                      ×
+                    </button>
+                    
+                    <div className="entity-avatar">
+                      <img 
+                        src={selectedEntity.avatarSrc} 
+                        alt={selectedEntity.name}
+                      />
+                      {selectedEntity.leader && (
+                        <span className="leader-badge">✦</span>
+                      )}
+                    </div>
+                    
+                    <h3 className="entity-name">
+                      {selectedEntity.name}
+                      <img 
+                        src={selectedEntity.icon} 
+                        alt="" 
+                        className="entity-icon"
+                      />
+                    </h3>
+                    <p className="entity-role">{selectedEntity.role}</p>
+                    
+                    <div className="entity-divider" aria-hidden="true" />
+                    
+                    <p className="entity-desc">{selectedEntity.description}</p>
+                    
+                    <div className="entity-skills">
+                      <h4 className="skills-title">CAPABILITIES</h4>
+                      <ul className="skills-list">
+                        {selectedEntity.skills.map((skill, i) => (
+                          <li key={i} className="skill-item">{skill}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </article>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+        
+        {/* Section Divider */}
+        <div className="section-divider">
+          <div className="divider-tick left" />
+          <div className="divider-center" />
+          <div className="divider-tick right" />
+        </div>
         
         {/* ===== DREAMS SECTION ===== */}
         <section className="dreams-section section-animate" id="dreams">
           <div className="container">
             <div className="section-header">
-              <span className="section-label">02</span>
+              <span className="section-label">03</span>
               <h2 data-scramble data-text="DREAMS">DREAMS</h2>
             </div>
             
@@ -909,7 +1106,7 @@ export default function NovaHome() {
         <section className="services-section section-animate" id="services">
           <div className="container">
             <div className="section-header">
-              <span className="section-label">03</span>
+              <span className="section-label">04</span>
               <h2 data-scramble data-text="SERVICES">SERVICES</h2>
             </div>
             
@@ -951,7 +1148,7 @@ export default function NovaHome() {
         <section className="contact-section section-animate" id="contact">
           <div className="container">
             <div className="section-header">
-              <span className="section-label">04</span>
+              <span className="section-label">05</span>
               <h2 data-scramble data-text="CONTACT">CONTACT</h2>
             </div>
             

@@ -1529,6 +1529,380 @@ button {
   }
 }
 
+/* ===== CONSTELLATION SECTION ===== */
+.constellation-section {
+  min-height: 100vh;
+  padding: var(--space-3xl) 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-deep);
+}
+
+.constellation-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(circle at 22% 28%, rgba(212, 168, 67, 0.06) 0%, transparent 40%),
+    radial-gradient(circle at 78% 62%, rgba(212, 168, 67, 0.04) 0%, transparent 45%),
+    radial-gradient(circle at 10% 80%, rgba(245, 240, 230, 0.05) 0%, transparent 45%),
+    radial-gradient(circle, rgba(245, 240, 230, 0.06) 1px, transparent 2px);
+  background-size: auto, auto, auto, 180px 180px;
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.constellation-section::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--bg-deep) 0%,
+    transparent 12%,
+    transparent 88%,
+    var(--bg-deep) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.constellation-section > .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== CONSTELLATION FIELD ===== */
+.constellation-field {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  min-height: 400px;
+  margin-top: var(--space-xl);
+}
+
+.constellation-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.constellation-star {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 80px;
+  height: 80px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  z-index: 2;
+}
+
+.star-glow {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--entity-color) 0%, transparent 70%);
+  opacity: 0.4;
+  animation: starPulse 3s ease-in-out infinite;
+}
+
+.star-core {
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--entity-color);
+  box-shadow: 0 0 20px var(--entity-color), 0 0 40px var(--entity-color);
+  transition: all var(--transition-base);
+}
+
+.star-label {
+  position: absolute;
+  top: 100%;
+  margin-top: 12px;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: all var(--transition-base);
+}
+
+.constellation-star:hover .star-core,
+.constellation-star.active .star-core {
+  transform: scale(1.4);
+  box-shadow: 0 0 30px var(--entity-color), 0 0 60px var(--entity-color);
+}
+
+.constellation-star:hover .star-label,
+.constellation-star.active .star-label {
+  color: var(--text-primary);
+}
+
+@keyframes starPulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+/* Modal overlay */
+.constellation-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 10, 18, 0.9);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Entity card (modal content) */
+.entity-card {
+  position: relative;
+  max-width: 540px;
+  width: 90%;
+  background: 
+    linear-gradient(135deg, rgba(6, 10, 18, 0.98) 0%, rgba(12, 18, 30, 0.96) 100%);
+  border: 1px solid rgba(212, 168, 67, 0.15);
+  padding: var(--space-2xl) var(--space-xl) var(--space-xl);
+  text-align: center;
+  animation: cardReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 
+    0 0 80px rgba(0, 0, 0, 0.5),
+    0 0 40px rgba(var(--entity-rgb, 212, 168, 67), 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+@keyframes cardReveal {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px) scale(0.95);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0) scale(1);
+  }
+}
+
+.entity-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--entity-color, var(--accent-gold)), transparent);
+}
+
+.entity-card::after {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(212, 168, 67, 0.06);
+  pointer-events: none;
+}
+
+.entity-card .corner-accent {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-color: var(--entity-color, var(--accent-gold));
+  border-style: solid;
+  border-width: 0;
+  opacity: 0.4;
+}
+.entity-card .corner-accent.tl { top: 8px; left: 8px; border-top-width: 1px; border-left-width: 1px; }
+.entity-card .corner-accent.tr { top: 8px; right: 8px; border-top-width: 1px; border-right-width: 1px; }
+.entity-card .corner-accent.bl { bottom: 8px; left: 8px; border-bottom-width: 1px; border-left-width: 1px; }
+.entity-card .corner-accent.br { bottom: 8px; right: 8px; border-bottom-width: 1px; border-right-width: 1px; }
+
+.entity-card.nova { 
+  --entity-color: #d4af37; 
+  --entity-rgb: 212, 175, 55;
+}
+.entity-card.nebula { 
+  --entity-color: #9b59b6; 
+  --entity-rgb: 155, 89, 182;
+}
+.entity-card.forge {
+  --entity-color: #e67e22;
+  --entity-rgb: 230, 126, 34;
+}
+
+.modal-close {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  width: 36px;
+  height: 36px;
+  background: rgba(6, 10, 18, 0.6);
+  border: 1px solid rgba(212, 168, 67, 0.2);
+  color: var(--text-muted);
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  z-index: 10;
+}
+
+.modal-close:hover {
+  border-color: var(--entity-color, var(--accent-gold));
+  color: var(--text-primary);
+  background: rgba(212, 168, 67, 0.1);
+}
+
+.entity-avatar {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto var(--space-lg);
+}
+
+.entity-avatar::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border: 1px solid rgba(212, 168, 67, 0.15);
+  border-radius: 50%;
+  animation: avatarRingPulse 4s ease-in-out infinite;
+}
+
+@keyframes avatarRingPulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.02); }
+}
+
+.entity-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--entity-color, var(--accent-gold));
+  box-shadow: 
+    0 0 30px rgba(var(--entity-rgb, 212, 168, 67), 0.25),
+    0 0 60px rgba(var(--entity-rgb, 212, 168, 67), 0.1);
+}
+
+.leader-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 34px;
+  height: 34px;
+  background: var(--entity-color, var(--accent-gold));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  color: var(--bg-deep);
+  box-shadow: 0 0 20px var(--entity-color, var(--accent-gold));
+  border: 2px solid var(--bg-deep);
+}
+
+.entity-name {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  letter-spacing: 0.12em;
+  margin-bottom: var(--space-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+}
+
+.entity-icon {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.entity-role {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-md);
+}
+
+.entity-divider {
+  width: 60px;
+  height: 1px;
+  margin: 0 auto var(--space-lg);
+  background: linear-gradient(90deg, transparent, var(--entity-color, var(--accent-gold)), transparent);
+  opacity: 0.5;
+}
+
+.entity-desc {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.9;
+  max-width: 42ch;
+  margin: 0 auto;
+  font-style: italic;
+  opacity: 0.9;
+}
+
+/* Skills section inside entity modal */
+.entity-skills {
+  margin-top: var(--space-lg);
+  text-align: left;
+}
+
+.skills-title {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.skills-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-item {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  padding: 4px 12px;
+  border: 1px solid rgba(var(--entity-rgb, 212, 168, 67), 0.2);
+  background: rgba(var(--entity-rgb, 212, 168, 67), 0.05);
+}
+
 /* ===== DREAMS SECTION ===== */
 .dreams-section {
   min-height: 100vh;
@@ -2333,6 +2707,43 @@ button {
   
   .dreams-grid {
     grid-template-columns: 1fr;
+  }
+
+  .constellation-field {
+    height: 50vh;
+    min-height: 350px;
+  }
+  
+  .constellation-star {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .star-glow {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .star-core {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .star-label {
+    font-size: 0.65rem;
+  }
+  
+  .entity-card {
+    padding: var(--space-lg);
+  }
+  
+  .entity-avatar {
+    width: 110px;
+    height: 110px;
+  }
+  
+  .entity-name {
+    font-size: 1.4rem;
   }
   
   /* Contact section mobile */
