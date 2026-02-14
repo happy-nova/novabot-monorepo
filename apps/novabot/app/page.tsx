@@ -117,6 +117,7 @@ export default function NovaHome() {
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const animationFrameRef = useRef<number | null>(null);
+  const waveformRef = useRef<HTMLDivElement | null>(null);
   const cursorDotRef = useRef<HTMLDivElement>(null);
   const soundsRef = useRef<{ hover?: any; click?: any; ambient?: any }>({});
   const compassRef = useRef<HTMLImageElement>(null);
@@ -619,7 +620,7 @@ export default function NovaHome() {
     document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Audio level sampling for reactive avatar
+  // Audio level sampling for reactive avatar and waveform
   const startAudioAnalysis = useCallback((audio: HTMLAudioElement) => {
     try {
       // Create or reuse AudioContext
@@ -640,6 +641,8 @@ export default function NovaHome() {
       
       // Sample audio levels
       const dataArray = new Uint8Array(analyser.frequencyBinCount);
+      const WAVEFORM_BARS = 32;
+      
       const sampleLevel = () => {
         if (!analyserRef.current) return;
         analyserRef.current.getByteFrequencyData(dataArray);
@@ -647,9 +650,26 @@ export default function NovaHome() {
         // Calculate average level (0-255) and normalize to 0-1
         const sum = dataArray.reduce((a, b) => a + b, 0);
         const avg = sum / dataArray.length;
-        const level = Math.min(avg / 128, 1); // Normalize and cap at 1
+        const level = Math.min(avg / 128, 1);
         
         setVoiceLevel(level);
+        
+        // Update waveform bars directly for performance
+        if (waveformRef.current) {
+          const bars = waveformRef.current.children;
+          const binSize = Math.floor(dataArray.length / WAVEFORM_BARS);
+          
+          for (let i = 0; i < bars.length; i++) {
+            // Sample frequency bin for this bar
+            const binIndex = Math.floor(i * binSize);
+            const value = dataArray[binIndex] / 255;
+            const bar = bars[i] as HTMLElement;
+            // Scale from 4px to 40px based on level
+            bar.style.height = `${4 + value * 36}px`;
+            bar.style.opacity = `${0.3 + value * 0.7}`;
+          }
+        }
+        
         animationFrameRef.current = requestAnimationFrame(sampleLevel);
       };
       
@@ -1266,6 +1286,17 @@ export default function NovaHome() {
                         <span className="voice-bar" />
                       </span>
                     </button>
+                    
+                    {/* Voice waveform behind avatar */}
+                    <div 
+                      ref={waveformRef}
+                      className={`voice-waveform ${voicePlaying ? 'active' : ''}`}
+                      aria-hidden="true"
+                    >
+                      {Array.from({ length: 32 }).map((_, i) => (
+                        <span key={i} className="waveform-bar" />
+                      ))}
+                    </div>
                     
                     <div 
                       className={`entity-avatar ${voicePlaying ? 'speaking' : ''}`}

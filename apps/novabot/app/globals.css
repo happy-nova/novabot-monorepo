@@ -2479,11 +2479,43 @@ button {
   }
 }
 
+/* Voice waveform behind avatar */
+.voice-waveform {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  margin-top: -30px; /* Offset to align with avatar center */
+}
+
+.voice-waveform.active {
+  opacity: 1;
+}
+
+.voice-waveform .waveform-bar {
+  width: 3px;
+  height: 4px;
+  background: var(--entity-color, var(--accent-gold));
+  border-radius: 2px;
+  transition: height 0.05s ease-out, opacity 0.05s ease-out;
+  box-shadow: 0 0 8px rgba(var(--entity-rgb, 212, 168, 67), 0.4);
+}
+
 .entity-avatar {
   position: relative;
   width: 150px;
   height: 150px;
   margin: 0 auto var(--space-lg);
+  z-index: 1; /* Above waveform */
 }
 
 .entity-avatar::before {
