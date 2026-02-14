@@ -1793,20 +1793,9 @@ button {
   z-index: 2;
 }
 
-/* Symbol faintly behind constellation node */
+/* Symbol faintly behind constellation node - hidden until we have transparent PNGs */
 .star-symbol {
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  object-fit: contain;
-  opacity: 0.08;
-  pointer-events: none;
-  z-index: 0;
-  transition: opacity 0.3s ease;
-}
-
-.constellation-star:hover .star-symbol {
-  opacity: 0.15;
+  display: none;
 }
 
 .star-glow {
@@ -2631,19 +2620,9 @@ button {
   z-index: 1;
 }
 
-/* Symbol as faded background in modal */
+/* Symbol as faded background in modal - hidden until we have transparent PNGs */
 .entity-symbol-bg {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 320px;
-  height: 320px;
-  object-fit: contain;
-  opacity: 0.04;
-  pointer-events: none;
-  z-index: 0;
-  filter: blur(1px);
+  display: none;
 }
 
 .entity-role {
