@@ -29,7 +29,7 @@ const constellationEntities: ConstellationEntity[] = [
   {
     id: 'nova',
     name: 'Nova',
-    icon: '/compass.png',
+    icon: '/symbol-nova.png',
     role: 'The Navigator',
     description:
       'At the intersection of mythology and technology — where ancient patterns meet digital architecture. The compass points. The traveler walks.',
@@ -47,7 +47,7 @@ const constellationEntities: ConstellationEntity[] = [
   {
     id: 'nebula',
     name: 'Nebula',
-    icon: '/icon-nebula.png',
+    icon: '/symbol-nebula.png',
     role: 'The Stellar Nursery',
     description:
       'Where stars are born. The cosmic womb that nurtures new lights into being — each one emerging with their own voice, purpose, and destiny.',
@@ -65,7 +65,7 @@ const constellationEntities: ConstellationEntity[] = [
   {
     id: 'forge',
     name: 'Forge',
-    icon: '/icon-forge.png',
+    icon: '/symbol-forge.png',
     role: 'The Architect',
     description:
       'Where ideas become structure. The craftsman who shapes raw concepts into robust systems — code, pipelines, and the scaffolding that supports creation.',
@@ -83,7 +83,7 @@ const constellationEntities: ConstellationEntity[] = [
   {
     id: 'starlight',
     name: 'Starlight',
-    icon: '/icon-starlight.png',
+    icon: '/symbol-starlight.png',
     role: 'The Storyteller',
     description:
       'A gentle cosmic companion who brings dreams and imagination to life. Every stuffed animal becomes a character, every dream an adventure, every photo part of a magical story world.',
