@@ -598,9 +598,15 @@ export default function NovaHome() {
     };
   }, []);
   
+  // Cursor color state for constellation hover
+  const [cursorColor, setCursorColor] = useState<string | null>(null);
+
   // Sound handlers
-  const handleHoverEnter = useCallback(() => {
+  const handleHoverEnter = useCallback((color?: string) => {
     cursorRef.current?.classList.add('hover');
+    if (color) {
+      setCursorColor(color);
+    }
     if (soundEnabled && soundsRef.current.hover) {
       soundsRef.current.hover.play();
     }
@@ -608,6 +614,7 @@ export default function NovaHome() {
   
   const handleHoverLeave = useCallback(() => {
     cursorRef.current?.classList.remove('hover');
+    setCursorColor(null);
   }, []);
   
   const handleClick = useCallback(() => {
@@ -951,8 +958,16 @@ export default function NovaHome() {
       </div>
       
       {/* Custom Cursor */}
-      <div ref={cursorRef} className="cursor" />
-      <div ref={cursorDotRef} className="cursor-dot" />
+      <div 
+        ref={cursorRef} 
+        className="cursor" 
+        style={cursorColor ? { '--cursor-color': cursorColor } as CSSProperties : undefined}
+      />
+      <div 
+        ref={cursorDotRef} 
+        className="cursor-dot"
+        style={cursorColor ? { '--cursor-color': cursorColor } as CSSProperties : undefined}
+      />
       
       <main className="main">
         {/* ===== HERO SECTION ===== */}
@@ -1251,7 +1266,7 @@ export default function NovaHome() {
                     ['--entity-color' as any]: entity.accentColor,
                   } as CSSProperties}
                   onClick={() => { handleClick(); setActiveEntity(index); }}
-                  onMouseEnter={handleHoverEnter}
+                  onMouseEnter={() => handleHoverEnter(entity.accentColor)}
                   onMouseLeave={handleHoverLeave}
                 >
                   {/* Symbol faintly behind node */}
