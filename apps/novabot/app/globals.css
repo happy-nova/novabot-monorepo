@@ -1799,14 +1799,14 @@ button {
   width: 120px;
   height: 120px;
   object-fit: contain;
-  opacity: 0.35;
+  opacity: 0.4;
   pointer-events: none;
   z-index: 0;
   transition: opacity 0.3s ease;
 }
 
 .constellation-star:hover .star-symbol {
-  opacity: 0.5;
+  opacity: 0.55;
 }
 
 .star-glow {
