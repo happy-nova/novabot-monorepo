@@ -1,33 +1,154 @@
 import { NextRequest, NextResponse } from "next/server";
+import { withX402, x402ResourceServer } from "@x402/next";
+import { HTTPFacilitatorClient } from "@x402/core/server";
+import { ExactEvmScheme } from "@x402/evm/exact/server";
+import { declareDiscoveryExtension } from "@x402/extensions/bazaar";
 import { generateJwt } from "@coinbase/cdp-sdk/auth";
 import { createJob, getQueueLength } from "@/lib/jobs-kv";
 import crypto from "crypto";
 
-// Force Node.js runtime (not Edge)
 export const runtime = "nodejs";
 
-// Gigaverse wallet - NOT the AWAL wallet (to avoid self-pay rejection)
-const PAY_TO = "0x178517854cA110D421140f5Ab4653F7F39339ACD";
 const ESTIMATED_GENERATION_TIME = 90;
-const CDP_FACILITATOR_URL = "https://api.cdp.coinbase.com/platform/v2/x402";
-const PRICE_ATOMIC = "200000"; // $0.20 USDC (6 decimals)
 
-// Telegram notification
+const CDP_FACILITATOR_URL = "https://api.cdp.coinbase.com/platform/v2/x402";
+
+const NETWORK = "eip155:8453"; // Base mainnet
+const PAY_TO = "0x178517854cA110D421140f5Ab4653F7F39339ACD";
+const USDC_BASE = "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913";
+const PRICE_USDC_AMOUNT = "200000"; // $0.20 USDC (6 decimals)
+
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || "6955936851";
+
+const inputSchema = {
+  type: "object",
+  properties: {
+    title: {
+      type: "string",
+      description: "Track title prompt (for example: Stellar Drift).",
+    },
+    style: {
+      type: "string",
+      description: "Genre/style prompt (for example: lo-fi, jazzy, chill beats).",
+    },
+  },
+  required: ["title", "style"],
+  additionalProperties: false,
+};
+
+const outputSchema = {
+  type: "object",
+  properties: {
+    success: { type: "boolean" },
+    jobId: { type: "string" },
+    status: { type: "string", enum: ["queued", "processing", "completed", "failed"] },
+    position: { type: "number" },
+    estimatedWaitSeconds: { type: "number" },
+    message: { type: "string" },
+    statusUrl: { type: "string" },
+  },
+  required: ["success", "jobId", "status", "position", "estimatedWaitSeconds", "message", "statusUrl"],
+  additionalProperties: true,
+};
+
+const discoveryBazaar = declareDiscoveryExtension({
+  input: {
+    title: "Stellar Drift",
+    style: "lo-fi, jazzy, chill beats",
+  },
+  inputSchema,
+  bodyType: "json",
+  output: {
+    schema: outputSchema,
+    example: {
+      success: true,
+      jobId: "a1b2c3d4",
+      status: "queued",
+      position: 1,
+      estimatedWaitSeconds: 90,
+      message: 'Your track "Stellar Drift" is queued. Poll /api/status/a1b2c3d4 for updates.',
+      statusUrl: "/api/status/a1b2c3d4",
+    },
+  },
+});
+
+const facilitatorClient = new HTTPFacilitatorClient({
+  url: CDP_FACILITATOR_URL,
+  createAuthHeaders: async () => {
+    const apiKeyId = process.env.CDP_API_KEY_ID;
+    const apiKeySecret = process.env.CDP_API_KEY_SECRET;
+
+    if (!apiKeyId || !apiKeySecret) {
+      throw new Error("Missing CDP_API_KEY_ID / CDP_API_KEY_SECRET (required for CDP x402 facilitator)");
+    }
+
+    const requestHost = "api.cdp.coinbase.com";
+    const basePath = "/platform/v2/x402";
+
+    const makeAuth = async (requestMethod: "GET" | "POST", requestPath: string) => {
+      const jwt = await generateJwt({
+        apiKeyId,
+        apiKeySecret,
+        requestMethod,
+        requestHost,
+        requestPath,
+        expiresIn: 120,
+      });
+      return { Authorization: `Bearer ${jwt}` };
+    };
+
+    return {
+      supported: await makeAuth("GET", `${basePath}/supported`),
+      verify: await makeAuth("POST", `${basePath}/verify`),
+      settle: await makeAuth("POST", `${basePath}/settle`),
+    };
+  },
+});
+
+const server = new x402ResourceServer(facilitatorClient).register(NETWORK as any, new ExactEvmScheme());
+
+function extractPayerFromPaymentHeader(paymentHeader: string | null): string | undefined {
+  if (!paymentHeader) return undefined;
+
+  const candidates = [paymentHeader];
+  try {
+    candidates.push(Buffer.from(paymentHeader, "base64").toString());
+  } catch {
+    // Ignore malformed base64 and continue trying other parsing options.
+  }
+
+  for (const candidate of candidates) {
+    try {
+      const parsed = JSON.parse(candidate);
+      const payer =
+        parsed?.payload?.authorization?.from ||
+        parsed?.payload?.from ||
+        parsed?.payer ||
+        parsed?.from;
+      if (typeof payer === "string" && payer.length > 0) {
+        return payer;
+      }
+    } catch {
+      // Not JSON; skip.
+    }
+  }
+
+  return undefined;
+}
 
 async function notifyNewOrder(jobId: string, title: string, style: string, payer: string) {
   if (!TELEGRAM_BOT_TOKEN) {
     console.log("[Pulsar] No Telegram token - skipping notification");
     return;
   }
-  
+
   const message = `🎵 <b>New Pulsar Order!</b>
 
 <b>Job:</b> <code>${jobId}</code>
 <b>Title:</b> ${title}
 <b>Style:</b> ${style}
-<b>Payer:</b> <code>${payer?.slice(0, 10)}...</code>
+<b>Payer:</b> <code>${payer.slice(0, 10)}...</code>
 
 💰 $0.20 USDC received`;
 
@@ -38,8 +159,8 @@ async function notifyNewOrder(jobId: string, title: string, style: string, payer
       body: JSON.stringify({
         chat_id: TELEGRAM_CHAT_ID,
         text: message,
-        parse_mode: "HTML"
-      })
+        parse_mode: "HTML",
+      }),
     });
     console.log("[Pulsar] Telegram notification sent");
   } catch (e) {
@@ -47,316 +168,99 @@ async function notifyNewOrder(jobId: string, title: string, style: string, payer
   }
 }
 
-// Build payment requirements for the 402 response (array format)
-// Includes bazaar extension metadata for x402 discovery indexing
-function buildPaymentRequirements(resourceUrl: string) {
-  const serviceBaseUrl = new URL(resourceUrl).origin;
-  return [{
-    scheme: "exact",
-    network: "base",
-    maxAmountRequired: PRICE_ATOMIC,
-    pricingCategory: "fixed",
-    resource: resourceUrl,
-    description: "Generate royalty-free instrumental music. Returns 2 unique tracks per request. Styles: lo-fi, ambient, cinematic, chiptune, synthwave, and more.",
-    mimeType: "application/json",
-    payTo: PAY_TO,
-    maxTimeoutSeconds: 300,
-    asset: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913", // USDC on Base
-    extra: { name: "USD Coin", version: "2" },
-    discoverable: true,
-    inputSchema: {
-      type: "object",
-      properties: {
-        title: {
-          type: "string",
-          description: "Track title prompt (for example: Stellar Drift)."
+const handler = async (request: NextRequest): Promise<NextResponse> => {
+  try {
+    const body = await request.json();
+    const { title, style } = body;
+
+    if (!title || !style) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Missing required fields",
+          message: "Both 'title' and 'style' are required",
         },
-        style: {
-          type: "string",
-          description: "Genre/style prompt (for example: lo-fi, jazzy, chill beats)."
-        }
+        { status: 400 },
+      );
+    }
+
+    const paymentHeader = request.headers.get("x-payment") || request.headers.get("payment-signature");
+    const payer = extractPayerFromPaymentHeader(paymentHeader) || "unknown";
+
+    const jobId = crypto.randomBytes(8).toString("hex");
+    const trackTitle = `${title} [${jobId.slice(0, 8)}]`;
+    const job = await createJob(jobId, trackTitle, style, paymentHeader || undefined, undefined, payer);
+
+    const queueLength = await getQueueLength();
+    const estimatedWait = queueLength * ESTIMATED_GENERATION_TIME;
+
+    console.log(`[BeatMints] Job ${jobId} created for "${trackTitle}"`);
+
+    notifyNewOrder(jobId, trackTitle, style, payer).catch(() => {});
+
+    return NextResponse.json(
+      {
+        success: true,
+        jobId,
+        status: "queued",
+        position: queueLength,
+        estimatedWaitSeconds: estimatedWait,
+        message: `Your track "${title}" is queued. Poll /api/status/${jobId} for updates.`,
+        statusUrl: `/api/status/${jobId}`,
+        createdAt: job.createdAt,
+        payment: {
+          amount: "$0.20 USDC",
+          payer,
+        },
       },
-      required: ["title", "style"],
-      additionalProperties: false
-    },
-    outputSchema: {
-      type: "object",
-      properties: {
-        success: { type: "boolean" },
-        jobId: { type: "string" },
-        status: { type: "string", enum: ["queued", "processing", "completed", "failed"] },
-        position: { type: "number" },
-        estimatedWaitSeconds: { type: "number" },
-        message: { type: "string" },
-        statusUrl: { type: "string" }
+      { status: 202 },
+    );
+  } catch (error) {
+    console.error("[BeatMints] Error:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        error: "Internal server error",
       },
-      required: ["success", "jobId", "status", "position", "estimatedWaitSeconds", "message", "statusUrl"],
-      additionalProperties: true
+      { status: 500 },
+    );
+  }
+};
+
+export const POST = withX402(
+  handler,
+  {
+    accepts: {
+      scheme: "exact",
+      network: NETWORK as any,
+      payTo: PAY_TO,
+      price: {
+        amount: PRICE_USDC_AMOUNT,
+        asset: USDC_BASE,
+        extra: { name: "USD Coin", version: "2" },
+      },
+      maxTimeoutSeconds: 300,
     },
-    // x402 Bazaar metadata for facilitator-driven discovery indexing.
+    description:
+      "Generate royalty-free instrumental music. Returns 2 unique tracks per request. Styles: lo-fi, ambient, cinematic, chiptune, synthwave, and more.",
+    mimeType: "application/json",
     extensions: {
+      cdp: {},
       bazaar: {
+        ...discoveryBazaar.bazaar,
         name: "Pulsar AI Music Generator",
         description: "Generate royalty-free instrumental tracks from title + style prompts.",
-        iconUrl: `${serviceBaseUrl}/favicon.ico`,
+        iconUrl: "https://pulsar.novabot.sh/favicon.ico",
         tags: ["music", "audio", "ai", "generation", "instrumental"],
         category: "media",
         integrationType: "api",
         curator: "novabot",
         payPerUse: true,
-        popUp: false
+        popUp: false,
+        inputSchema,
+        outputSchema,
       },
-      cdp: {}
-    }
-  }];
-}
-
-// Generate JWT for CDP facilitator
-async function generateCdpJwt(path: string, method: "POST" | "GET") {
-  const apiKeyId = process.env.CDP_API_KEY_ID;
-  const apiKeySecret = process.env.CDP_API_KEY_SECRET;
-  
-  if (!apiKeyId || !apiKeySecret) {
-    throw new Error("CDP API credentials not configured");
-  }
-  
-  return generateJwt({
-    apiKeyId,
-    apiKeySecret,
-    requestMethod: method,
-    requestHost: "api.cdp.coinbase.com",
-    requestPath: path,
-  });
-}
-
-export async function POST(request: NextRequest): Promise<NextResponse> {
-  const resourceUrl = `${request.nextUrl.protocol}//${request.nextUrl.host}/api/generate`;
-  
-  // Check for payment header
-  const paymentHeader = request.headers.get("X-PAYMENT");
-  
-  if (!paymentHeader) {
-    // Return 402 with payment requirements
-    return NextResponse.json({
-      x402Version: 1,
-      error: "X-PAYMENT header is required",
-      accepts: buildPaymentRequirements(resourceUrl)
-    }, { status: 402 });
-  }
-  
-  // Decode payment
-  let decodedPayment;
-  const requestId = crypto.randomUUID().slice(0, 8);
-  try {
-    const rawDecoded = Buffer.from(paymentHeader, 'base64').toString();
-    decodedPayment = JSON.parse(rawDecoded);
-    console.log(`[BeatMints][${requestId}] === PAYMENT PAYLOAD ===`);
-    console.log(`[BeatMints][${requestId}] headerLen=${paymentHeader.length} prefix=${paymentHeader.slice(0, 24)}...`);
-    console.log(`[BeatMints][${requestId}] paymentMeta=${JSON.stringify({
-      topKeys: Object.keys(decodedPayment || {}),
-      scheme: decodedPayment?.scheme,
-      network: decodedPayment?.network,
-      hasPayload: !!decodedPayment?.payload,
-      payloadKeys: Object.keys(decodedPayment?.payload || {}),
-      authKeys: Object.keys(decodedPayment?.payload?.authorization || {}),
-      hasSig: !!decodedPayment?.payload?.signature,
-    })}`);
-    console.log(`[BeatMints][${requestId}] ======================`);
-  } catch (e) {
-    console.error(`[BeatMints][${requestId}] Failed to decode payment header`, e);
-    return NextResponse.json({
-      x402Version: 1,
-      error: "Invalid payment format",
-      requestId,
-      accepts: buildPaymentRequirements(resourceUrl)
-    }, { status: 402 });
-  }
-  
-  // Debug payer payload inspection path
-  if (request.nextUrl.searchParams.get("debugEcho") === "1") {
-    return NextResponse.json({
-      success: true,
-      requestId,
-      mode: "debugEcho",
-      paymentSummary: {
-        topKeys: Object.keys(decodedPayment || {}),
-        scheme: decodedPayment?.scheme,
-        network: decodedPayment?.network,
-        hasPayload: !!decodedPayment?.payload,
-        payloadKeys: Object.keys(decodedPayment?.payload || {}),
-        authorizationKeys: Object.keys(decodedPayment?.payload?.authorization || {}),
-        from: decodedPayment?.payload?.authorization?.from || decodedPayment?.from || null,
-      },
-      rawPayment: decodedPayment,
-    }, { status: 200 });
-  }
-
-  // Build payment requirements object for verify/settle (single object, not array)
-  // Strip extensions for CDP - they don't expect bazaar metadata in verify/settle
-  const fullRequirements = buildPaymentRequirements(resourceUrl)[0];
-  const { extensions, ...paymentRequirements } = fullRequirements;
-  
-  try {
-    // Verify payment with CDP facilitator
-    const verifyJwt = await generateCdpJwt("/platform/v2/x402/verify", "POST");
-    
-    const verifyBody = {
-      x402Version: 1,
-      paymentPayload: decodedPayment,  // Decoded payment object
-      paymentRequirements
-    };
-    
-    console.log(`[BeatMints][${requestId}] === VERIFY REQUEST ===`);
-    console.log(`[BeatMints][${requestId}] Verify body:`, JSON.stringify(verifyBody, null, 2));
-    console.log(`[BeatMints][${requestId}] ======================`);
-    
-    const verifyRes = await fetch(`${CDP_FACILITATOR_URL}/verify`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${verifyJwt}`
-      },
-      body: JSON.stringify(verifyBody)
-    });
-    
-    const verifyText = await verifyRes.text();
-    let verifyData: any = null;
-    try {
-      verifyData = verifyText ? JSON.parse(verifyText) : {};
-    } catch {
-      verifyData = { raw: verifyText };
-    }
-    
-    console.log(`[BeatMints][${requestId}] === VERIFY RESPONSE ===`);
-    console.log(`[BeatMints][${requestId}] Status:`, verifyRes.status);
-    console.log(`[BeatMints][${requestId}] Response:`, JSON.stringify(verifyData, null, 2));
-    console.log(`[BeatMints][${requestId}] ======================`);
-    
-    if (!verifyRes.ok || !verifyData?.isValid) {
-      console.error(`[BeatMints][${requestId}] Verification failed:`, JSON.stringify(verifyData, null, 2));
-      console.error(`[BeatMints][${requestId}] Verify response status:`, verifyRes.status);
-      console.error(`[BeatMints][${requestId}] Payment payload keys:`, Object.keys(decodedPayment || {}));
-      return NextResponse.json({
-        x402Version: 1,
-        error: verifyData?.invalidReason || verifyData?.error || verifyData?.message || `Payment verification failed (${verifyRes.status})`,
-        requestId,
-        cdpResponse: verifyData,
-        cdpStatus: verifyRes.status,
-        paymentPayloadKeys: Object.keys(decodedPayment || {}),
-        paymentPayload: {
-          scheme: decodedPayment?.scheme,
-          network: decodedPayment?.network,
-          hasPayload: !!decodedPayment?.payload,
-          payloadKeys: Object.keys(decodedPayment?.payload || {}),
-          payloadAuthorizationKeys: Object.keys(decodedPayment?.payload?.authorization || {}),
-        },
-        paymentFrom: decodedPayment?.payload?.authorization?.from || decodedPayment?.from || "unknown",
-        accepts: buildPaymentRequirements(resourceUrl)
-      }, { status: 402 });
-    }
-    
-    console.log("[BeatMints] Payment verified, payer:", verifyData.payer);
-    
-    // Parse request body
-    const body = await request.json();
-    const { title, style } = body;
-    
-    if (!title || !style) {
-      // Don't settle if request is invalid
-      return NextResponse.json({
-        success: false,
-        error: "Missing required fields",
-        message: "Both 'title' and 'style' are required",
-      }, { status: 400 });
-    }
-    
-    // Generate job ID first
-    const jobId = crypto.randomBytes(8).toString("hex");
-    
-    // Settle payment with CDP facilitator
-    const settleJwt = await generateCdpJwt("/platform/v2/x402/settle", "POST");
-    
-    const settleRes = await fetch(`${CDP_FACILITATOR_URL}/settle`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${settleJwt}`
-      },
-      body: JSON.stringify({
-        x402Version: 1,
-        paymentPayload: decodedPayment,  // Decoded payment object
-        paymentRequirements
-      })
-    });
-    
-    const settleText = await settleRes.text();
-    let settleData: any = null;
-    try {
-      settleData = settleText ? JSON.parse(settleText) : {};
-    } catch {
-      settleData = { raw: settleText };
-    }
-    
-    if (!settleRes.ok || !settleData?.success) {
-      console.error(`[BeatMints][${requestId}] Settlement failed:`, settleData);
-      return NextResponse.json({
-        x402Version: 1,
-        requestId,
-        error: settleData?.errorReason || settleData?.error || "Payment settlement failed",
-        cdpSettleStatus: settleRes.status,
-        cdpSettleResponse: settleData,
-        accepts: buildPaymentRequirements(resourceUrl)
-      }, { status: 402 });
-    }
-    
-    console.log(`[BeatMints] Payment settled, tx: ${settleData.transaction}`);
-    
-    // Create job with payment info (title includes jobId for tracking)
-    const trackTitle = `${title} [${jobId.slice(0, 8)}]`;
-    const job = await createJob(jobId, trackTitle, style, paymentHeader, settleData.transaction, settleData.payer);
-    const queueLength = await getQueueLength();
-    const estimatedWait = queueLength * ESTIMATED_GENERATION_TIME;
-    
-    console.log(`[BeatMints] Job ${jobId} created for "${trackTitle}"`);
-    
-    // Notify about new order (async, don't block response)
-    notifyNewOrder(jobId, trackTitle, style, settleData.payer).catch(() => {});
-    
-    // Return success with X-PAYMENT-RESPONSE header
-    const paymentResponse = Buffer.from(JSON.stringify({
-      success: true,
-      transaction: settleData.transaction,
-      network: settleData.network,
-      payer: settleData.payer
-    })).toString('base64');
-    
-    return NextResponse.json({
-      success: true,
-      jobId,
-      status: "queued",
-      position: queueLength,
-      estimatedWaitSeconds: estimatedWait,
-      message: `Your track "${title}" is queued. Poll /api/status/${jobId} for updates.`,
-      statusUrl: `/api/status/${jobId}`,
-      createdAt: job.createdAt,
-      payment: {
-        transaction: settleData.transaction,
-        amount: "$0.20 USDC",
-        payer: settleData.payer
-      }
-    }, {
-      status: 202,
-      headers: {
-        "X-PAYMENT-RESPONSE": paymentResponse
-      }
-    });
-    
-  } catch (error) {
-    console.error("[BeatMints] Error:", error);
-    return NextResponse.json({
-      x402Version: 1,
-      error: "Internal server error during payment processing",
-      accepts: buildPaymentRequirements(resourceUrl)
-    }, { status: 402 });
-  }
-}
+    },
+  },
+  server,
+);
