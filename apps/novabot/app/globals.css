@@ -1793,6 +1793,22 @@ button {
   z-index: 2;
 }
 
+/* Symbol faintly behind constellation node */
+.star-symbol {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  opacity: 0.08;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.3s ease;
+}
+
+.constellation-star:hover .star-symbol {
+  opacity: 0.15;
+}
+
 .star-glow {
   position: absolute;
   width: 60px;
@@ -2611,16 +2627,23 @@ button {
   font-size: 2rem;
   letter-spacing: 0.12em;
   margin-bottom: var(--space-xs);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-sm);
+  position: relative;
+  z-index: 1;
 }
 
-.entity-icon {
-  width: 32px;
-  height: 32px;
+/* Symbol as faded background in modal */
+.entity-symbol-bg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  height: 320px;
   object-fit: contain;
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(1px);
 }
 
 .entity-role {

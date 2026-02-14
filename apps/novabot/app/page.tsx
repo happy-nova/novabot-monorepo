@@ -1189,6 +1189,8 @@ export default function NovaHome() {
                   onMouseEnter={handleHoverEnter}
                   onMouseLeave={handleHoverLeave}
                 >
+                  {/* Symbol faintly behind node */}
+                  <img src={entity.icon} alt="" className="star-symbol" aria-hidden="true" />
                   <span className="star-glow" />
                   
                   {/* Nova: 8-pointed compass rose with pulsating ring */}
@@ -1340,14 +1342,15 @@ export default function NovaHome() {
                       />
                     </div>
                     
-                    <h3 className="entity-name">
-                      {selectedEntity.name}
-                      <img 
-                        src={selectedEntity.icon} 
-                        alt="" 
-                        className="entity-icon"
-                      />
-                    </h3>
+                    {/* Symbol as faded background */}
+                    <img 
+                      src={selectedEntity.icon} 
+                      alt="" 
+                      className="entity-symbol-bg"
+                      aria-hidden="true"
+                    />
+                    
+                    <h3 className="entity-name">{selectedEntity.name}</h3>
                     <p className="entity-role">{selectedEntity.role}</p>
                     
                     <div className="entity-divider" aria-hidden="true" />
