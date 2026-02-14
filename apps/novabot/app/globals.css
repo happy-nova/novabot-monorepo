@@ -2587,53 +2587,32 @@ button {
 }
 
 /* Avatar reacts to actual audio level when voice is playing */
-.entity-avatar.speaking {
-  animation: avatarPulseGlow 1.25s ease-in-out infinite;
-}
-
 .entity-avatar.speaking img {
-  /* Scale from 1.0 to 1.08 based on voice level (0-1) */
-  transform: scale(calc(1 + var(--voice-level, 0) * 0.08));
+  /* Scale from 1.0 to 1.12 based on voice level (0-1) */
+  transform: scale(calc(1 + var(--voice-level, 0) * 0.12));
   /* Glow intensifies with voice level */
   box-shadow: 
-    0 0 calc(30px + var(--voice-level, 0) * 25px) rgba(var(--entity-rgb, 212, 168, 67), calc(0.25 + var(--voice-level, 0) * 0.3)),
-    0 0 calc(60px + var(--voice-level, 0) * 40px) rgba(var(--entity-rgb, 212, 168, 67), calc(0.1 + var(--voice-level, 0) * 0.2));
+    0 0 calc(30px + var(--voice-level, 0) * 40px) rgba(var(--entity-rgb, 212, 168, 67), calc(0.25 + var(--voice-level, 0) * 0.5)),
+    0 0 calc(60px + var(--voice-level, 0) * 60px) rgba(var(--entity-rgb, 212, 168, 67), calc(0.1 + var(--voice-level, 0) * 0.3));
+  transition: transform 0.08s ease-out, box-shadow 0.08s ease-out;
 }
 
 .entity-avatar.speaking::before {
-  /* Ring also reacts to voice level */
-  opacity: calc(0.4 + var(--voice-level, 0) * 0.4);
-  transform: scale(calc(1 + var(--voice-level, 0) * 0.06));
+  /* Ring reacts to voice level */
+  opacity: calc(0.3 + var(--voice-level, 0) * 0.7);
+  transform: scale(calc(1 + var(--voice-level, 0) * 0.1));
+  transition: opacity 0.08s ease-out, transform 0.08s ease-out;
 }
 
-/* Pulsing outer ring when speaking */
+/* Outer expanding ring that reacts to voice */
 .entity-avatar.speaking::after {
   content: '';
   position: absolute;
-  inset: -12px;
+  inset: calc(-8px - var(--voice-level, 0) * 12px);
   border: 1px solid var(--entity-color, var(--accent-gold));
   border-radius: 50%;
-  animation: avatarRingPulse 1.25s ease-in-out infinite;
-}
-
-@keyframes avatarPulseGlow {
-  0%, 100% { 
-    filter: drop-shadow(0 0 0 rgba(var(--entity-rgb, 212, 168, 67), 0.4));
-  }
-  50% { 
-    filter: drop-shadow(0 0 20px rgba(var(--entity-rgb, 212, 168, 67), 0.5));
-  }
-}
-
-@keyframes avatarRingPulse {
-  0%, 100% { 
-    opacity: 0.5;
-    transform: scale(1);
-  }
-  50% { 
-    opacity: 0;
-    transform: scale(1.15);
-  }
+  opacity: calc(0.6 - var(--voice-level, 0) * 0.4);
+  transition: inset 0.1s ease-out, opacity 0.1s ease-out;
 }
 
 .leader-badge {

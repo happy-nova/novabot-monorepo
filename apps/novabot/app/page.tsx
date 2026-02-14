@@ -649,14 +649,16 @@ export default function NovaHome() {
         // Get time domain data (waveform) instead of frequency
         analyserRef.current.getByteTimeDomainData(dataArray);
         
-        // Calculate RMS level for avatar glow
+        // Calculate RMS level for avatar glow - boosted for visible reaction
         let sumSquares = 0;
         for (let i = 0; i < bufferLength; i++) {
           const normalized = (dataArray[i] - 128) / 128;
           sumSquares += normalized * normalized;
         }
         const rms = Math.sqrt(sumSquares / bufferLength);
-        const level = Math.min(rms * 3, 1); // Amplify for visibility
+        // Boost significantly and apply curve for more dynamic response
+        const boosted = Math.pow(rms * 5, 0.7);
+        const level = Math.min(boosted, 1);
         
         setVoiceLevel(level);
         
