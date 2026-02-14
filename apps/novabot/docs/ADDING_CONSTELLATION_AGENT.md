@@ -71,9 +71,9 @@ In the `<svg className="constellation-lines">` section, add lines connecting to 
 />
 ```
 
-### 4. Add star shape (optional custom shape)
+### 4. Add custom star shape (required)
 
-Each agent can have a unique animated star shape. Add in the constellation star mapping:
+Each agent needs a unique animated star shape. Add in the constellation star mapping:
 
 ```tsx
 {entity.id === 'newagent' && (
@@ -86,9 +86,9 @@ Each agent can have a unique animated star shape. Add in the constellation star 
 
 Then add corresponding CSS in `globals.css` for the shape animation.
 
-### 5. Add entity-card accent color (if needed)
+### 5. Add entity-card accent color (required)
 
-In `globals.css`, add entity-specific accent overrides if the default doesn't work:
+In `globals.css`, add entity-specific accent colors for the modal:
 
 ```css
 .entity-card.newagent {
@@ -132,7 +132,7 @@ Place new agents to maintain visual balance and avoid overlapping.
 - [ ] Added to `constellationEntities` array
 - [ ] Updated TypeScript `id` union type
 - [ ] Added constellation connection lines
-- [ ] (Optional) Custom star shape + CSS
-- [ ] (Optional) Entity card color override
+- [ ] Custom star shape + CSS in `globals.css`
+- [ ] Entity card color override in `globals.css`
 - [ ] Run `pnpm -C apps/novabot typecheck`
 - [ ] Test locally with `pnpm -C apps/novabot dev`
