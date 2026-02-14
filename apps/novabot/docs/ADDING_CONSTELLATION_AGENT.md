@@ -30,7 +30,7 @@ In `apps/novabot/app/page.tsx`, add to the array (~line 28):
   id: 'agentname',  // lowercase, used for CSS classes
   name: 'AgentName',
   icon: '/symbol-agentname.png',
-  role: 'The [Role]',
+  role: 'The [Archetype]',  // e.g. "The Navigator", "The Creator", "The Architect"
   description: 'Agent description...',
   avatarSrc: '/agentname-avatar.png',
   accentColor: '#hexcolor',  // See color palette below
@@ -96,6 +96,19 @@ In `globals.css`, add entity-specific accent colors for the modal:
   --entity-rgb: R, G, B;  /* For rgba() usage */
 }
 ```
+
+## Archetypes
+
+Each agent needs a defining archetype (shown as "The [X]"):
+
+| Agent | Archetype |
+|-------|-----------|
+| Nova | The Navigator |
+| Nebula | The Creator |
+| Forge | The Architect |
+| Starlight | The Storyteller |
+
+Choose an archetype that captures the agent's core purpose.
 
 ## Color Palette
 

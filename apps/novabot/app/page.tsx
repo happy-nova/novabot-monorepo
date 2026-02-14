@@ -48,7 +48,7 @@ const constellationEntities: ConstellationEntity[] = [
     id: 'nebula',
     name: 'Nebula',
     icon: '/symbol-nebula.png',
-    role: 'The Stellar Nursery',
+    role: 'The Creator',
     description:
       'Where stars are born. The cosmic womb that nurtures new lights into being — each one emerging with their own voice, purpose, and destiny.',
     avatarSrc: '/nebula-avatar.png',
