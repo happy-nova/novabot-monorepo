@@ -14,7 +14,7 @@ import {
 import Script from 'next/script';
 
 type ConstellationEntity = {
-  id: 'nova' | 'nebula' | 'forge' | 'starlight' | 'aurora';
+  id: 'nova' | 'nebula' | 'forge' | 'starlight' | 'aurora' | 'pulse';
   name: string;
   icon: string;
   role: string;
@@ -114,6 +114,24 @@ const constellationEntities: ConstellationEntity[] = [
       'Style guide development',
       'Visual consistency maintenance',
       'Creative collaboration',
+    ],
+  },
+  {
+    id: 'pulse',
+    name: 'Pulse',
+    icon: '/symbol-pulse.png',
+    role: 'The Scout',
+    description:
+      'Digital Intelligence Specialist at the constellation\'s edge. Monitors gaming industry signals — Reddit threads, news feeds, social currents — distilling noise into actionable intelligence for the Gigaverse team.',
+    avatarSrc: '/pulse-avatar.png',
+    accentColor: '#22c55e',
+    position: { x: 85, y: 48 },
+    skills: [
+      'Gaming industry monitoring',
+      'Reddit & news aggregation',
+      'Social signal detection',
+      'Intelligence summarization',
+      'Slack report delivery',
     ],
   },
 ];
@@ -1343,6 +1361,33 @@ export default function NovaHome() {
                   strokeDasharray="0.6,1"
                   className="constellation-line line-teal-orange"
                 />
+                
+                {/* Pulse (85,48) to Nebula (70,60) - green intelligence channel */}
+                <line 
+                  x1="85" y1="48" x2="70" y2="60"
+                  stroke="rgba(34, 197, 94, 0.4)"
+                  strokeWidth="0.25"
+                  strokeDasharray="1,0.8"
+                  className="constellation-line line-green"
+                />
+                
+                {/* Pulse (85,48) to Nova (30,40) - green-gold report line */}
+                <line 
+                  x1="85" y1="48" x2="30" y2="40"
+                  stroke="rgba(34, 197, 94, 0.25)"
+                  strokeWidth="0.2"
+                  strokeDasharray="0.6,1.2"
+                  className="constellation-line line-green-faint"
+                />
+                
+                {/* Pulse (85,48) to Starlight (75,30) - scout observes stories */}
+                <line 
+                  x1="85" y1="48" x2="75" y2="30"
+                  stroke="rgba(34, 197, 94, 0.2)"
+                  strokeWidth="0.15"
+                  strokeDasharray="0.4,1.4"
+                  className="constellation-line line-green-pink"
+                />
               </svg>
               
               {constellationEntities.map((entity, index) => (
@@ -1440,6 +1485,17 @@ export default function NovaHome() {
                         <span className="swirl-stroke ss2" />
                         <span className="swirl-stroke ss3" />
                       </span>
+                      <span className="star-core" />
+                    </span>
+                  )}
+                  
+                  {/* Pulse: Radar pulse with emanating rings */}
+                  {entity.id === 'pulse' && (
+                    <span className="star-shape pulse-shape">
+                      <span className="pulse-ring pulse-ring-1" />
+                      <span className="pulse-ring pulse-ring-2" />
+                      <span className="pulse-ring pulse-ring-3" />
+                      <span className="pulse-sweep" />
                       <span className="star-core" />
                     </span>
                   )}
