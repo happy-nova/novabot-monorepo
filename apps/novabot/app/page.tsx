@@ -1390,57 +1390,59 @@ export default function NovaHome() {
                   onTouchStart={handleTouchStart}
                   onTouchEnd={handleTouchEnd}
                 >
-                  {/* Navigation arrows */}
-                  <button 
-                    className="modal-nav modal-nav-prev"
-                    onClick={(e) => { e.stopPropagation(); navigateEntity('prev'); }}
-                    onMouseEnter={handleHoverEnter}
-                    onMouseLeave={handleHoverLeave}
-                    aria-label="Previous entity"
-                  >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </button>
-                  <button 
-                    className="modal-nav modal-nav-next"
-                    onClick={(e) => { e.stopPropagation(); navigateEntity('next'); }}
-                    onMouseEnter={handleHoverEnter}
-                    onMouseLeave={handleHoverLeave}
-                    aria-label="Next entity"
-                  >
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
-                  </button>
-
-                  {/* Mini constellation map */}
-                  <div className="modal-minimap" onClick={(e) => e.stopPropagation()}>
-                    <svg viewBox="0 0 100 100" className="minimap-svg">
-                      {/* Connection lines */}
-                      {constellationEntities.map((entity, i) => 
-                        constellationEntities.slice(i + 1).map((other, j) => (
-                          <line 
-                            key={`${entity.id}-${other.id}`}
-                            x1={entity.position.x} y1={entity.position.y}
-                            x2={other.position.x} y2={other.position.y}
-                            className="minimap-line"
+                  {/* Navigation bar: arrows + minimap */}
+                  <div className="modal-nav-bar" onClick={(e) => e.stopPropagation()}>
+                    <button 
+                      className="modal-nav modal-nav-prev"
+                      onClick={() => navigateEntity('prev')}
+                      onMouseEnter={handleHoverEnter}
+                      onMouseLeave={handleHoverLeave}
+                      aria-label="Previous entity"
+                    >
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </button>
+                    
+                    <div className="modal-minimap">
+                      <svg viewBox="0 0 100 56" className="minimap-svg" preserveAspectRatio="xMidYMid meet">
+                        {/* Connection lines */}
+                        {constellationEntities.map((entity, i) => 
+                          constellationEntities.slice(i + 1).map((other, j) => (
+                            <line 
+                              key={`${entity.id}-${other.id}`}
+                              x1={entity.position.x} y1={entity.position.y * 0.56}
+                              x2={other.position.x} y2={other.position.y * 0.56}
+                              className="minimap-line"
+                            />
+                          ))
+                        )}
+                        {/* Entity dots */}
+                        {constellationEntities.map((entity, i) => (
+                          <circle
+                            key={entity.id}
+                            cx={entity.position.x}
+                            cy={entity.position.y * 0.56}
+                            r={activeEntity === i ? 4 : 2.5}
+                            className={`minimap-dot ${activeEntity === i ? 'active' : ''}`}
+                            style={{ fill: entity.accentColor }}
+                            onClick={() => setActiveEntity(i)}
                           />
-                        ))
-                      )}
-                      {/* Entity dots */}
-                      {constellationEntities.map((entity, i) => (
-                        <circle
-                          key={entity.id}
-                          cx={entity.position.x}
-                          cy={entity.position.y}
-                          r={activeEntity === i ? 5 : 3}
-                          className={`minimap-dot ${activeEntity === i ? 'active' : ''}`}
-                          style={{ fill: entity.accentColor }}
-                          onClick={() => setActiveEntity(i)}
-                        />
-                      ))}
-                    </svg>
+                        ))}
+                      </svg>
+                    </div>
+                    
+                    <button 
+                      className="modal-nav modal-nav-next"
+                      onClick={() => navigateEntity('next')}
+                      onMouseEnter={handleHoverEnter}
+                      onMouseLeave={handleHoverLeave}
+                      aria-label="Next entity"
+                    >
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    </button>
                   </div>
 
                   <article 
