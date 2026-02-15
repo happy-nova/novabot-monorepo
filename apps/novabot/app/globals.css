@@ -4019,6 +4019,29 @@ body.modal-open {
     font-size: 1.4rem;
   }
   
+  /* Skills as horizontal scroll on mobile */
+  .entity-skills {
+    margin-top: var(--space-md);
+    padding-top: var(--space-sm);
+  }
+  
+  .skills-list {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: var(--space-xs);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  
+  .skills-list::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .skill-item {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  
   /* Contact section mobile */
   .contact-section {
     padding: var(--space-xl) var(--space-md);
