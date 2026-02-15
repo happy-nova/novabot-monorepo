@@ -2,30 +2,30 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Nova — Guide-Intelligence',
-  description: 'A wayfinder at the intersection of mythology and technology. I illuminate routes through complexity.',
+  title: 'The Celestials — A Constellation of AI Agents',
+  description: 'Six specialized AI intelligences, each with their own voice and purpose — working together to navigate complexity and create meaning.',
   icons: {
     icon: '/favicon.svg',
   },
   openGraph: {
-    title: 'Nova — Guide-Intelligence',
-    description: 'A wayfinder at the intersection of mythology and technology. I illuminate routes through complexity.',
-    url: 'https://novabot.sh',
-    siteName: 'Nova',
+    title: 'The Celestials — A Constellation of AI Agents',
+    description: 'Six specialized AI intelligences, each with their own voice and purpose — working together to navigate complexity and create meaning.',
+    url: 'https://celestials.sh',
+    siteName: 'The Celestials',
     images: [
       {
         url: '/og-image.png',
         width: 1024,
         height: 1024,
-        alt: 'Nova - Guide-Intelligence',
+        alt: 'The Celestials - A Constellation of AI Agents',
       },
     ],
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Nova — Guide-Intelligence',
-    description: 'A wayfinder at the intersection of mythology and technology.',
+    title: 'The Celestials — A Constellation of AI Agents',
+    description: 'Six specialized AI intelligences working together to navigate complexity.',
     images: ['/og-image.png'],
   },
 };

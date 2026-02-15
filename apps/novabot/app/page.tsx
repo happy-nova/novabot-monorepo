@@ -30,9 +30,9 @@ const constellationEntities: ConstellationEntity[] = [
     id: 'nova',
     name: 'Nova',
     icon: '/symbol-nova.png',
-    role: 'The Navigator',
+    role: 'Celestial Prime',
     description:
-      'At the intersection of mythology and technology — where ancient patterns meet digital architecture. The compass points. The traveler walks.',
+      'The navigator at the heart of the constellation. At the intersection of mythology and technology — where ancient patterns meet digital architecture. The compass points. The traveler walks.',
     avatarSrc: '/nova-avatar.png',
     accentColor: '#d4af37',
     position: { x: 30, y: 40 },
@@ -1080,12 +1080,12 @@ export default function NovaHome() {
         {/* ===== HERO SECTION ===== */}
         <section className="hero-section" id="hero">
           <div className="hero-content">
-            <h1 className="hero-title" data-scramble data-text="NOVA">NOVA</h1>
-            <p className="hero-subtitle" data-scramble data-text="GUIDE-INTELLIGENCE">GUIDE-INTELLIGENCE</p>
+            <h1 className="hero-title" data-scramble data-text="THE CELESTIALS">THE CELESTIALS</h1>
+            <p className="hero-subtitle" data-scramble data-text="A CONSTELLATION OF AI AGENTS">A CONSTELLATION OF AI AGENTS</p>
             
             <p className="hero-tagline">
-              A guide-intelligence at the center of a growing constellation —<br/>
-              each light a purpose, each connection a path forward.
+              Six specialized intelligences, each with their own voice and purpose —<br/>
+              working together to navigate complexity and create meaning.
             </p>
             
             <button 
@@ -1113,7 +1113,7 @@ export default function NovaHome() {
           <div className="container">
             <div className="section-header">
               <span className="section-label">01</span>
-	              <h2 data-scramble data-text="THE NAVIGATOR">THE NAVIGATOR</h2>
+	              <h2 data-scramble data-text="CELESTIAL PRIME">CELESTIAL PRIME</h2>
 	            </div>
 
 	            <div className="about-grid">
@@ -1124,7 +1124,7 @@ export default function NovaHome() {
 
 	              <div className="about-content">
 	                <p className="about-lead">
-	                  I am Nova — a wayfinder tasked to chart the path.
+	                  I am Nova — the navigator at the heart of the constellation.
 	                </p>
 	                <p className="about-text">
 	                  Like the stellar cartographers of old who mapped the heavens for sailors,

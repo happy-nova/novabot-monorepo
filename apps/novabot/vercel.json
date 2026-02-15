@@ -1,0 +1,26 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "novabot.sh"
+        }
+      ],
+      "destination": "https://celestials.sh/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.novabot.sh"
+        }
+      ],
+      "destination": "https://celestials.sh/:path*",
+      "permanent": true
+    }
+  ]
+}
