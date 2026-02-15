@@ -2557,24 +2557,50 @@ button {
 /* Body scroll lock when modal is open */
 body.modal-open {
   overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
 }
 
 /* Modal overlay */
 .constellation-modal {
   position: fixed;
   inset: 0;
-  background: rgba(6, 10, 18, 0.9);
-  backdrop-filter: blur(12px);
+  background: rgba(6, 10, 18, 0.95);
+  backdrop-filter: blur(16px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 10000;
   animation: modalFadeIn 0.3s ease;
+  overflow: hidden;
 }
 
 @keyframes modalFadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+/* Entity transition animation */
+.entity-card {
+  animation: entityEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes entityEnter {
+  0% { 
+    opacity: 0; 
+    transform: scale(0.9);
+    filter: blur(10px);
+  }
+  50% {
+    filter: blur(5px);
+  }
+  100% { 
+    opacity: 1; 
+    transform: scale(1);
+    filter: blur(0);
+  }
 }
 
 /* Mini constellation map - 16:9 ratio */
@@ -2628,7 +2654,6 @@ body.modal-open {
   border: 1px solid rgba(212, 168, 67, 0.15);
   padding: var(--space-2xl) var(--space-xl) var(--space-xl);
   text-align: center;
-  animation: cardReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 
     0 0 80px rgba(0, 0, 0, 0.5),
     0 0 40px rgba(var(--entity-rgb, 212, 168, 67), 0.1),
@@ -2637,17 +2662,8 @@ body.modal-open {
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
-}
-
-@keyframes cardReveal {
-  from { 
-    opacity: 0; 
-    transform: translateY(30px) scale(0.95);
-  }
-  to { 
-    opacity: 1; 
-    transform: translateY(0) scale(1);
-  }
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
 .entity-card::before {
@@ -3748,9 +3764,10 @@ body.modal-open {
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     gap: var(--space-md);
-    padding-bottom: var(--space-md);
+    padding: 0 calc((100vw - 85vw) / 2) var(--space-md);
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    margin: 0 calc(-1 * var(--space-md));
   }
   
   .dreams-grid::-webkit-scrollbar {
@@ -3759,7 +3776,7 @@ body.modal-open {
   
   .dreams-grid .dream-card {
     flex: 0 0 85vw;
-    max-width: 340px;
+    max-width: none;
     scroll-snap-align: center;
     min-height: 280px;
   }
@@ -3770,9 +3787,10 @@ body.modal-open {
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     gap: var(--space-sm);
-    padding-bottom: var(--space-sm);
+    padding: 0 calc((100vw - 80vw) / 2) var(--space-sm);
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    margin: 0 calc(-1 * var(--space-md));
   }
   
   .archive-grid::-webkit-scrollbar {
@@ -3780,7 +3798,7 @@ body.modal-open {
   }
   
   .archive-grid .archive-card {
-    flex: 0 0 75vw;
+    flex: 0 0 80vw;
     max-width: 280px;
     scroll-snap-align: center;
   }

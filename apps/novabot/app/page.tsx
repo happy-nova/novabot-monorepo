@@ -829,13 +829,21 @@ export default function NovaHome() {
   }, [activeEntity, playVoiceIntro]);
 
   // Lock body scroll when modal is open
+  const scrollPositionRef = useRef(0);
   useEffect(() => {
     if (activeEntity !== null) {
+      scrollPositionRef.current = window.scrollY;
       document.body.classList.add('modal-open');
+      document.body.style.top = `-${scrollPositionRef.current}px`;
     } else {
       document.body.classList.remove('modal-open');
+      document.body.style.top = '';
+      window.scrollTo(0, scrollPositionRef.current);
     }
-    return () => document.body.classList.remove('modal-open');
+    return () => {
+      document.body.classList.remove('modal-open');
+      document.body.style.top = '';
+    };
   }, [activeEntity]);
 
   // Navigate between constellation entities
@@ -1441,6 +1449,7 @@ export default function NovaHome() {
                   </div>
 
                   <article 
+                    key={selectedEntity.id}
                     className={`entity-card ${selectedEntity.id}`}
                     onClick={(e) => e.stopPropagation()}
                   >
