@@ -2666,24 +2666,82 @@ body.modal-open {
   to { opacity: 1; }
 }
 
-/* Entity transition animation */
+/* Entity transition animation - galaxy dissolve/materialize */
 .entity-card {
-  animation: entityEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: galaxyMaterialize 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@keyframes entityEnter {
+/* Particle container for dissolve effect */
+.entity-card::before {
+  z-index: -1;
+}
+
+@keyframes galaxyMaterialize {
   0% { 
     opacity: 0; 
-    transform: scale(0.9);
-    filter: blur(10px);
+    transform: scale(0.8) rotate(-2deg);
+    filter: blur(20px) brightness(2);
+    clip-path: polygon(
+      50% 0%, 60% 10%, 100% 0%, 90% 40%, 100% 50%,
+      90% 60%, 100% 100%, 60% 90%, 50% 100%, 40% 90%,
+      0% 100%, 10% 60%, 0% 50%, 10% 40%, 0% 0%, 40% 10%
+    );
   }
-  50% {
-    filter: blur(5px);
+  30% {
+    opacity: 0.6;
+    transform: scale(0.95) rotate(1deg);
+    filter: blur(8px) brightness(1.5);
+    clip-path: polygon(
+      20% 0%, 40% 5%, 80% 0%, 95% 20%, 100% 40%,
+      95% 60%, 100% 80%, 80% 95%, 50% 100%, 20% 95%,
+      0% 80%, 5% 60%, 0% 40%, 5% 20%, 0% 0%, 30% 5%
+    );
+  }
+  60% {
+    opacity: 0.9;
+    transform: scale(1.02) rotate(-0.5deg);
+    filter: blur(2px) brightness(1.1);
+    clip-path: polygon(
+      5% 0%, 30% 2%, 70% 0%, 98% 5%, 100% 30%,
+      98% 70%, 100% 95%, 70% 100%, 30% 98%, 5% 100%,
+      0% 95%, 2% 70%, 0% 30%, 2% 5%
+    );
   }
   100% { 
     opacity: 1; 
-    transform: scale(1);
-    filter: blur(0);
+    transform: scale(1) rotate(0);
+    filter: blur(0) brightness(1);
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+}
+
+/* Shimmer overlay during transition */
+.constellation-modal::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(var(--entity-rgb, 212, 168, 67), 0.1) 0%,
+    transparent 50%
+  );
+  opacity: 0;
+  animation: galaxyShimmer 0.6s ease-out;
+  pointer-events: none;
+}
+
+@keyframes galaxyShimmer {
+  0% { 
+    opacity: 1;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.5);
+  }
+  100% { 
+    opacity: 0;
+    transform: scale(2);
   }
 }
 

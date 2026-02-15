@@ -1450,10 +1450,12 @@ export default function NovaHome() {
               
               {selectedEntity && (
                 <div 
+                  key={`modal-${selectedEntity.id}`}
                   className="constellation-modal" 
                   onClick={() => setActiveEntity(null)}
                   onTouchStart={handleTouchStart}
                   onTouchEnd={handleTouchEnd}
+                  style={{ '--entity-color': selectedEntity.accentColor } as CSSProperties}
                 >
                   {/* Mini constellation map */}
                   <div className="modal-minimap" onClick={(e) => e.stopPropagation()}>
