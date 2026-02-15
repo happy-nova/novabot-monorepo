@@ -600,6 +600,8 @@ export default function NovaHome() {
   
   // Cursor color state for constellation hover
   const [cursorColor, setCursorColor] = useState<string | null>(null);
+  // Hovered entity for target lock HUD
+  const [hoveredEntity, setHoveredEntity] = useState<{ name: string; color: string } | null>(null);
 
   // Sound handlers
   const handleHoverEnter = useCallback((colorOrEvent?: string | React.MouseEvent) => {
@@ -616,6 +618,22 @@ export default function NovaHome() {
   const handleHoverLeave = useCallback(() => {
     cursorRef.current?.classList.remove('hover');
     setCursorColor(null);
+  }, []);
+  
+  // Constellation node hover handlers with lock-on effect
+  const handleNodeHoverEnter = useCallback((entity: { name: string; accentColor: string }) => {
+    cursorRef.current?.classList.add('hover', 'lock-on');
+    setCursorColor(entity.accentColor);
+    setHoveredEntity({ name: entity.name, color: entity.accentColor });
+    if (soundEnabled && soundsRef.current.hover) {
+      soundsRef.current.hover.play();
+    }
+  }, [soundEnabled]);
+  
+  const handleNodeHoverLeave = useCallback(() => {
+    cursorRef.current?.classList.remove('hover', 'lock-on');
+    setCursorColor(null);
+    setHoveredEntity(null);
   }, []);
   
   const handleClick = useCallback(() => {
@@ -1010,6 +1028,16 @@ export default function NovaHome() {
         <div className="hud-bottom">
           <div className="scroll-progress" />
         </div>
+        
+        {/* Target lock display for hovered constellation nodes */}
+        <div 
+          className={`hud-target-lock ${hoveredEntity ? 'active' : ''}`}
+          style={hoveredEntity ? { '--target-color': hoveredEntity.color } as CSSProperties : undefined}
+        >
+          <span className="target-lock-brackets">
+            <span className="target-lock-name">{hoveredEntity?.name || ''}</span>
+          </span>
+        </div>
       </div>
       
       {/* Custom Cursor */}
@@ -1321,8 +1349,8 @@ export default function NovaHome() {
                     ['--entity-color' as any]: entity.accentColor,
                   } as CSSProperties}
                   onClick={() => { handleClick(); setActiveEntity(index); }}
-                  onMouseEnter={() => handleHoverEnter(entity.accentColor)}
-                  onMouseLeave={handleHoverLeave}
+                  onMouseEnter={() => handleNodeHoverEnter(entity)}
+                  onMouseLeave={handleNodeHoverLeave}
                 >
                   {/* Symbol faintly behind node */}
                   <img src={entity.icon} alt="" className="star-symbol" aria-hidden="true" />

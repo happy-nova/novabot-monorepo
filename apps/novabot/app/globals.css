@@ -197,6 +197,90 @@ button {
   opacity: 0.9;
 }
 
+/* Lock-on effect for constellation nodes */
+.cursor.lock-on {
+  transform: translate(-50%, -50%) scale(1.4);
+}
+
+.cursor.lock-on::before {
+  opacity: 1;
+  animation: cursor-lock-on 0.6s ease infinite;
+  border-width: 2px;
+}
+
+.cursor.lock-on::after {
+  opacity: 1;
+  animation: cursor-lock-pulse 1s ease infinite;
+}
+
+@keyframes cursor-lock-on {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+@keyframes cursor-lock-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+/* Hovered entity name display in HUD */
+.hud-target-lock {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-lg);
+  background: rgba(6, 10, 18, 0.9);
+  border: 1px solid var(--target-color, rgba(212, 168, 67, 0.3));
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, border-color 0.2s ease;
+  z-index: 100;
+}
+
+.hud-target-lock.active {
+  opacity: 1;
+}
+
+.hud-target-lock::before,
+.hud-target-lock::after {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: var(--target-color, var(--accent-gold));
+  transition: background 0.2s ease;
+}
+
+.target-lock-brackets {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  color: var(--target-color, var(--accent-gold));
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.target-lock-brackets::before {
+  content: '[';
+  opacity: 0.5;
+}
+
+.target-lock-brackets::after {
+  content: ']';
+  opacity: 0.5;
+}
+
+.target-lock-name {
+  color: var(--target-color, var(--accent-gold));
+  transition: color 0.2s ease;
+}
+
 /* Center targeting dot */
 .cursor-dot {
   --cursor-color: var(--accent-gold);
@@ -1791,7 +1875,7 @@ button {
   height: 80px;
   background: none;
   border: none;
-  cursor: pointer;
+  cursor: none;
   display: flex;
   flex-direction: column;
   align-items: center;
