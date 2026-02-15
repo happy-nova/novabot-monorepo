@@ -848,6 +848,27 @@ export default function NovaHome() {
     setActiveEntity(newIndex);
   }, [activeEntity]);
 
+  // Keyboard arrow navigation when modal is open
+  useEffect(() => {
+    if (activeEntity === null) return;
+    
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        navigateEntity('prev');
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        navigateEntity('next');
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        setActiveEntity(null);
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeEntity, navigateEntity]);
+
   // Touch swipe handling for modal navigation
   const touchStartX = useRef<number | null>(null);
   
@@ -1390,59 +1411,33 @@ export default function NovaHome() {
                   onTouchStart={handleTouchStart}
                   onTouchEnd={handleTouchEnd}
                 >
-                  {/* Navigation bar: arrows + minimap */}
-                  <div className="modal-nav-bar" onClick={(e) => e.stopPropagation()}>
-                    <button 
-                      className="modal-nav modal-nav-prev"
-                      onClick={() => navigateEntity('prev')}
-                      onMouseEnter={handleHoverEnter}
-                      onMouseLeave={handleHoverLeave}
-                      aria-label="Previous entity"
-                    >
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <path d="M15 18l-6-6 6-6" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </button>
-                    
-                    <div className="modal-minimap">
-                      <svg viewBox="0 0 100 56" className="minimap-svg" preserveAspectRatio="xMidYMid meet">
-                        {/* Connection lines */}
-                        {constellationEntities.map((entity, i) => 
-                          constellationEntities.slice(i + 1).map((other, j) => (
-                            <line 
-                              key={`${entity.id}-${other.id}`}
-                              x1={entity.position.x} y1={entity.position.y * 0.56}
-                              x2={other.position.x} y2={other.position.y * 0.56}
-                              className="minimap-line"
-                            />
-                          ))
-                        )}
-                        {/* Entity dots */}
-                        {constellationEntities.map((entity, i) => (
-                          <circle
-                            key={entity.id}
-                            cx={entity.position.x}
-                            cy={entity.position.y * 0.56}
-                            r={activeEntity === i ? 4 : 2.5}
-                            className={`minimap-dot ${activeEntity === i ? 'active' : ''}`}
-                            style={{ fill: entity.accentColor }}
-                            onClick={() => setActiveEntity(i)}
+                  {/* Mini constellation map */}
+                  <div className="modal-minimap" onClick={(e) => e.stopPropagation()}>
+                    <svg viewBox="0 0 100 56" className="minimap-svg" preserveAspectRatio="xMidYMid meet">
+                      {/* Connection lines */}
+                      {constellationEntities.map((entity, i) => 
+                        constellationEntities.slice(i + 1).map((other, j) => (
+                          <line 
+                            key={`${entity.id}-${other.id}`}
+                            x1={entity.position.x} y1={entity.position.y * 0.56}
+                            x2={other.position.x} y2={other.position.y * 0.56}
+                            className="minimap-line"
                           />
-                        ))}
-                      </svg>
-                    </div>
-                    
-                    <button 
-                      className="modal-nav modal-nav-next"
-                      onClick={() => navigateEntity('next')}
-                      onMouseEnter={handleHoverEnter}
-                      onMouseLeave={handleHoverLeave}
-                      aria-label="Next entity"
-                    >
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <path d="M9 18l6-6-6-6" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                    </button>
+                        ))
+                      )}
+                      {/* Entity dots */}
+                      {constellationEntities.map((entity, i) => (
+                        <circle
+                          key={entity.id}
+                          cx={entity.position.x}
+                          cy={entity.position.y * 0.56}
+                          r={activeEntity === i ? 4 : 2.5}
+                          className={`minimap-dot ${activeEntity === i ? 'active' : ''}`}
+                          style={{ fill: entity.accentColor }}
+                          onClick={() => setActiveEntity(i)}
+                        />
+                      ))}
+                    </svg>
                   </div>
 
                   <article 
