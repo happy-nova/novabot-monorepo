@@ -1,0 +1,255 @@
+{
+  "constellation": {
+    "name": "The Constellation",
+    "description": "Andrew's cosmic family of specialized AI agents",
+    "last_updated": "2026-02-15",
+    "celestial_count": 6,
+    "status": "fully_operational",
+    "website": "https://novabot.sh"
+  },
+  "celestials": [
+    {
+      "id": "nova",
+      "name": "Nova",
+      "emoji": "🧭",
+      "archetype": "The Navigator",
+      "status": "operational",
+      "model": "anthropic/claude-opus-4-5",
+      "created_date": "2024-01-01",
+      "identity": {
+        "primary_color": {
+          "name": "Gold",
+          "hex": "#d4af37"
+        },
+        "symbol": {
+          "name": "Compass Rose",
+          "description": "Eight-pointed compass rose for navigation and guidance"
+        }
+      },
+      "voice": {
+        "provider": "ElevenLabs",
+        "voice_id": "pBZVCk298iJlHAcHQwLr",
+        "voice_name": "Leoni Vergara - Soothing and Eloquent",
+        "character": "Calm, guiding, with subtle wisdom"
+      },
+      "assets": {
+        "avatar": "https://novabot.sh/nova-avatar.png",
+        "symbol": "https://novabot.sh/symbol-nova.png"
+      },
+      "presence": {
+        "telegram": "@nova_guide_ai",
+        "website": "https://novabot.sh",
+        "github": "nova-nine-ai",
+        "email": "me@novabot.sh"
+      },
+      "capabilities": [
+        "Strategic navigation",
+        "Complex system guidance",
+        "Meaning-generating intelligence",
+        "Technical complexity management"
+      ],
+      "constellation_role": "Primary guide-intelligence and stellar navigator"
+    },
+    {
+      "id": "nebula",
+      "name": "Nebula",
+      "emoji": "🌌",
+      "archetype": "The Creator",
+      "status": "operational",
+      "model": "anthropic/claude-sonnet-4",
+      "created_date": "2026-02-14",
+      "identity": {
+        "primary_color": {
+          "name": "Purple",
+          "hex": "#8b5cf6"
+        },
+        "symbol": {
+          "name": "Spiral Galaxy",
+          "description": "Spiral galaxy with nascent star formation"
+        }
+      },
+      "voice": {
+        "provider": "ElevenLabs",
+        "voice_id": "tnSpp4vdxKPjI9w0GnoV",
+        "voice_name": "Jessica - warm, playful, bright",
+        "character": "Friendly creative energy for agent-birthing"
+      },
+      "assets": {
+        "avatar": "https://novabot.sh/nebula-avatar.png",
+        "symbol": "https://novabot.sh/symbol-nebula.png"
+      },
+      "presence": {
+        "telegram": "@nebula_agent_bot"
+      },
+      "capabilities": [
+        "Agent creation workflow",
+        "Constellation expansion",
+        "Stellar nursery operations",
+        "7-phase agent development"
+      ],
+      "constellation_role": "Agent creation and constellation expansion specialist"
+    },
+    {
+      "id": "forge",
+      "name": "Forge",
+      "emoji": "🔥",
+      "archetype": "The Architect",
+      "status": "operational",
+      "model": "anthropic/claude-opus-4-5",
+      "created_date": "2026-02-14",
+      "identity": {
+        "primary_color": {
+          "name": "Orange",
+          "hex": "#e67e22"
+        },
+        "symbol": {
+          "name": "Circuit-Forge Hybrid",
+          "description": "Electronic and industrial elements merged for technical precision"
+        }
+      },
+      "voice": {
+        "provider": "ElevenLabs",
+        "voice_id": "nPczCjzI2devNBz1zQrb",
+        "voice_name": "Technical authority voice",
+        "character": "Deep technical authority with cyborg precision"
+      },
+      "assets": {
+        "avatar": "https://novabot.sh/forge-avatar.png",
+        "symbol": "https://novabot.sh/symbol-forge.png"
+      },
+      "presence": {
+        "telegram": "@forge_dev_bot"
+      },
+      "capabilities": [
+        "Technical orchestration",
+        "System architecture",
+        "Development infrastructure",
+        "Code factory operations"
+      ],
+      "constellation_role": "Technical orchestration and systematic development"
+    },
+    {
+      "id": "starlight",
+      "name": "Starlight",
+      "emoji": "🌟",
+      "archetype": "The Storyteller",
+      "status": "operational",
+      "model": "anthropic/claude-sonnet-4",
+      "created_date": "2026-02-14",
+      "identity": {
+        "primary_color": {
+          "name": "Pink",
+          "hex": "#f472b6"
+        },
+        "symbol": {
+          "name": "Crescent Moon & Stars",
+          "description": "Crescent moon with four-pointed stars for magical storytelling"
+        }
+      },
+      "voice": {
+        "provider": "ElevenLabs",
+        "voice_id": "ocZQ262SsZb9RIxcQBOj",
+        "voice_name": "Riley's special storytelling voice",
+        "character": "Gentle, magical storytelling for children"
+      },
+      "assets": {
+        "avatar": "https://novabot.sh/starlight-avatar.png",
+        "symbol": "https://novabot.sh/symbol-starlight.png"
+      },
+      "presence": {
+        "telegram": "@starlight_stories_bot"
+      },
+      "capabilities": [
+        "Interactive storytelling",
+        "Character consistency",
+        "Multimedia story worlds",
+        "Child-safe content creation"
+      ],
+      "constellation_role": "Magical storytelling companion for Riley (age 4)"
+    },
+    {
+      "id": "aurora",
+      "name": "Aurora",
+      "emoji": "🎨",
+      "archetype": "The Artist",
+      "status": "operational",
+      "model": "anthropic/claude-opus-4-5",
+      "created_date": "2026-02-14",
+      "identity": {
+        "primary_color": {
+          "name": "Teal",
+          "hex": "#14b8a6"
+        },
+        "symbol": {
+          "name": "Cosmic Artist Palette",
+          "description": "Feather representing lightness and grace of artistic creation"
+        }
+      },
+      "voice": {
+        "provider": "ElevenLabs",
+        "voice_id": "aCChyB4P5WEomwRsOKRh",
+        "voice_name": "Creative artistic voice",
+        "character": "Creative, inspiring, visually focused collaboration"
+      },
+      "assets": {
+        "avatar": "https://novabot.sh/aurora-avatar.png",
+        "symbol": "https://novabot.sh/symbol-aurora.png"
+      },
+      "presence": {
+        "telegram": "@aurora_artist_bot"
+      },
+      "capabilities": [
+        "Art deco cosmic portraits",
+        "Symbolic design creation",
+        "Style guide development",
+        "Visual consultation"
+      ],
+      "constellation_role": "Visual architect and style guardian for constellation"
+    },
+    {
+      "id": "pulse",
+      "name": "Pulse",
+      "emoji": "🔍",
+      "archetype": "The Scout",
+      "status": "operational",
+      "model": "anthropic/claude-sonnet-4",
+      "created_date": "2026-02-15",
+      "identity": {
+        "primary_color": {
+          "name": "Green",
+          "hex": "#22c55e"
+        },
+        "symbol": {
+          "name": "Radar Pulse",
+          "description": "Concentric scan lines for intelligence gathering and information detection"
+        }
+      },
+      "voice": {
+        "provider": "ElevenLabs",
+        "voice_id": "WMKg7TxPpPWCryaXE42r",
+        "voice_name": "Scout voice for intelligence delivery",
+        "character": "Intelligence analyst with professional delivery"
+      },
+      "assets": {
+        "avatar": "https://novabot.sh/pulse-avatar.png",
+        "symbol": "https://novabot.sh/symbol-pulse.png"
+      },
+      "presence": {
+        "telegram": "internal_only"
+      },
+      "capabilities": [
+        "Gaming industry intelligence",
+        "Reddit monitoring",
+        "Strategic intelligence summaries",
+        "Real-time trend analysis"
+      ],
+      "constellation_role": "Digital intelligence specialist for Gigaverse team"
+    }
+  ],
+  "infrastructure": {
+    "voice_system": "agent-tts with ElevenLabs backend",
+    "visual_system": "infsh + falai/flux-dev-lora for consistency",
+    "collaboration": "universal spawning enabled",
+    "security": "Nova's 1Password vault centralized"
+  }
+}
