@@ -1080,8 +1080,14 @@ export default function NovaHome() {
         {/* ===== HERO SECTION ===== */}
         <section className="hero-section" id="hero">
           <div className="hero-content">
-            <h1 className="hero-title" data-scramble data-text="THE CELESTIALS">THE CELESTIALS</h1>
-            <p className="hero-subtitle" data-scramble data-text="A CONSTELLATION OF AI AGENTS">A CONSTELLATION OF AI AGENTS</p>
+            <h1 className="hero-title scramble-lock">
+              <span className="scramble-sizer" aria-hidden="true">THE CELESTIALS</span>
+              <span className="scramble-text" data-scramble data-text="THE CELESTIALS">THE CELESTIALS</span>
+            </h1>
+            <p className="hero-subtitle scramble-lock">
+              <span className="scramble-sizer" aria-hidden="true">A CONSTELLATION OF AI AGENTS</span>
+              <span className="scramble-text" data-scramble data-text="A CONSTELLATION OF AI AGENTS">A CONSTELLATION OF AI AGENTS</span>
+            </p>
             
             <p className="hero-tagline">
               Six specialized intelligences, each with their own voice and purpose —<br/>
