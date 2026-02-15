@@ -3996,6 +3996,13 @@ body.modal-open {
     height: 120px;
   }
   
+  .entity-symbol-bg {
+    top: 60%;
+    width: 250px;
+    height: 250px;
+    opacity: 0.12;
+  }
+  
   .voice-oscilloscope {
     display: none;
   }
