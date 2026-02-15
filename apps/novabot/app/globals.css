@@ -957,9 +957,9 @@ button {
 
 .hero-title {
   font-family: var(--font-display);
-  font-size: clamp(4rem, 15vw, 10rem);
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
   font-weight: 400;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   background: linear-gradient(180deg, var(--text-primary) 0%, var(--accent-gold) 100%);
   -webkit-background-clip: text;
@@ -3985,8 +3985,8 @@ body.modal-open {
   }
   
   .hero-title {
-    font-size: clamp(2rem, 10vw, 4rem);
-    letter-spacing: 0.15em;
+    font-size: clamp(1.8rem, 8vw, 3rem);
+    letter-spacing: 0.12em;
     padding: 0 var(--space-sm);
     max-width: 100%;
   }
@@ -4363,8 +4363,8 @@ body.modal-open {
 /* Small phones */
 @media (max-width: 420px) {
   .hero-title {
-    font-size: clamp(1.6rem, 9vw, 2.5rem);
-    letter-spacing: 0.1em;
+    font-size: clamp(1.4rem, 7vw, 2rem);
+    letter-spacing: 0.08em;
   }
   
   .hero-title.scramble-lock,
@@ -4373,8 +4373,8 @@ body.modal-open {
   }
   
   .hero-subtitle {
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
+    font-size: 0.55rem;
+    letter-spacing: 0.12em;
   }
   
   .hero-tagline {
