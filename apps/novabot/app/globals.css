@@ -969,26 +969,23 @@ button {
   line-height: 1;
 }
 
-/* Scramble-lock for hero elements */
+/* Scramble-lock for hero elements - grid overlay approach */
 .hero-title.scramble-lock,
 .hero-subtitle.scramble-lock {
-  position: relative;
-  display: inline-block;
+  display: inline-grid;
+}
+
+.hero-title.scramble-lock .scramble-sizer,
+.hero-title.scramble-lock .scramble-text,
+.hero-subtitle.scramble-lock .scramble-sizer,
+.hero-subtitle.scramble-lock .scramble-text {
+  grid-area: 1 / 1;
+  text-align: center;
 }
 
 .hero-title.scramble-lock .scramble-sizer,
 .hero-subtitle.scramble-lock .scramble-sizer {
   visibility: hidden;
-  display: block;
-}
-
-.hero-title.scramble-lock .scramble-text,
-.hero-subtitle.scramble-lock .scramble-text {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
 }
 
 /* Inherit gradient for hero title scramble text */
