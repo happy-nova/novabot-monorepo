@@ -218,7 +218,7 @@ export default function NovaHome() {
     
     // Section tracking for active nav
     const sections = ['hero', 'about', 'constellation', 'dreams', 'services', 'contact'];
-    sections.forEach(sectionId => {
+    sections.forEach((sectionId, index) => {
       const el = document.getElementById(sectionId);
       if (el) {
         ScrollTrigger.create({
@@ -227,6 +227,12 @@ export default function NovaHome() {
           end: 'bottom center',
           onEnter: () => setActiveSection(sectionId),
           onEnterBack: () => setActiveSection(sectionId),
+          onLeaveBack: () => {
+            // When leaving a section going up, activate the previous section
+            if (index > 0) {
+              setActiveSection(sections[index - 1]);
+            }
+          },
         });
       }
     });
