@@ -3917,9 +3917,14 @@ body.modal-open {
     display: none;
   }
   
+  /* Hide HUD when modal is open on mobile */
+  body.modal-open .celestial-hud {
+    display: none;
+  }
+  
   /* Full-screen modal on mobile */
   .constellation-modal {
-    z-index: 100000; /* Above navbar */
+    z-index: 100000;
   }
   
   .entity-card {
