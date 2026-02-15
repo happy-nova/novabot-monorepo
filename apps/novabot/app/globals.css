@@ -2668,80 +2668,55 @@ body.modal-open {
 
 /* Entity transition animation - galaxy dissolve/materialize */
 .entity-card {
-  animation: galaxyMaterialize 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Particle container for dissolve effect */
-.entity-card::before {
-  z-index: -1;
+  animation: galaxyMaterialize 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes galaxyMaterialize {
   0% { 
     opacity: 0; 
-    transform: scale(0.8) rotate(-2deg);
-    filter: blur(20px) brightness(2);
+    transform: scale(0.85);
+    filter: blur(25px) brightness(1.8);
     clip-path: polygon(
       50% 0%, 60% 10%, 100% 0%, 90% 40%, 100% 50%,
       90% 60%, 100% 100%, 60% 90%, 50% 100%, 40% 90%,
       0% 100%, 10% 60%, 0% 50%, 10% 40%, 0% 0%, 40% 10%
     );
   }
-  30% {
-    opacity: 0.6;
-    transform: scale(0.95) rotate(1deg);
-    filter: blur(8px) brightness(1.5);
+  25% {
+    opacity: 0.4;
+    transform: scale(0.92);
+    filter: blur(15px) brightness(1.4);
     clip-path: polygon(
       20% 0%, 40% 5%, 80% 0%, 95% 20%, 100% 40%,
       95% 60%, 100% 80%, 80% 95%, 50% 100%, 20% 95%,
       0% 80%, 5% 60%, 0% 40%, 5% 20%, 0% 0%, 30% 5%
     );
   }
-  60% {
-    opacity: 0.9;
-    transform: scale(1.02) rotate(-0.5deg);
-    filter: blur(2px) brightness(1.1);
+  50% {
+    opacity: 0.7;
+    transform: scale(0.97);
+    filter: blur(8px) brightness(1.2);
     clip-path: polygon(
-      5% 0%, 30% 2%, 70% 0%, 98% 5%, 100% 30%,
-      98% 70%, 100% 95%, 70% 100%, 30% 98%, 5% 100%,
-      0% 95%, 2% 70%, 0% 30%, 2% 5%
+      10% 0%, 35% 3%, 65% 0%, 90% 3%, 100% 20%,
+      97% 50%, 100% 80%, 90% 97%, 50% 100%, 10% 97%,
+      0% 80%, 3% 50%, 0% 20%, 10% 3%
+    );
+  }
+  75% {
+    opacity: 0.9;
+    transform: scale(1.01);
+    filter: blur(3px) brightness(1.05);
+    clip-path: polygon(
+      3% 0%, 50% 1%, 97% 0%, 100% 3%, 100% 50%,
+      100% 97%, 97% 100%, 50% 99%, 3% 100%, 0% 97%,
+      0% 50%, 0% 3%
     );
   }
   100% { 
     opacity: 1; 
-    transform: scale(1) rotate(0);
+    transform: scale(1);
     filter: blur(0) brightness(1);
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-  }
-}
-
-/* Shimmer overlay during transition */
-.constellation-modal::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(var(--entity-rgb, 212, 168, 67), 0.1) 0%,
-    transparent 50%
-  );
-  opacity: 0;
-  animation: galaxyShimmer 0.6s ease-out;
-  pointer-events: none;
-}
-
-@keyframes galaxyShimmer {
-  0% { 
-    opacity: 1;
-    transform: scale(0.5);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(1.5);
-  }
-  100% { 
-    opacity: 0;
-    transform: scale(2);
   }
 }
 
@@ -3018,16 +2993,16 @@ body.modal-open {
   z-index: 1;
 }
 
-/* Symbol as faded background in modal */
+/* Symbol as faded background in modal - centered on description */
 .entity-symbol-bg {
   position: absolute;
-  top: 50%;
+  top: 58%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 300px;
-  height: 300px;
+  width: 280px;
+  height: 280px;
   object-fit: contain;
-  opacity: 0.15;
+  opacity: 0.12;
   pointer-events: none;
   z-index: 0;
 }
