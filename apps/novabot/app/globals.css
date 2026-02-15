@@ -2943,6 +2943,10 @@ body.modal-open {
   --entity-color: #14b8a6;
   --entity-rgb: 20, 184, 166;
 }
+.entity-card.pulse {
+  --entity-color: #22c55e;
+  --entity-rgb: 34, 197, 94;
+}
 
 .modal-close {
   position: absolute;
