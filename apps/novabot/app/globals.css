@@ -3780,7 +3780,45 @@ body.modal-open {
   }
   
   .dreams-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: var(--space-md);
+    padding-bottom: var(--space-md);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  
+  .dreams-grid::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .dreams-grid .dream-card {
+    flex: 0 0 85vw;
+    max-width: 340px;
+    scroll-snap-align: center;
+    min-height: 280px;
+  }
+  
+  /* Archive grid also horizontal on mobile */
+  .archive-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: var(--space-sm);
+    padding-bottom: var(--space-sm);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  
+  .archive-grid::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .archive-grid .archive-card {
+    flex: 0 0 75vw;
+    max-width: 280px;
+    scroll-snap-align: center;
   }
 
   /* Fix section headers on mobile */
