@@ -3953,6 +3953,25 @@ body.modal-open {
     padding: var(--space-xl) var(--space-md);
     padding-top: 80px;
   }
+  
+  .hero-title {
+    font-size: clamp(2rem, 10vw, 4rem);
+    letter-spacing: 0.15em;
+    padding: 0 var(--space-sm);
+    word-break: break-word;
+  }
+  
+  .hero-subtitle {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    padding: 0 var(--space-sm);
+  }
+  
+  .hero-tagline {
+    font-size: 0.85rem;
+    padding: 0 var(--space-md);
+    max-width: 100%;
+  }
 
   .mini-constellation {
     width: 160px;
@@ -4295,6 +4314,46 @@ body.modal-open {
   
   .contact-link-value {
     font-size: 1rem;
+  }
+}
+
+/* Small phones */
+@media (max-width: 420px) {
+  .hero-title {
+    font-size: clamp(1.6rem, 9vw, 2.5rem);
+    letter-spacing: 0.1em;
+  }
+  
+  .hero-subtitle {
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+  }
+  
+  .hero-tagline {
+    font-size: 0.8rem;
+    line-height: 1.7;
+  }
+  
+  .cta-btn {
+    padding: var(--space-md) var(--space-xl);
+    font-size: 0.75rem;
+  }
+  
+  .section-header h2 {
+    font-size: 1.1rem;
+    letter-spacing: 0.08em;
+  }
+  
+  .entity-name {
+    font-size: 1.2rem;
+  }
+  
+  .entity-role {
+    font-size: 0.65rem;
+  }
+  
+  .entity-description {
+    font-size: 0.8rem;
   }
 }
 
