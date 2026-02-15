@@ -773,6 +773,8 @@ export default function NovaHome() {
     if (currentAudio) {
       currentAudio.pause();
       stopAudioAnalysis();
+      setVoicePlaying(false);
+      setVoiceLevel(0);
     }
 
     const audioPath = `/audio/${entityId}-intro.mp3`;
