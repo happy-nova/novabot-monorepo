@@ -1506,7 +1506,6 @@ export default function NovaHome() {
               
               {selectedEntity && (
                 <div 
-                  key={`modal-${selectedEntity.id}`}
                   className="constellation-modal" 
                   onClick={() => setActiveEntity(null)}
                   onTouchStart={handleTouchStart}
