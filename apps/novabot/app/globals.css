@@ -3822,6 +3822,19 @@ body.modal-open {
   .section-header h2.scramble-lock .scramble-text {
     white-space: normal;
   }
+  
+  /* Keep CONSTELLATION on one line to prevent layout shift */
+  .constellation-section .section-header h2 {
+    font-size: 1.1rem;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  
+  .constellation-section .section-header h2.scramble-lock,
+  .constellation-section .section-header h2.scramble-lock .scramble-sizer,
+  .constellation-section .section-header h2.scramble-lock .scramble-text {
+    white-space: nowrap;
+  }
 
   .constellation-field {
     height: 50vh;
