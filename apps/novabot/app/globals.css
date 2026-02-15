@@ -3952,18 +3952,7 @@ body.modal-open {
   }
   
   .voice-oscilloscope {
-    /* Compact centered bar on mobile */
-    top: calc(var(--space-xl) + 30px);
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
-    width: 140px;
-    height: 40px;
-  }
-  
-  .voice-oscilloscope path {
-    stroke-width: 1.8;
-    filter: drop-shadow(0 0 2px currentColor);
+    display: none;
   }
   
   .modal-close {
