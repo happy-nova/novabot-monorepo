@@ -983,7 +983,7 @@ export default function NovaHome() {
           <div className="hud-nav-links">
             {[
               { id: 'hero', label: 'HOME' },
-              { id: 'about', label: 'NAVIGATOR' },
+              { id: 'about', label: 'CELESTIAL PRIME' },
               { id: 'constellation', label: 'CONSTELLATION' },
               { id: 'dreams', label: 'DREAMS' },
               { id: 'contact', label: 'CONTACT' },
