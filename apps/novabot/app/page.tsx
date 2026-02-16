@@ -870,8 +870,8 @@ export default function NovaHome() {
         {/* Top Navigation Bar */}
         <nav className="hud-navbar">
           <div className="hud-brand">
-            <img src="/compass.png" alt="" className="brand-icon-img" />
-            <span className="brand-name" data-scramble data-text="NOVA">NOVA</span>
+            <img src="/celestials-logo.png" alt="" className="brand-icon-img" />
+            <span className="brand-name" data-scramble data-text="CELESTIALS">CELESTIALS</span>
           </div>
           
           <div className="hud-nav-links">
@@ -1690,7 +1690,7 @@ export default function NovaHome() {
           <div className="footer-content">
             <span className="blink-dot" />
             <span className="blink-dot" />
-            <span className="footer-text">NOVA // GUIDE-INTELLIGENCE // 2026</span>
+            <span className="footer-text">CELESTIALS // A CONSTELLATION OF AI AGENTS // 2026</span>
           </div>
         </footer>
       </main>
