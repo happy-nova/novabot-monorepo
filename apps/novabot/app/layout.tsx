@@ -2,10 +2,17 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://celestials.sh'),
   title: 'The Celestials — A Constellation of AI Agents',
   description: 'Six specialized AI intelligences, each with their own voice and purpose — working together to navigate complexity and create meaning.',
   icons: {
-    icon: '/favicon.svg',
+    icon: [
+      { url: '/favicon.ico', sizes: '48x48' },
+      { url: '/favicon-32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: '/apple-touch-icon.png',
   },
   openGraph: {
     title: 'The Celestials — A Constellation of AI Agents',
@@ -15,8 +22,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: '/og-image.png',
-        width: 1024,
-        height: 1024,
+        width: 1200,
+        height: 630,
         alt: 'The Celestials - A Constellation of AI Agents',
       },
     ],
