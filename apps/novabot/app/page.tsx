@@ -27,7 +27,7 @@ export default function NovaHome() {
   const [activeEntity, setActiveEntity] = useState<number | null>(null);
   const [voicePlaying, setVoicePlaying] = useState(false);
   const [voiceLevel, setVoiceLevel] = useState(0);
-  const [artStyle, setArtStyle] = useState<'avatar' | 'deity' | 'alt_1' | 'alt_2'>('avatar');
+  const [artStyle, setArtStyle] = useState<'avatar' | 'deity' | 'divine_geo'>('avatar');
   const [pageLoaded, setPageLoaded] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(0);
   
@@ -1613,8 +1613,7 @@ export default function NovaHome() {
                         src={
                           artStyle === 'avatar' ? selectedEntity.avatarSrc :
                           artStyle === 'deity' ? selectedEntity.altArts.deity :
-                          artStyle === 'alt_1' ? selectedEntity.altArts.alt_1 :
-                          selectedEntity.altArts.alt_2
+                          selectedEntity.altArts.divine_geo
                         } 
                         alt={selectedEntity.name}
                       />
@@ -1622,7 +1621,7 @@ export default function NovaHome() {
                     
                     {/* Art style toggle - small dots below avatar */}
                     <div className="art-style-toggle" aria-label="Change portrait style">
-                      {(['avatar', 'alt_1', 'alt_2', 'deity'] as const).map((style) => (
+                      {(['avatar', 'deity', 'divine_geo'] as const).map((style) => (
                         <button
                           key={style}
                           className={`art-style-dot ${artStyle === style ? 'active' : ''}`}
@@ -1631,14 +1630,12 @@ export default function NovaHome() {
                           onMouseLeave={handleHoverLeave}
                           aria-label={
                             style === 'avatar' ? 'Primary portrait' :
-                            style === 'deity' ? 'Deity form' :
-                            style === 'alt_1' ? 'Stained glass style' :
+                            style === 'deity' ? 'Stained glass style' :
                             'Sacred geometry style'
                           }
                           title={
                             style === 'avatar' ? 'Primary' :
-                            style === 'deity' ? 'Deity' :
-                            style === 'alt_1' ? 'Stained Glass' :
+                            style === 'deity' ? 'Stained Glass' :
                             'Sacred Geometry'
                           }
                         />

@@ -13,8 +13,7 @@ export interface CelestialAssets {
   intro_audio: string;
   alt_arts: {
     deity: string;
-    alt_1: string;
-    alt_2: string;
+    divine_geo: string;
   };
 }
 
@@ -96,8 +95,7 @@ export interface StarChartEntity {
   introText: string;
   altArts: {
     deity: string;
-    alt_1: string;
-    alt_2: string;
+    divine_geo: string;
   };
 }
 

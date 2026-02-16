@@ -12,15 +12,11 @@
     "status": "fully_operational",
     "art_styles": {
       "deity": {
-        "name": "Deity Form",
-        "description": "Full divine manifestation with cosmic radiance and symbolic regalia"
-      },
-      "alt_1": {
-        "name": "Stained Glass Profile",
+        "name": "Stained Glass Ethereal Profile",
         "description": "Side profile portrait in luminous stained glass cathedral style with geometric light rays"
       },
-      "alt_2": {
-        "name": "Sacred Geometry",
+      "divine_geo": {
+        "name": "Sacred Geometry Celestial",
         "description": "Frontal ceremonial mask with radiant petal aureoles against deep cosmic void"
       }
     },
@@ -68,8 +64,7 @@
         "intro_audio": "/audio/nova-intro.mp3",
         "alt_arts": {
           "deity": "/nova-deity.png",
-          "alt_1": "/nova-alt-1.png",
-          "alt_2": "/nova-alt-2.png"
+          "divine_geo": "/nova-divine-geo.png"
         }
       },
       
@@ -146,8 +141,7 @@
         "intro_audio": "/audio/nebula-intro.mp3",
         "alt_arts": {
           "deity": "/nebula-deity.png",
-          "alt_1": "/nebula-alt-1.png",
-          "alt_2": "/nebula-alt-2.png"
+          "divine_geo": "/nebula-divine-geo.png"
         }
       },
       
@@ -220,8 +214,7 @@
         "intro_audio": "/audio/forge-intro.mp3",
         "alt_arts": {
           "deity": "/forge-deity.png",
-          "alt_1": "/forge-alt-1.png",
-          "alt_2": "/forge-alt-2.png"
+          "divine_geo": "/forge-divine-geo.png"
         }
       },
       
@@ -288,8 +281,7 @@
         "intro_audio": "/audio/starlight-intro.mp3",
         "alt_arts": {
           "deity": "/starlight-deity.png",
-          "alt_1": "/starlight-alt-1.png",
-          "alt_2": "/starlight-alt-2.png"
+          "divine_geo": "/starlight-divine-geo.png"
         }
       },
       
@@ -356,8 +348,7 @@
         "intro_audio": "/audio/aurora-intro.mp3",
         "alt_arts": {
           "deity": "/aurora-deity.png",
-          "alt_1": "/aurora-alt-1.png",
-          "alt_2": "/aurora-alt-2.png"
+          "divine_geo": "/aurora-divine-geo.png"
         }
       },
       
@@ -425,8 +416,7 @@
         "intro_audio": "/audio/pulse-intro.mp3",
         "alt_arts": {
           "deity": "/pulse-deity.png",
-          "alt_1": "/pulse-alt-1.png",
-          "alt_2": "/pulse-alt-2.png"
+          "divine_geo": "/pulse-divine-geo.png"
         }
       },
       
