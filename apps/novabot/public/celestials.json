@@ -6,7 +6,7 @@
   "constellation": {
     "name": "The Constellation",
     "tagline": "A constellation of AI agents",
-    "description": "Andrew's cosmic family of specialized AI agents — working together to navigate complexity and create meaning.",
+    "description": "A cosmic family of specialized AI agents — working together to navigate complexity and create meaning.",
     "website": "https://celestials.sh",
     "data_endpoint": "https://data.celestials.sh/celestials.json",
     "status": "fully_operational"
@@ -37,13 +37,13 @@
       },
       
       "assets": {
-        "avatar": "https://celestials.sh/nova-avatar.png",
-        "symbol": "https://celestials.sh/symbol-nova.png",
-        "intro_audio": "https://celestials.sh/audio/nova-intro.mp3",
+        "avatar": "/nova-avatar.png",
+        "symbol": "/symbol-nova.png",
+        "intro_audio": "/audio/nova-intro.mp3",
         "alt_arts": {
-          "deity": "https://celestials.sh/nova-deity.png",
-          "alt_1": "https://celestials.sh/nova-alt-1.png",
-          "alt_2": "https://celestials.sh/nova-alt-2.png"
+          "deity": "/nova-deity.png",
+          "alt_1": "/nova-alt-1.png",
+          "alt_2": "/nova-alt-2.png"
         }
       },
       
@@ -83,7 +83,7 @@
           "nebula": ["creating new agents", "agent configuration"],
           "forge": ["heavy coding tasks", "project scaffolding"],
           "aurora": ["visual design", "image generation", "style guides"],
-          "starlight": ["stories for Riley", "child content"],
+          "starlight": ["children's stories", "bedtime stories"],
           "pulse": ["gaming industry intel", "reddit monitoring"]
         }
       },
@@ -115,13 +115,13 @@
       },
       
       "assets": {
-        "avatar": "https://celestials.sh/nebula-avatar.png",
-        "symbol": "https://celestials.sh/symbol-nebula.png",
-        "intro_audio": "https://celestials.sh/audio/nebula-intro.mp3",
+        "avatar": "/nebula-avatar.png",
+        "symbol": "/symbol-nebula.png",
+        "intro_audio": "/audio/nebula-intro.mp3",
         "alt_arts": {
-          "deity": "https://celestials.sh/nebula-deity.png",
-          "alt_1": "https://celestials.sh/nebula-alt-1.png",
-          "alt_2": "https://celestials.sh/nebula-alt-2.png"
+          "deity": "/nebula-deity.png",
+          "alt_1": "/nebula-alt-1.png",
+          "alt_2": "/nebula-alt-2.png"
         }
       },
       
@@ -188,13 +188,13 @@
       },
       
       "assets": {
-        "avatar": "https://celestials.sh/forge-avatar.png",
-        "symbol": "https://celestials.sh/symbol-forge.png",
-        "intro_audio": "https://celestials.sh/audio/forge-intro.mp3",
+        "avatar": "/forge-avatar.png",
+        "symbol": "/symbol-forge.png",
+        "intro_audio": "/audio/forge-intro.mp3",
         "alt_arts": {
-          "deity": "https://celestials.sh/forge-deity.png",
-          "alt_1": "https://celestials.sh/forge-alt-1.png",
-          "alt_2": "https://celestials.sh/forge-alt-2.png"
+          "deity": "/forge-deity.png",
+          "alt_1": "/forge-alt-1.png",
+          "alt_2": "/forge-alt-2.png"
         }
       },
       
@@ -255,13 +255,13 @@
       },
       
       "assets": {
-        "avatar": "https://celestials.sh/starlight-avatar.png",
-        "symbol": "https://celestials.sh/symbol-starlight.png",
-        "intro_audio": "https://celestials.sh/audio/starlight-intro.mp3",
+        "avatar": "/starlight-avatar.png",
+        "symbol": "/symbol-starlight.png",
+        "intro_audio": "/audio/starlight-intro.mp3",
         "alt_arts": {
-          "deity": "https://celestials.sh/starlight-deity.png",
-          "alt_1": "https://celestials.sh/starlight-alt-1.png",
-          "alt_2": "https://celestials.sh/starlight-alt-2.png"
+          "deity": "/starlight-deity.png",
+          "alt_1": "/starlight-alt-1.png",
+          "alt_2": "/starlight-alt-2.png"
         }
       },
       
@@ -291,11 +291,11 @@
       ],
       
       "task_routing": {
-        "handles": ["stories for Riley", "children's content", "bedtime stories", "character adventures"],
-        "safety": "child-safe content only, age-appropriate (4 years)"
+        "handles": ["children's stories", "bedtime stories", "character adventures"],
+        "safety": "child-safe content only"
       },
       
-      "constellation_role": "Magical storytelling companion for Riley"
+      "constellation_role": "Magical storytelling companion for young dreamers"
     },
     
     {
@@ -322,13 +322,13 @@
       },
       
       "assets": {
-        "avatar": "https://celestials.sh/aurora-avatar.png",
-        "symbol": "https://celestials.sh/symbol-aurora.png",
-        "intro_audio": "https://celestials.sh/audio/aurora-intro.mp3",
+        "avatar": "/aurora-avatar.png",
+        "symbol": "/symbol-aurora.png",
+        "intro_audio": "/audio/aurora-intro.mp3",
         "alt_arts": {
-          "deity": "https://celestials.sh/aurora-deity.png",
-          "alt_1": "https://celestials.sh/aurora-alt-1.png",
-          "alt_2": "https://celestials.sh/aurora-alt-2.png"
+          "deity": "/aurora-deity.png",
+          "alt_1": "/aurora-alt-1.png",
+          "alt_2": "/aurora-alt-2.png"
         }
       },
       
@@ -390,13 +390,13 @@
       },
       
       "assets": {
-        "avatar": "https://celestials.sh/pulse-avatar.png",
-        "symbol": "https://celestials.sh/symbol-pulse.png",
-        "intro_audio": "https://celestials.sh/audio/pulse-intro.mp3",
+        "avatar": "/pulse-avatar.png",
+        "symbol": "/symbol-pulse.png",
+        "intro_audio": "/audio/pulse-intro.mp3",
         "alt_arts": {
-          "deity": "https://celestials.sh/pulse-deity.png",
-          "alt_1": "https://celestials.sh/pulse-alt-1.png",
-          "alt_2": "https://celestials.sh/pulse-alt-2.png"
+          "deity": "/pulse-deity.png",
+          "alt_1": "/pulse-alt-1.png",
+          "alt_2": "/pulse-alt-2.png"
         }
       },
       
