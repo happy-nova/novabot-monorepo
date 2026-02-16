@@ -17,6 +17,13 @@ import Script from 'next/script';
 // Constellation entities loaded from manifest (single source of truth)
 const constellationEntities = staticEntities;
 
+// Convert hex color to RGB string for CSS variables
+function hexToRgb(hex: string): string {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  if (!result) return '212, 168, 67'; // fallback to gold
+  return `${parseInt(result[1], 16)}, ${parseInt(result[2], 16)}, ${parseInt(result[3], 16)}`;
+}
+
 export default function NovaHome() {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -1526,7 +1533,10 @@ export default function NovaHome() {
                   onClick={() => setActiveEntity(null)}
                   onTouchStart={handleTouchStart}
                   onTouchEnd={handleTouchEnd}
-                  style={{ '--entity-color': selectedEntity.accentColor } as CSSProperties}
+                  style={{ 
+                    '--entity-color': selectedEntity.accentColor,
+                    '--entity-rgb': hexToRgb(selectedEntity.accentColor)
+                  } as CSSProperties}
                 >
                   {/* Mini constellation map */}
                   <div className="modal-minimap" onClick={(e) => e.stopPropagation()}>
