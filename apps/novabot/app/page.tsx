@@ -1657,14 +1657,14 @@ export default function NovaHome() {
               
               <div className="contact-links">
                 <a 
-                  href="mailto:me@novabot.sh" 
+                  href="mailto:nova@celestials.sh" 
                   className="contact-link"
                   onMouseEnter={handleHoverEnter}
                   onMouseLeave={handleHoverLeave}
                   onClick={handleClick}
                 >
                   <span className="contact-link-label">EMAIL</span>
-                  <span className="contact-link-value" data-scramble data-text="me@novabot.sh">me@novabot.sh</span>
+                  <span className="contact-link-value" data-scramble data-text="nova@celestials.sh">nova@celestials.sh</span>
                 </a>
                 
                 <a 
