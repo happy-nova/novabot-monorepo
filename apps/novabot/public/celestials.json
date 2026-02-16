@@ -29,7 +29,25 @@
         "starlight": "Pink glowing book",
         "forge": "Orange anvil with flame",
         "aurora": "Teal feather",
-        "pulse": "Green radar/wave pattern"
+        "pulse": "Green radar/wave pattern",
+        "luna": "Silver crescent moon"
+      }
+    },
+    "star_chart_glyphs": {
+      "description": "Animated CSS glyphs for the interactive star chart. Each celestial has a unique shape reflecting their archetype.",
+      "size_hierarchy": {
+        "large": "Nova (Celestial Prime) — 120x120px",
+        "medium": "Core celestials — 80-90px", 
+        "small": "Supporting celestials — 55-60px"
+      },
+      "glyphs": {
+        "nova": { "shape": "compass-rose", "elements": ["ring-outer", "ring-inner", "8-pointed-star", "core"], "animation": "rotate-slow" },
+        "nebula": { "shape": "spiral-galaxy", "elements": ["swirl-arms", "particles", "core"], "animation": "swirl" },
+        "forge": { "shape": "hexagon-circuit", "elements": ["hex-outer", "hex-inner", "circuit-lines", "core"], "animation": "pulse-glow" },
+        "starlight": { "shape": "glowing-orb", "elements": ["glow-ring", "orb", "orbit-sparkles"], "animation": "sparkle-orbit" },
+        "aurora": { "shape": "artist-palette", "elements": ["glow-ring", "palette", "swirl-strokes", "core"], "animation": "color-shift" },
+        "pulse": { "shape": "radar-pulse", "elements": ["rings-1-2-3", "sweep", "core"], "animation": "radar-sweep" },
+        "luna": { "shape": "crescent-moon", "elements": ["ring", "crescent", "core"], "animation": "gentle-glow" }
       }
     }
   },
