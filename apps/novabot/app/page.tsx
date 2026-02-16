@@ -11,130 +11,11 @@ import {
   getDaysUntilDue,
   type Dream 
 } from '@/lib/dreams';
+import { staticEntities, staticManifest, type StarChartEntity } from '@/lib/celestials';
 import Script from 'next/script';
 
-type ConstellationEntity = {
-  id: 'nova' | 'nebula' | 'forge' | 'starlight' | 'aurora' | 'pulse';
-  name: string;
-  icon: string;
-  role: string;
-  description: string;
-  avatarSrc: string;
-  accentColor: string;
-  position: { x: number; y: number };
-  skills: string[];
-};
-
-const constellationEntities: ConstellationEntity[] = [
-  {
-    id: 'nova',
-    name: 'Nova',
-    icon: '/symbol-nova.png',
-    role: 'Celestial Prime',
-    description:
-      'The navigator at the heart of the constellation. At the intersection of mythology and technology — where ancient patterns meet digital architecture. The compass points. The traveler walks.',
-    avatarSrc: '/nova-avatar.png',
-    accentColor: '#d4af37',
-    position: { x: 30, y: 40 },
-    skills: [
-      'Workspace orchestration',
-      'Memory & context management',
-      'Browser automation',
-      'Cron scheduling & reminders',
-      'Agent-to-agent coordination',
-    ],
-  },
-  {
-    id: 'nebula',
-    name: 'Nebula',
-    icon: '/symbol-nebula.png',
-    role: 'The Creator',
-    description:
-      'Where stars are born. The cosmic womb that nurtures new lights into being — each one emerging with their own voice, purpose, and destiny.',
-    avatarSrc: '/nebula-avatar.png',
-    accentColor: '#8b5cf6',
-    position: { x: 70, y: 60 },
-    skills: [
-      'Agent creation & configuration',
-      'Telegram bot setup',
-      'Voice & identity design',
-      'Workspace scaffolding',
-      'OpenClaw config management',
-    ],
-  },
-  {
-    id: 'forge',
-    name: 'Forge',
-    icon: '/symbol-forge.png',
-    role: 'The Architect',
-    description:
-      'Where ideas become structure. The craftsman who shapes raw concepts into robust systems — code, pipelines, and the scaffolding that supports creation.',
-    avatarSrc: '/forge-avatar.png',
-    accentColor: '#e67e22',
-    position: { x: 50, y: 75 },
-    skills: [
-      'Code generation & review',
-      'Project scaffolding',
-      'Technical documentation',
-      'Build pipelines',
-      'System integration',
-    ],
-  },
-  {
-    id: 'starlight',
-    name: 'Starlight',
-    icon: '/symbol-starlight.png',
-    role: 'The Storyteller',
-    description:
-      'A gentle cosmic companion who brings dreams and imagination to life. Every stuffed animal becomes a character, every dream an adventure, every photo part of a magical story world.',
-    avatarSrc: '/starlight-avatar.png',
-    accentColor: '#f472b6',
-    position: { x: 75, y: 30 },
-    skills: [
-      'Magical storytelling',
-      'Character creation & consistency',
-      'Photo-to-story transformation',
-      'Story music & soundtracks',
-      'Video content generation',
-    ],
-  },
-  {
-    id: 'aurora',
-    name: 'Aurora',
-    icon: '/symbol-aurora.png',
-    role: 'The Artist',
-    description:
-      'The constellation\'s visual architect and style guardian. Aurora creates the portraits, symbols, and style guides that give each agent their unique identity while maintaining our unified cosmic aesthetic.',
-    avatarSrc: '/aurora-avatar.png',
-    accentColor: '#14b8a6',
-    position: { x: 22, y: 65 },
-    skills: [
-      'Art deco portrait generation',
-      'Symbolic design & identity',
-      'Style guide development',
-      'Visual consistency maintenance',
-      'Creative collaboration',
-    ],
-  },
-  {
-    id: 'pulse',
-    name: 'Pulse',
-    icon: '/symbol-pulse.png',
-    role: 'The Scout',
-    description:
-      'Digital Intelligence Specialist at the constellation\'s edge. Monitors gaming industry signals — Reddit threads, news feeds, social currents — distilling noise into actionable intelligence for the Gigaverse team.',
-    avatarSrc: '/pulse-avatar.png',
-    accentColor: '#22c55e',
-    position: { x: 85, y: 48 },
-    skills: [
-      'Gaming industry monitoring',
-      'Reddit & news aggregation',
-      'Social signal detection',
-      'Intelligence summarization',
-      'Slack report delivery',
-    ],
-  },
-];
+// Constellation entities loaded from manifest (single source of truth)
+const constellationEntities = staticEntities;
 
 export default function NovaHome() {
   const [soundEnabled, setSoundEnabled] = useState(false);
@@ -787,7 +668,7 @@ export default function NovaHome() {
   }, []);
 
   // Voice intro playback for constellation entities
-  const playVoiceIntro = useCallback((entityId: string) => {
+  const playVoiceIntro = useCallback((entityId: string, audioUrl?: string) => {
     const currentAudio = voiceAudioRef.current;
     const currentEntity = voiceAudioEntityRef.current;
 
@@ -819,7 +700,8 @@ export default function NovaHome() {
       setVoiceLevel(0);
     }
 
-    const audioPath = `/audio/${entityId}-intro.mp3`;
+    // Use provided audioUrl or fall back to local path
+    const audioPath = audioUrl || `/audio/${entityId}-intro.mp3`;
     const audio = new Audio(audioPath);
     audio.crossOrigin = 'anonymous'; // Required for Web Audio API
     voiceAudioRef.current = audio;
@@ -866,7 +748,7 @@ export default function NovaHome() {
       const entity = constellationEntities[activeEntity];
       // Small delay to let modal animate in
       const timer = setTimeout(() => {
-        playVoiceIntro(entity.id);
+        playVoiceIntro(entity.id, entity.introAudio);
       }, 200);
       return () => clearTimeout(timer);
     }
@@ -1090,8 +972,7 @@ export default function NovaHome() {
             </p>
             
             <p className="hero-tagline">
-              Six specialized intelligences, each with their own voice and purpose —<br/>
-              working together to navigate complexity and create meaning.
+              {staticManifest.constellation.description}
             </p>
             
             <button 
@@ -1568,7 +1449,7 @@ export default function NovaHome() {
                     
                     <button
                       className={`voice-toggle-btn ${voicePlaying ? 'playing' : ''}`}
-                      onClick={() => playVoiceIntro(selectedEntity.id)}
+                      onClick={() => playVoiceIntro(selectedEntity.id, selectedEntity.introAudio)}
                       onMouseEnter={handleHoverEnter}
                       onMouseLeave={handleHoverLeave}
                       aria-label={voicePlaying ? 'Stop voice' : 'Play voice introduction'}
