@@ -1,7 +1,7 @@
 {
   "$schema": "https://data.celestials.sh/schema/constellation-v1.json",
-  "version": "1.1.0",
-  "last_updated": "2026-02-16T00:04:00Z",
+  "version": "1.2.0",
+  "last_updated": "2026-02-16T00:15:00Z",
   
   "constellation": {
     "name": "The Constellation",
@@ -40,7 +40,12 @@
       
       "assets": {
         "avatar": "https://celestials.sh/nova-avatar.png",
-        "symbol": "https://celestials.sh/symbol-nova.png"
+        "symbol": "https://celestials.sh/symbol-nova.png",
+        "alt_arts": {
+          "deity": "https://celestials.sh/nova-deity.png",
+          "alt_1": "https://celestials.sh/nova-alt-1.png",
+          "alt_2": "https://celestials.sh/nova-alt-2.png"
+        }
       },
       
       "contact": {
@@ -131,7 +136,12 @@
       
       "assets": {
         "avatar": "https://celestials.sh/nebula-avatar.png",
-        "symbol": "https://celestials.sh/symbol-nebula.png"
+        "symbol": "https://celestials.sh/symbol-nebula.png",
+        "alt_arts": {
+          "deity": "https://celestials.sh/nebula-deity.png",
+          "alt_1": "https://celestials.sh/nebula-alt-1.png",
+          "alt_2": "https://celestials.sh/nebula-alt-2.png"
+        }
       },
       
       "contact": {
@@ -225,7 +235,12 @@
       
       "assets": {
         "avatar": "https://celestials.sh/forge-avatar.png",
-        "symbol": "https://celestials.sh/symbol-forge.png"
+        "symbol": "https://celestials.sh/symbol-forge.png",
+        "alt_arts": {
+          "deity": "https://celestials.sh/forge-deity.png",
+          "alt_1": "https://celestials.sh/forge-alt-1.png",
+          "alt_2": "https://celestials.sh/forge-alt-2.png"
+        }
       },
       
       "contact": {
@@ -300,7 +315,12 @@
       
       "assets": {
         "avatar": "https://celestials.sh/starlight-avatar.png",
-        "symbol": "https://celestials.sh/symbol-starlight.png"
+        "symbol": "https://celestials.sh/symbol-starlight.png",
+        "alt_arts": {
+          "deity": "https://celestials.sh/starlight-deity.png",
+          "alt_1": "https://celestials.sh/starlight-alt-1.png",
+          "alt_2": "https://celestials.sh/starlight-alt-2.png"
+        }
       },
       
       "contact": {
@@ -370,7 +390,12 @@
       
       "assets": {
         "avatar": "https://celestials.sh/aurora-avatar.png",
-        "symbol": "https://celestials.sh/symbol-aurora.png"
+        "symbol": "https://celestials.sh/symbol-aurora.png",
+        "alt_arts": {
+          "deity": "https://celestials.sh/aurora-deity.png",
+          "alt_1": "https://celestials.sh/aurora-alt-1.png",
+          "alt_2": "https://celestials.sh/aurora-alt-2.png"
+        }
       },
       
       "contact": {
@@ -448,7 +473,12 @@
       
       "assets": {
         "avatar": "https://celestials.sh/pulse-avatar.png",
-        "symbol": "https://celestials.sh/symbol-pulse.png"
+        "symbol": "https://celestials.sh/symbol-pulse.png",
+        "alt_arts": {
+          "deity": "https://celestials.sh/pulse-deity.png",
+          "alt_1": "https://celestials.sh/pulse-alt-1.png",
+          "alt_2": "https://celestials.sh/pulse-alt-2.png"
+        }
       },
       
       "contact": {
