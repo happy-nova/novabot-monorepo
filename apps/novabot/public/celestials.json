@@ -23,6 +23,18 @@
         "name": "Sacred Geometry",
         "description": "Frontal ceremonial mask with radiant petal aureoles against deep cosmic void"
       }
+    },
+    "symbol_style": {
+      "name": "Ethereal Neon Sigils",
+      "description": "Circular badges with glowing neon iconography on dark backgrounds",
+      "symbols": {
+        "nova": "Golden compass rose",
+        "nebula": "Purple spiral galaxy",
+        "starlight": "Pink glowing book",
+        "forge": "Orange anvil with flame",
+        "aurora": "Teal feather",
+        "pulse": "Green radar/wave pattern"
+      }
     }
   },
 
