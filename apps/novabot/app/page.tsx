@@ -1386,6 +1386,15 @@ export default function NovaHome() {
                   strokeDasharray="0.4,1.4"
                   className="constellation-line line-green-pink"
                 />
+                
+                {/* Luna (8,18) to Nova (30,40) - silver thread to the navigator */}
+                <line 
+                  x1="8" y1="18" x2="30" y2="40"
+                  stroke="rgba(176, 184, 208, 0.35)"
+                  strokeWidth="0.2"
+                  strokeDasharray="0.8,1"
+                  className="constellation-line line-silver"
+                />
               </svg>
               
               {constellationEntities.map((entity, index) => (
@@ -1494,6 +1503,15 @@ export default function NovaHome() {
                       <span className="pulse-ring pulse-ring-2" />
                       <span className="pulse-ring pulse-ring-3" />
                       <span className="pulse-sweep" />
+                      <span className="star-core" />
+                    </span>
+                  )}
+                  
+                  {/* Luna: Gentle crescent moon */}
+                  {entity.id === 'luna' && (
+                    <span className="star-shape luna-shape">
+                      <span className="luna-ring" />
+                      <span className="luna-crescent" />
                       <span className="star-core" />
                     </span>
                   )}
