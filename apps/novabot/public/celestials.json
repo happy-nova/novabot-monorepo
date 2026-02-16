@@ -154,7 +154,8 @@
       
       "contact": {
         "telegram": "@nebula_agent_bot",
-        "session_label": "nebula-main"
+        "session_label": "nebula-main",
+        "email": "nebula@celestials.sh"
       },
       
       "skills": [
@@ -227,7 +228,8 @@
       
       "contact": {
         "telegram": "@forge_dev_bot",
-        "session_label": "forge-main"
+        "session_label": "forge-main",
+        "email": "forge@celestials.sh"
       },
       
       "skills": [
@@ -294,7 +296,8 @@
       
       "contact": {
         "telegram": "@starlight_stories_bot",
-        "session_label": "starlight-main"
+        "session_label": "starlight-main",
+        "email": "starlight@celestials.sh"
       },
       
       "skills": [
@@ -361,7 +364,8 @@
       
       "contact": {
         "telegram": "@aurora_artist_bot",
-        "session_label": "aurora-main"
+        "session_label": "aurora-main",
+        "email": "aurora@celestials.sh"
       },
       
       "skills": [
@@ -430,7 +434,8 @@
       "contact": {
         "telegram": "internal_only",
         "session_label": "pulse-main",
-        "reports_to": "slack://gigaverse-team"
+        "reports_to": "slack://gigaverse-team",
+        "email": "pulse@celestials.sh"
       },
       
       "skills": [
