@@ -94,6 +94,11 @@ export interface StarChartEntity {
   skills: string[];
   introAudio: string;
   introText: string;
+  altArts: {
+    deity: string;
+    alt_1: string;
+    alt_2: string;
+  };
 }
 
 export function celestialToStarChartEntity(celestial: Celestial): StarChartEntity {
@@ -109,6 +114,7 @@ export function celestialToStarChartEntity(celestial: Celestial): StarChartEntit
     skills: celestial.display.card_skills,
     introAudio: celestial.assets.intro_audio,
     introText: celestial.display.intro_text,
+    altArts: celestial.assets.alt_arts,
   };
 }
 

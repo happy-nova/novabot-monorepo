@@ -3105,6 +3105,38 @@ body.modal-open {
   transition: box-shadow 0.06s ease-out;
 }
 
+/* Art style toggle dots below avatar */
+.art-style-toggle {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 12px;
+  position: relative;
+  z-index: 5;
+}
+
+.art-style-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.art-style-dot:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.2);
+}
+
+.art-style-dot.active {
+  background: var(--entity-color, var(--accent-gold));
+  border-color: var(--entity-color, var(--accent-gold));
+  box-shadow: 0 0 8px var(--entity-color, var(--accent-gold));
+}
+
 .leader-badge {
   position: absolute;
   top: -6px;

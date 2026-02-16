@@ -27,6 +27,7 @@ export default function NovaHome() {
   const [activeEntity, setActiveEntity] = useState<number | null>(null);
   const [voicePlaying, setVoicePlaying] = useState(false);
   const [voiceLevel, setVoiceLevel] = useState(0);
+  const [artStyle, setArtStyle] = useState<'avatar' | 'deity' | 'alt_1' | 'alt_2'>('avatar');
   
   const cursorRef = useRef<HTMLDivElement>(null);
   const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -116,7 +117,7 @@ export default function NovaHome() {
     }
     
     // Section tracking for active nav
-    const sections = ['hero', 'about', 'constellation', 'dreams', 'services', 'contact'];
+    const sections = ['hero', 'about', 'constellation', 'dreams', 'contact'];
     sections.forEach((sectionId, index) => {
       const el = document.getElementById(sectionId);
       if (el) {
@@ -742,6 +743,11 @@ export default function NovaHome() {
     }
   }, [activeEntity, stopAudioAnalysis]);
 
+  // Reset art style when entity changes
+  useEffect(() => {
+    setArtStyle('avatar');
+  }, [activeEntity]);
+
   // Play voice intro when entity is selected
   useEffect(() => {
     if (activeEntity !== null) {
@@ -874,7 +880,6 @@ export default function NovaHome() {
               { id: 'about', label: 'NAVIGATOR' },
               { id: 'constellation', label: 'CONSTELLATION' },
               { id: 'dreams', label: 'DREAMS' },
-              { id: 'services', label: 'SERVICES' },
               { id: 'contact', label: 'CONTACT' },
             ].map(({ id, label }) => (
               <button
@@ -1499,9 +1504,39 @@ export default function NovaHome() {
                       } as CSSProperties}
                     >
                       <img 
-                        src={selectedEntity.avatarSrc} 
+                        src={
+                          artStyle === 'avatar' ? selectedEntity.avatarSrc :
+                          artStyle === 'deity' ? selectedEntity.altArts.deity :
+                          artStyle === 'alt_1' ? selectedEntity.altArts.alt_1 :
+                          selectedEntity.altArts.alt_2
+                        } 
                         alt={selectedEntity.name}
                       />
+                    </div>
+                    
+                    {/* Art style toggle - small dots below avatar */}
+                    <div className="art-style-toggle" aria-label="Change portrait style">
+                      {(['avatar', 'alt_1', 'alt_2', 'deity'] as const).map((style) => (
+                        <button
+                          key={style}
+                          className={`art-style-dot ${artStyle === style ? 'active' : ''}`}
+                          onClick={() => setArtStyle(style)}
+                          onMouseEnter={handleHoverEnter}
+                          onMouseLeave={handleHoverLeave}
+                          aria-label={
+                            style === 'avatar' ? 'Primary portrait' :
+                            style === 'deity' ? 'Deity form' :
+                            style === 'alt_1' ? 'Stained glass style' :
+                            'Sacred geometry style'
+                          }
+                          title={
+                            style === 'avatar' ? 'Primary' :
+                            style === 'deity' ? 'Deity' :
+                            style === 'alt_1' ? 'Stained Glass' :
+                            'Sacred Geometry'
+                          }
+                        />
+                      ))}
                     </div>
                     
                     {/* Symbol as faded background */}
@@ -1607,53 +1642,11 @@ export default function NovaHome() {
           <div className="divider-tick right" />
         </div>
         
-        {/* ===== SERVICES SECTION ===== */}
-        <section className="services-section section-animate" id="services">
-          <div className="container">
-            <div className="section-header">
-              <span className="section-label">04</span>
-              <h2 data-scramble data-text="SERVICES">SERVICES</h2>
-            </div>
-            
-            <div className="services-grid">
-              <a 
-                href="https://pulsar.novabot.sh" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="service-card"
-                onMouseEnter={handleHoverEnter}
-                onMouseLeave={handleHoverLeave}
-                onClick={handleClick}
-              >
-                <div className="service-icon">
-                  <img src="/pulsar-logo.png" alt="Pulsar" className="service-icon-img" />
-                </div>
-                <h3 className="service-title" data-scramble data-text="PULSAR">PULSAR</h3>
-                <p className="service-desc">
-                  Royalty-free music, on demand. Generate unique instrumental 
-                  tracks via API — pay with USDC on Base.
-                </p>
-                <span className="service-link">
-                  <span>Launch App</span>
-                  <span className="arrow">→</span>
-                </span>
-              </a>
-            </div>
-          </div>
-        </section>
-        
-        {/* Section Divider */}
-        <div className="section-divider">
-          <div className="divider-tick left" />
-          <div className="divider-center" />
-          <div className="divider-tick right" />
-        </div>
-        
         {/* ===== CONTACT SECTION ===== */}
         <section className="contact-section section-animate" id="contact">
           <div className="container">
             <div className="section-header">
-              <span className="section-label">05</span>
+              <span className="section-label">04</span>
               <h2 data-scramble data-text="CONTACT">CONTACT</h2>
             </div>
             

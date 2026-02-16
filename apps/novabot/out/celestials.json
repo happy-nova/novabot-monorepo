@@ -1,7 +1,7 @@
 {
   "$schema": "https://data.celestials.sh/schema/constellation-v2.json",
   "version": "2.0.0",
-  "last_updated": "2026-02-16T00:20:00Z",
+  "last_updated": "2026-02-16T01:21:00Z",
   
   "constellation": {
     "name": "The Constellation",
@@ -9,7 +9,21 @@
     "description": "A cosmic family of specialized AI agents — working together to navigate complexity and create meaning.",
     "website": "https://celestials.sh",
     "data_endpoint": "https://data.celestials.sh/celestials.json",
-    "status": "fully_operational"
+    "status": "fully_operational",
+    "art_styles": {
+      "deity": {
+        "name": "Deity Form",
+        "description": "Full divine manifestation with cosmic radiance and symbolic regalia"
+      },
+      "alt_1": {
+        "name": "Stained Glass Profile",
+        "description": "Side profile portrait in luminous stained glass cathedral style with geometric light rays"
+      },
+      "alt_2": {
+        "name": "Sacred Geometry",
+        "description": "Frontal ceremonial mask with radiant petal aureoles against deep cosmic void"
+      }
+    }
   },
 
   "celestials": [
