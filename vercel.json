@@ -1,0 +1,5 @@
+{
+  "buildCommand": "cd apps/novabot && pnpm build",
+  "outputDirectory": "apps/novabot/.next",
+  "framework": "nextjs"
+}
