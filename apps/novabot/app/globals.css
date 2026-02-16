@@ -1914,10 +1914,10 @@ button {
 /* Symbol behind constellation node - fades in on hover as star shape fades out */
 .star-symbol {
   position: absolute;
-  width: 120px;
-  height: 120px;
+  width: 80px;
+  height: 80px;
   object-fit: contain;
-  opacity: 0.35;
+  opacity: 0.3;
   pointer-events: none;
   z-index: 0;
   transition: opacity 0.8s ease-in-out;
