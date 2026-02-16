@@ -1917,14 +1917,14 @@ button {
   width: 120px;
   height: 120px;
   object-fit: contain;
-  opacity: 0.15;
+  opacity: 0.35;
   pointer-events: none;
   z-index: 0;
   transition: opacity 0.8s ease-in-out;
 }
 
 .constellation-star:hover .star-symbol {
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
 /* Fade out the CSS star shape on hover */
