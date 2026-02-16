@@ -4457,3 +4457,373 @@ body.modal-open {
   background: var(--accent-glow-strong);
   color: var(--text-primary);
 }
+
+/* ===== LOADING SCREEN ===== */
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg-deep);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.loading-screen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(ellipse at 50% 50%, rgba(212, 168, 67, 0.05) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, rgba(139, 92, 246, 0.03) 0%, transparent 40%),
+    radial-gradient(ellipse at 80% 20%, rgba(244, 114, 182, 0.03) 0%, transparent 40%);
+  pointer-events: none;
+}
+
+/* Grain overlay for loading */
+.loading-screen::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+.loading-screen.loaded {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.loading-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+}
+
+/* Constellation SVG behind logo */
+.loading-constellation {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  opacity: 0.4;
+  animation: constellation-rotate 60s linear infinite;
+}
+
+.constellation-path {
+  stroke-dasharray: 800;
+  stroke-dashoffset: 800;
+  animation: draw-constellation 3s ease forwards;
+}
+
+.constellation-inner {
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: draw-constellation 3s ease 0.5s forwards;
+}
+
+@keyframes draw-constellation {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes constellation-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Orbiting particles */
+.orbit-particle {
+  opacity: 0.8;
+  filter: blur(0.5px);
+}
+
+.orbit-particle.p1 {
+  animation: orbit-1 8s linear infinite;
+}
+.orbit-particle.p2 {
+  animation: orbit-2 10s linear infinite;
+}
+.orbit-particle.p3 {
+  animation: orbit-3 12s linear infinite;
+}
+.orbit-particle.p4 {
+  animation: orbit-4 9s linear infinite;
+}
+.orbit-particle.p5 {
+  animation: orbit-5 11s linear infinite;
+}
+.orbit-particle.p6 {
+  animation: orbit-6 7s linear infinite;
+}
+
+@keyframes orbit-1 {
+  0% { transform: translate(100px, 30px); }
+  25% { transform: translate(155px, 100px); }
+  50% { transform: translate(100px, 170px); }
+  75% { transform: translate(45px, 100px); }
+  100% { transform: translate(100px, 30px); }
+}
+
+@keyframes orbit-2 {
+  0% { transform: translate(155px, 65px); }
+  33% { transform: translate(100px, 170px); }
+  66% { transform: translate(45px, 65px); }
+  100% { transform: translate(155px, 65px); }
+}
+
+@keyframes orbit-3 {
+  0% { transform: translate(155px, 135px); }
+  50% { transform: translate(45px, 65px); }
+  100% { transform: translate(155px, 135px); }
+}
+
+@keyframes orbit-4 {
+  0% { transform: translate(45px, 135px); }
+  33% { transform: translate(155px, 65px); }
+  66% { transform: translate(100px, 30px); }
+  100% { transform: translate(45px, 135px); }
+}
+
+@keyframes orbit-5 {
+  0% { transform: translate(45px, 65px); }
+  50% { transform: translate(155px, 135px); }
+  100% { transform: translate(45px, 65px); }
+}
+
+@keyframes orbit-6 {
+  0% { transform: translate(100px, 170px); }
+  25% { transform: translate(45px, 135px); }
+  50% { transform: translate(45px, 65px); }
+  75% { transform: translate(100px, 30px); }
+  100% { transform: translate(100px, 170px); }
+}
+
+/* Logo container */
+.loading-logo-container {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin-bottom: var(--space-xl);
+}
+
+.loading-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: logo-pulse 2s ease-in-out infinite, logo-float 4s ease-in-out infinite;
+  filter: drop-shadow(0 0 30px rgba(212, 168, 67, 0.3));
+}
+
+.loading-logo-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(212, 168, 67, 0.15) 0%, transparent 60%);
+  animation: glow-pulse 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes logo-pulse {
+  0%, 100% { 
+    filter: drop-shadow(0 0 30px rgba(212, 168, 67, 0.3));
+  }
+  50% { 
+    filter: drop-shadow(0 0 50px rgba(212, 168, 67, 0.5));
+  }
+}
+
+@keyframes logo-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+/* Title */
+.loading-title {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  letter-spacing: 0.4em;
+  color: var(--text-primary);
+  margin-bottom: var(--space-sm);
+  text-shadow: 0 0 40px rgba(212, 168, 67, 0.3);
+  animation: title-reveal 1s ease forwards;
+  opacity: 0;
+  animation-delay: 0.5s;
+}
+
+.loading-subtitle {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-2xl);
+  animation: title-reveal 1s ease forwards;
+  opacity: 0;
+  animation-delay: 0.8s;
+}
+
+@keyframes title-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Progress bar */
+.loading-progress-container {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  animation: title-reveal 1s ease forwards;
+  opacity: 0;
+  animation-delay: 1s;
+}
+
+.loading-progress-track {
+  width: 200px;
+  height: 2px;
+  background: rgba(212, 168, 67, 0.2);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.loading-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-gold), var(--accent-amber));
+  border-radius: 1px;
+  transition: width 0.3s ease;
+  box-shadow: 0 0 10px rgba(212, 168, 67, 0.5);
+}
+
+.loading-progress-text {
+  font-family: var(--font-body);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  min-width: 40px;
+}
+
+/* Corner brackets */
+.loading-corner {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border: 1px solid rgba(212, 168, 67, 0.3);
+  pointer-events: none;
+}
+
+.loading-corner.tl {
+  top: 40px;
+  left: 40px;
+  border-right: none;
+  border-bottom: none;
+  animation: corner-reveal 0.8s ease forwards;
+}
+
+.loading-corner.tr {
+  top: 40px;
+  right: 40px;
+  border-left: none;
+  border-bottom: none;
+  animation: corner-reveal 0.8s ease 0.1s forwards;
+}
+
+.loading-corner.bl {
+  bottom: 40px;
+  left: 40px;
+  border-right: none;
+  border-top: none;
+  animation: corner-reveal 0.8s ease 0.2s forwards;
+}
+
+.loading-corner.br {
+  bottom: 40px;
+  right: 40px;
+  border-left: none;
+  border-top: none;
+  animation: corner-reveal 0.8s ease 0.3s forwards;
+}
+
+@keyframes corner-reveal {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .loading-constellation {
+    width: 300px;
+    height: 300px;
+  }
+  
+  .loading-logo-container {
+    width: 140px;
+    height: 140px;
+  }
+  
+  .loading-title {
+    font-size: 1.8rem;
+    letter-spacing: 0.3em;
+  }
+  
+  .loading-subtitle {
+    font-size: 0.65rem;
+  }
+  
+  .loading-corner {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .loading-corner.tl,
+  .loading-corner.tr {
+    top: 20px;
+  }
+  
+  .loading-corner.bl,
+  .loading-corner.br {
+    bottom: 20px;
+  }
+  
+  .loading-corner.tl,
+  .loading-corner.bl {
+    left: 20px;
+  }
+  
+  .loading-corner.tr,
+  .loading-corner.br {
+    right: 20px;
+  }
+}

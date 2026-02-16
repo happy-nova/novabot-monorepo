@@ -28,6 +28,8 @@ export default function NovaHome() {
   const [voicePlaying, setVoicePlaying] = useState(false);
   const [voiceLevel, setVoiceLevel] = useState(0);
   const [artStyle, setArtStyle] = useState<'avatar' | 'deity' | 'alt_1' | 'alt_2'>('avatar');
+  const [pageLoaded, setPageLoaded] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState(0);
   
   const cursorRef = useRef<HTMLDivElement>(null);
   const voiceAudioRef = useRef<HTMLAudioElement | null>(null);
@@ -43,6 +45,41 @@ export default function NovaHome() {
   const elevated = getElevatedDreams();
   const active = getActiveDreams();
   const sunset = getSunsetDreams();
+
+  // Loading screen progress simulation
+  useEffect(() => {
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += Math.random() * 15 + 5;
+      if (progress >= 100) {
+        progress = 100;
+        setLoadingProgress(100);
+        clearInterval(interval);
+        // Small delay before hiding loader for dramatic effect
+        setTimeout(() => setPageLoaded(true), 400);
+      } else {
+        setLoadingProgress(Math.min(progress, 95)); // Cap at 95 until fully ready
+      }
+    }, 150);
+    
+    // Also trigger on window load
+    const handleLoad = () => {
+      setLoadingProgress(100);
+      clearInterval(interval);
+      setTimeout(() => setPageLoaded(true), 400);
+    };
+    
+    if (document.readyState === 'complete') {
+      handleLoad();
+    } else {
+      window.addEventListener('load', handleLoad);
+    }
+    
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('load', handleLoad);
+    };
+  }, []);
 
   // Initialize Howler sounds
   useEffect(() => {
@@ -855,6 +892,75 @@ export default function NovaHome() {
         strategy="afterInteractive"
         onLoad={() => setHowlerLoaded(true)}
       />
+      
+      {/* Loading Screen */}
+      <div className={`loading-screen ${pageLoaded ? 'loaded' : ''}`}>
+        <div className="loading-content">
+          {/* Constellation connection lines */}
+          <svg className="loading-constellation" viewBox="0 0 200 200">
+            <defs>
+              <linearGradient id="line-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="rgba(212, 168, 67, 0)" />
+                <stop offset="50%" stopColor="rgba(212, 168, 67, 0.6)" />
+                <stop offset="100%" stopColor="rgba(212, 168, 67, 0)" />
+              </linearGradient>
+            </defs>
+            {/* Hexagonal constellation lines */}
+            <path 
+              d="M100,30 L155,65 L155,135 L100,170 L45,135 L45,65 Z" 
+              fill="none" 
+              stroke="url(#line-gradient)" 
+              strokeWidth="0.5"
+              className="constellation-path"
+            />
+            <path 
+              d="M100,30 L100,170 M45,65 L155,135 M155,65 L45,135" 
+              fill="none" 
+              stroke="url(#line-gradient)" 
+              strokeWidth="0.3"
+              className="constellation-inner"
+            />
+            {/* Orbiting particles */}
+            <circle className="orbit-particle p1" r="2" fill="#d4a843" />
+            <circle className="orbit-particle p2" r="1.5" fill="#8b5cf6" />
+            <circle className="orbit-particle p3" r="1.5" fill="#f472b6" />
+            <circle className="orbit-particle p4" r="2" fill="#22c55e" />
+            <circle className="orbit-particle p5" r="1.5" fill="#14b8a6" />
+            <circle className="orbit-particle p6" r="1.5" fill="#e67e22" />
+          </svg>
+          
+          {/* Logo */}
+          <div className="loading-logo-container">
+            <img 
+              src="/celestials-logo.png" 
+              alt="Celestials" 
+              className="loading-logo"
+            />
+            <div className="loading-logo-glow" />
+          </div>
+          
+          {/* Title */}
+          <h1 className="loading-title">CELESTIALS</h1>
+          <p className="loading-subtitle">A CONSTELLATION OF AI AGENTS</p>
+          
+          {/* Progress bar */}
+          <div className="loading-progress-container">
+            <div className="loading-progress-track">
+              <div 
+                className="loading-progress-bar" 
+                style={{ width: `${loadingProgress}%` }}
+              />
+            </div>
+            <span className="loading-progress-text">{Math.round(loadingProgress)}%</span>
+          </div>
+        </div>
+        
+        {/* Corner brackets */}
+        <div className="loading-corner tl" />
+        <div className="loading-corner tr" />
+        <div className="loading-corner bl" />
+        <div className="loading-corner br" />
+      </div>
       
       {/* Floating Compass - Gravitational Drift */}
       <img 
