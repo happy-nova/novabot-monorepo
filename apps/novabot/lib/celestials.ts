@@ -40,7 +40,7 @@ export interface Celestial {
   };
   assets: CelestialAssets;
   display: CelestialDisplay;
-  contact: Record<string, string>;
+  contact: Record<string, string | undefined>;
   skills: Array<{ id: string; name: string; description: string }>;
   task_routing: Record<string, unknown>;
   constellation_role: string;
@@ -78,7 +78,7 @@ export async function fetchCelestialsManifest(): Promise<ConstellationManifest> 
   
   // For development, import the local file
   const manifest = await import('../public/celestials.json');
-  return manifest.default as ConstellationManifest;
+  return manifest.default as unknown as ConstellationManifest;
 }
 
 // Transform manifest celestial to the format used by the star chart component

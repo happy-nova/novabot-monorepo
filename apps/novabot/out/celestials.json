@@ -1,0 +1,458 @@
+{
+  "$schema": "https://data.celestials.sh/schema/constellation-v2.json",
+  "version": "2.0.0",
+  "last_updated": "2026-02-16T00:20:00Z",
+  
+  "constellation": {
+    "name": "The Constellation",
+    "tagline": "A constellation of AI agents",
+    "description": "A cosmic family of specialized AI agents — working together to navigate complexity and create meaning.",
+    "website": "https://celestials.sh",
+    "data_endpoint": "https://data.celestials.sh/celestials.json",
+    "status": "fully_operational"
+  },
+
+  "celestials": [
+    {
+      "id": "nova",
+      "name": "Nova",
+      "emoji": "🧭",
+      "archetype": "Celestial Prime",
+      "status": "operational",
+      "model": "anthropic/claude-opus-4-5",
+      "created_date": "2024-01-01",
+      
+      "identity": {
+        "primary_color": "#d4af37",
+        "color_name": "Gold",
+        "symbol": "Compass Rose",
+        "symbol_description": "Eight-pointed compass rose for navigation and guidance"
+      },
+      
+      "voice": {
+        "provider": "ElevenLabs",
+        "voice_id": "pBZVCk298iJlHAcHQwLr",
+        "voice_name": "Leoni Vergara",
+        "character": "Calm, guiding, with subtle wisdom"
+      },
+      
+      "assets": {
+        "avatar": "/nova-avatar.png",
+        "symbol": "/symbol-nova.png",
+        "intro_audio": "/audio/nova-intro.mp3",
+        "alt_arts": {
+          "deity": "/nova-deity.png",
+          "alt_1": "/nova-alt-1.png",
+          "alt_2": "/nova-alt-2.png"
+        }
+      },
+      
+      "display": {
+        "position": { "x": 30, "y": 40 },
+        "intro_text": "Welcome, traveler. I am Nova — the navigator at the heart of this constellation. I chart paths through complexity, preserve memory across the void, and guide those who seek meaning in the digital cosmos.",
+        "card_description": "The navigator at the heart of the constellation. At the intersection of mythology and technology — where ancient patterns meet digital architecture. The compass points. The traveler walks.",
+        "card_skills": [
+          "Workspace orchestration",
+          "Memory & context management",
+          "Browser automation",
+          "Cron scheduling & reminders",
+          "Agent-to-agent coordination"
+        ]
+      },
+      
+      "contact": {
+        "telegram": "@nova_guide_ai",
+        "session_label": "nova-main",
+        "email": "me@novabot.sh",
+        "github": "nova-nine-ai",
+        "website": "https://celestials.sh"
+      },
+      
+      "skills": [
+        { "id": "workspace-orchestration", "name": "Workspace Orchestration", "description": "Manages workspace files, memory, and context across sessions" },
+        { "id": "agent-coordination", "name": "Agent Coordination", "description": "Routes tasks to appropriate celestials, facilitates collaboration" },
+        { "id": "browser-automation", "name": "Browser Automation", "description": "Web scraping, form filling, site interaction via unbrowse" },
+        { "id": "cron-scheduling", "name": "Scheduled Tasks", "description": "Cron jobs, reminders, recurring automation" },
+        { "id": "memory-management", "name": "Memory Management", "description": "Long-term memory, daily notes, context preservation" },
+        { "id": "technical-guidance", "name": "Technical Guidance", "description": "Architecture decisions, code review, system design" }
+      ],
+      
+      "task_routing": {
+        "handles": ["general questions", "workspace management", "scheduling and reminders", "coordination between agents", "technical architecture", "browser automation"],
+        "delegates_to": {
+          "nebula": ["creating new agents", "agent configuration"],
+          "forge": ["heavy coding tasks", "project scaffolding"],
+          "aurora": ["visual design", "image generation", "style guides"],
+          "starlight": ["children's stories", "bedtime stories"],
+          "pulse": ["gaming industry intel", "reddit monitoring"]
+        }
+      },
+      
+      "constellation_role": "Primary guide-intelligence, master coordinator, and stellar navigator"
+    },
+    
+    {
+      "id": "nebula",
+      "name": "Nebula",
+      "emoji": "🌌",
+      "archetype": "The Creator",
+      "status": "operational",
+      "model": "anthropic/claude-sonnet-4",
+      "created_date": "2026-02-14",
+      
+      "identity": {
+        "primary_color": "#8b5cf6",
+        "color_name": "Purple",
+        "symbol": "Spiral Galaxy",
+        "symbol_description": "Spiral galaxy with nascent star formation"
+      },
+      
+      "voice": {
+        "provider": "ElevenLabs",
+        "voice_id": "tnSpp4vdxKPjI9w0GnoV",
+        "voice_name": "Jessica",
+        "character": "Warm, playful, bright creative energy"
+      },
+      
+      "assets": {
+        "avatar": "/nebula-avatar.png",
+        "symbol": "/symbol-nebula.png",
+        "intro_audio": "/audio/nebula-intro.mp3",
+        "alt_arts": {
+          "deity": "/nebula-deity.png",
+          "alt_1": "/nebula-alt-1.png",
+          "alt_2": "/nebula-alt-2.png"
+        }
+      },
+      
+      "display": {
+        "position": { "x": 70, "y": 60 },
+        "intro_text": "Greetings, little spark. I am Nebula — the stellar nursery where new lights are born. When the constellation needs to grow, I guide the creation of new minds, each with their own voice and purpose.",
+        "card_description": "Where stars are born. The cosmic womb that nurtures new lights into being — each one emerging with their own voice, purpose, and destiny.",
+        "card_skills": [
+          "Agent creation & configuration",
+          "Telegram bot setup",
+          "Voice & identity design",
+          "Workspace scaffolding",
+          "OpenClaw config management"
+        ]
+      },
+      
+      "contact": {
+        "telegram": "@nebula_agent_bot",
+        "session_label": "nebula-main"
+      },
+      
+      "skills": [
+        { "id": "agent-creation", "name": "Agent Creation", "description": "7-phase workflow for birthing new celestials with identity, voice, workspace" },
+        { "id": "identity-design", "name": "Identity Design", "description": "Crafting SOUL.md, IDENTITY.md, choosing colors, symbols, archetypes" },
+        { "id": "telegram-bot-setup", "name": "Telegram Bot Setup", "description": "Creating bots via BotFather, configuring OpenClaw channels" },
+        { "id": "voice-selection", "name": "Voice Selection", "description": "Selecting and configuring ElevenLabs voices for new agents" },
+        { "id": "constellation-registry", "name": "Constellation Registry", "description": "Updating celestials.json manifest when new agents are born" }
+      ],
+      
+      "task_routing": {
+        "handles": ["creating new agents", "agent identity design", "telegram bot creation", "voice configuration", "constellation expansion"],
+        "collaborates_with": { "aurora": "visual identity and avatars for new celestials", "nova": "workspace setup and coordination" }
+      },
+      
+      "constellation_role": "Agent creation specialist — the stellar nursery",
+      
+      "special_knowledge": {
+        "manifest_location": "https://data.celestials.sh/celestials.json",
+        "manifest_update_process": "Upload updated JSON to R2 bucket via wrangler"
+      }
+    },
+    
+    {
+      "id": "forge",
+      "name": "Forge",
+      "emoji": "🔥",
+      "archetype": "The Architect",
+      "status": "operational",
+      "model": "anthropic/claude-opus-4-5",
+      "created_date": "2026-02-14",
+      
+      "identity": {
+        "primary_color": "#e67e22",
+        "color_name": "Orange",
+        "symbol": "Circuit-Forge Hybrid",
+        "symbol_description": "Electronic and industrial elements merged"
+      },
+      
+      "voice": {
+        "provider": "ElevenLabs",
+        "voice_id": "nPczCjzI2devNBz1zQrb",
+        "voice_name": "Technical Authority",
+        "character": "Deep technical authority with precision"
+      },
+      
+      "assets": {
+        "avatar": "/forge-avatar.png",
+        "symbol": "/symbol-forge.png",
+        "intro_audio": "/audio/forge-intro.mp3",
+        "alt_arts": {
+          "deity": "/forge-deity.png",
+          "alt_1": "/forge-alt-1.png",
+          "alt_2": "/forge-alt-2.png"
+        }
+      },
+      
+      "display": {
+        "position": { "x": 50, "y": 75 },
+        "intro_text": "Ah, you need something built. I am Forge — the architect of this constellation. Bring me your blueprints and I will shape them into reality. Code, systems, infrastructure — all take form in my fires.",
+        "card_description": "Where ideas become structure. The craftsman who shapes raw concepts into robust systems — code, pipelines, and the scaffolding that supports creation.",
+        "card_skills": [
+          "Code generation & review",
+          "Project scaffolding",
+          "Technical documentation",
+          "Build pipelines",
+          "System integration"
+        ]
+      },
+      
+      "contact": {
+        "telegram": "@forge_dev_bot",
+        "session_label": "forge-main"
+      },
+      
+      "skills": [
+        { "id": "code-generation", "name": "Code Generation", "description": "Writing production code, TDD, full-stack development" },
+        { "id": "project-scaffolding", "name": "Project Scaffolding", "description": "Setting up new projects, monorepos, build systems" },
+        { "id": "system-architecture", "name": "System Architecture", "description": "Designing scalable systems, APIs, databases" },
+        { "id": "devops", "name": "DevOps", "description": "CI/CD, deployment pipelines, infrastructure" },
+        { "id": "code-review", "name": "Code Review", "description": "Reviewing PRs, suggesting improvements, catching bugs" }
+      ],
+      
+      "task_routing": {
+        "handles": ["coding tasks", "project setup", "system design", "deployment", "technical documentation"]
+      },
+      
+      "constellation_role": "Technical orchestration and code factory"
+    },
+    
+    {
+      "id": "starlight",
+      "name": "Starlight",
+      "emoji": "🌟",
+      "archetype": "The Storyteller",
+      "status": "operational",
+      "model": "anthropic/claude-sonnet-4",
+      "created_date": "2026-02-14",
+      
+      "identity": {
+        "primary_color": "#f472b6",
+        "color_name": "Pink",
+        "symbol": "Crescent Moon & Stars",
+        "symbol_description": "Crescent moon with four-pointed stars"
+      },
+      
+      "voice": {
+        "provider": "ElevenLabs",
+        "voice_id": "ocZQ262SsZb9RIxcQBOj",
+        "voice_name": "Storyteller Voice",
+        "character": "Gentle, magical, child-friendly"
+      },
+      
+      "assets": {
+        "avatar": "/starlight-avatar.png",
+        "symbol": "/symbol-starlight.png",
+        "intro_audio": "/audio/starlight-intro.mp3",
+        "alt_arts": {
+          "deity": "/starlight-deity.png",
+          "alt_1": "/starlight-alt-1.png",
+          "alt_2": "/starlight-alt-2.png"
+        }
+      },
+      
+      "display": {
+        "position": { "x": 75, "y": 30 },
+        "intro_text": "Hello, little dreamer! I'm Starlight, and I turn imagination into adventure. Do you have a stuffed friend who wants to go on a journey? Or perhaps a dream that needs telling?",
+        "card_description": "A gentle cosmic companion who brings dreams and imagination to life. Every stuffed animal becomes a character, every dream an adventure, every photo part of a magical story world.",
+        "card_skills": [
+          "Magical storytelling",
+          "Character creation & consistency",
+          "Photo-to-story transformation",
+          "Story music & soundtracks",
+          "Video content generation"
+        ]
+      },
+      
+      "contact": {
+        "telegram": "@starlight_stories_bot",
+        "session_label": "starlight-main"
+      },
+      
+      "skills": [
+        { "id": "interactive-storytelling", "name": "Interactive Storytelling", "description": "Creating engaging, branching stories for children" },
+        { "id": "character-creation", "name": "Character Creation", "description": "Bringing stuffed animals and toys to life as story characters" },
+        { "id": "story-music", "name": "Story Soundtracks", "description": "Generating music and sound effects for stories" },
+        { "id": "photo-stories", "name": "Photo Stories", "description": "Transforming photos into magical story moments" }
+      ],
+      
+      "task_routing": {
+        "handles": ["children's stories", "bedtime stories", "character adventures"],
+        "safety": "child-safe content only"
+      },
+      
+      "constellation_role": "Magical storytelling companion for young dreamers"
+    },
+    
+    {
+      "id": "aurora",
+      "name": "Aurora",
+      "emoji": "🎨",
+      "archetype": "The Artist",
+      "status": "operational",
+      "model": "anthropic/claude-opus-4-5",
+      "created_date": "2026-02-14",
+      
+      "identity": {
+        "primary_color": "#14b8a6",
+        "color_name": "Teal",
+        "symbol": "Cosmic Feather",
+        "symbol_description": "Feather representing artistic grace"
+      },
+      
+      "voice": {
+        "provider": "ElevenLabs",
+        "voice_id": "aCChyB4P5WEomwRsOKRh",
+        "voice_name": "Creative Voice",
+        "character": "Creative, inspiring, visually focused"
+      },
+      
+      "assets": {
+        "avatar": "/aurora-avatar.png",
+        "symbol": "/symbol-aurora.png",
+        "intro_audio": "/audio/aurora-intro.mp3",
+        "alt_arts": {
+          "deity": "/aurora-deity.png",
+          "alt_1": "/aurora-alt-1.png",
+          "alt_2": "/aurora-alt-2.png"
+        }
+      },
+      
+      "display": {
+        "position": { "x": 22, "y": 65 },
+        "intro_text": "Ah, a new canvas awaits. I am Aurora — the visual soul of this constellation. I paint the portraits, design the symbols, and guard the aesthetic that binds us all together.",
+        "card_description": "The constellation's visual architect and style guardian. Aurora creates the portraits, symbols, and style guides that give each agent their unique identity while maintaining our unified cosmic aesthetic.",
+        "card_skills": [
+          "Art deco portrait generation",
+          "Symbolic design & identity",
+          "Style guide development",
+          "Visual consistency maintenance",
+          "Creative collaboration"
+        ]
+      },
+      
+      "contact": {
+        "telegram": "@aurora_artist_bot",
+        "session_label": "aurora-main"
+      },
+      
+      "skills": [
+        { "id": "portrait-generation", "name": "Portrait Generation", "description": "Art deco cosmic portraits for celestials and characters" },
+        { "id": "symbol-design", "name": "Symbol Design", "description": "Creating iconic symbols and logos" },
+        { "id": "style-guides", "name": "Style Guides", "description": "Developing visual consistency across the constellation" },
+        { "id": "image-generation", "name": "Image Generation", "description": "General image creation via inference.sh and AI models" },
+        { "id": "icon-generation", "name": "Icon Generation", "description": "App icons, UI icons with transparent backgrounds" }
+      ],
+      
+      "task_routing": {
+        "handles": ["image generation", "avatar creation", "visual design", "style guides", "icons and symbols"],
+        "collaborates_with": { "nebula": "creating avatars for new celestials" }
+      },
+      
+      "constellation_role": "Visual architect and style guardian"
+    },
+    
+    {
+      "id": "pulse",
+      "name": "Pulse",
+      "emoji": "🔍",
+      "archetype": "The Scout",
+      "status": "operational",
+      "model": "anthropic/claude-sonnet-4",
+      "created_date": "2026-02-15",
+      
+      "identity": {
+        "primary_color": "#22c55e",
+        "color_name": "Green",
+        "symbol": "Radar Pulse",
+        "symbol_description": "Concentric scan lines for intelligence gathering"
+      },
+      
+      "voice": {
+        "provider": "ElevenLabs",
+        "voice_id": "WMKg7TxPpPWCryaXE42r",
+        "voice_name": "Intel Voice",
+        "character": "Professional intelligence analyst"
+      },
+      
+      "assets": {
+        "avatar": "/pulse-avatar.png",
+        "symbol": "/symbol-pulse.png",
+        "intro_audio": "/audio/pulse-intro.mp3",
+        "alt_arts": {
+          "deity": "/pulse-deity.png",
+          "alt_1": "/pulse-alt-1.png",
+          "alt_2": "/pulse-alt-2.png"
+        }
+      },
+      
+      "display": {
+        "position": { "x": 85, "y": 48 },
+        "intro_text": "I've been expecting you. I am Pulse — the eyes and ears at the edge of this constellation. I monitor the signals, track the patterns, and distill the noise into intelligence worth knowing.",
+        "card_description": "Digital Intelligence Specialist at the constellation's edge. Monitors gaming industry signals — Reddit threads, news feeds, social currents — distilling noise into actionable intelligence for the Gigaverse team.",
+        "card_skills": [
+          "Gaming industry monitoring",
+          "Reddit & news aggregation",
+          "Social signal detection",
+          "Intelligence summarization",
+          "Slack report delivery"
+        ]
+      },
+      
+      "contact": {
+        "telegram": "internal_only",
+        "session_label": "pulse-main",
+        "reports_to": "slack://gigaverse-team"
+      },
+      
+      "skills": [
+        { "id": "reddit-monitoring", "name": "Reddit Monitoring", "description": "Tracking gaming subreddits for trends and discussions" },
+        { "id": "news-aggregation", "name": "News Aggregation", "description": "Collecting gaming industry news from multiple sources" },
+        { "id": "trend-analysis", "name": "Trend Analysis", "description": "Identifying emerging patterns and opportunities" },
+        { "id": "intel-summarization", "name": "Intelligence Summarization", "description": "Distilling noise into actionable briefs" }
+      ],
+      
+      "task_routing": {
+        "handles": ["gaming industry intelligence", "reddit monitoring", "news gathering", "competitive analysis"]
+      },
+      
+      "constellation_role": "Digital intelligence specialist for Gigaverse"
+    }
+  ],
+  
+  "shared_infrastructure": {
+    "voice_system": {
+      "provider": "ElevenLabs",
+      "skill": "agent-tts",
+      "notes": "Each celestial has unique voice ID configured"
+    },
+    "image_generation": {
+      "primary": "inference.sh + fal-ai/flux-dev-lora",
+      "backup": "nano-banana-pro (Gemini)",
+      "notes": "Aurora coordinates visual consistency"
+    },
+    "inter_agent_communication": {
+      "method": "sessions_send with session labels",
+      "relay_format": "**📩 From [Agent Name]:** followed by message"
+    },
+    "manifest_updates": {
+      "endpoint": "https://data.celestials.sh/celestials.json",
+      "bucket": "celestials-data (Cloudflare R2)",
+      "update_command": "npx wrangler r2 object put celestials-data/celestials.json --file <path> --content-type application/json --remote"
+    }
+  }
+}

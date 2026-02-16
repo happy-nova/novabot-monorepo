@@ -1717,7 +1717,7 @@ function DreamCard({
   onHoverLeave: () => void;
   onClick: () => void;
 }) {
-  const daysLeft = dream.dueDate ? getDaysUntilDue(dream.dueDate) : null;
+  const daysLeft = dream.due_date ? getDaysUntilDue(dream.due_date) : null;
   
   return (
     <article 
