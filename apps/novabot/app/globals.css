@@ -2781,26 +2781,36 @@ button {
   height: 55px;
 }
 
+.constellation-star.luna .star-symbol {
+  width: 45px;
+  height: 45px;
+  opacity: 0.25;
+}
+
+.constellation-star.luna:hover .star-symbol {
+  opacity: 0.7;
+}
+
 .constellation-star.luna > .star-core {
   display: none;
 }
 
 .constellation-star.luna .star-glow {
-  width: 40px;
-  height: 40px;
-  background: radial-gradient(circle, #B0B8D0 0%, rgba(176, 184, 208, 0.25) 50%, transparent 70%);
+  width: 35px;
+  height: 35px;
+  background: radial-gradient(circle, #B0B8D0 0%, rgba(176, 184, 208, 0.2) 50%, transparent 70%);
   filter: blur(1px);
 }
 
 .luna-shape {
-  width: 28px;
-  height: 28px;
+  width: 20px;
+  height: 20px;
   position: relative;
 }
 
 .luna-shape .star-core {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   z-index: 5;
   background: radial-gradient(circle, #e8eaf0 30%, var(--entity-color) 100%);
 }
@@ -2808,24 +2818,24 @@ button {
 /* Crescent moon effect */
 .luna-crescent {
   position: absolute;
-  width: 20px;
-  height: 20px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   background: var(--entity-color);
   box-shadow: 
-    4px -2px 0 0 rgba(176, 184, 208, 0.8),
-    0 0 8px var(--entity-color);
+    3px -1px 0 0 rgba(176, 184, 208, 0.8),
+    0 0 6px var(--entity-color);
   animation: lunaGlow 4s ease-in-out infinite;
 }
 
 /* Soft silver ring around Luna */
 .luna-ring {
   position: absolute;
-  width: 32px;
-  height: 32px;
+  width: 22px;
+  height: 22px;
   border: 1px solid var(--entity-color);
   border-radius: 50%;
-  opacity: 0.4;
+  opacity: 0.3;
   animation: lunaRingPulse 4s ease-in-out infinite;
 }
 
