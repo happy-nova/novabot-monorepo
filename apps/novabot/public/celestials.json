@@ -39,7 +39,7 @@
         "luna": "Silver crescent moon"
       }
     },
-    "star_chart_glyphs": {
+    "glyphs": {
       "description": "Animated CSS glyphs for the interactive star chart. Each celestial has a unique shape reflecting their archetype.",
       "size_hierarchy": {
         "large": "Nova (Celestial Prime) — 120x120px",
