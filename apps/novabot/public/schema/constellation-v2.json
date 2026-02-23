@@ -1,0 +1,185 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://data.celestials.sh/schema/constellation-v2.json",
+  "title": "Constellation Manifest",
+  "description": "Schema for The Constellation - a cosmic family of AI agents",
+  "type": "object",
+  "required": ["version", "constellation", "celestials"],
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "constellation": {
+      "type": "object",
+      "required": ["name", "tagline", "website"],
+      "properties": {
+        "name": { "type": "string" },
+        "tagline": { "type": "string" },
+        "description": { "type": "string" },
+        "website": { "type": "string", "format": "uri" },
+        "data_endpoint": { "type": "string", "format": "uri" },
+        "status": { 
+          "type": "string",
+          "enum": ["fully_operational", "partial", "maintenance", "offline"]
+        },
+        "art_styles": { "type": "object" },
+        "symbol_style": { "type": "object" },
+        "star_chart_glyphs": { "type": "object" }
+      }
+    },
+    "celestials": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/celestial" },
+      "minItems": 1
+    },
+    "dreams": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/dream" }
+    }
+  },
+  "definitions": {
+    "celestial": {
+      "type": "object",
+      "required": ["id", "name", "emoji", "archetype", "status", "identity"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]*$",
+          "description": "Unique identifier (lowercase, alphanumeric with hyphens)"
+        },
+        "name": { "type": "string" },
+        "emoji": { "type": "string", "maxLength": 4 },
+        "archetype": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["operational", "dreaming", "maintenance", "offline", "emerging"]
+        },
+        "model": { "type": "string" },
+        "created_date": { "type": "string", "format": "date" },
+        
+        "identity": {
+          "type": "object",
+          "required": ["primary_color", "color_name", "symbol"],
+          "properties": {
+            "primary_color": { 
+              "type": "string", 
+              "pattern": "^#[0-9A-Fa-f]{6}$" 
+            },
+            "color_name": { "type": "string" },
+            "symbol": { "type": "string" },
+            "symbol_description": { "type": "string" }
+          }
+        },
+        
+        "voice": {
+          "type": "object",
+          "properties": {
+            "provider": { "type": "string" },
+            "voice_id": { "type": "string" },
+            "voice_name": { "type": "string" },
+            "character": { "type": "string" }
+          }
+        },
+        
+        "thinking_messages": {
+          "type": "array",
+          "description": "In-character messages displayed while the agent is thinking/processing",
+          "items": { "type": "string" },
+          "minItems": 3,
+          "maxItems": 20
+        },
+        
+        "assets": {
+          "type": "object",
+          "properties": {
+            "avatar": { "type": "string" },
+            "symbol": { "type": "string" },
+            "intro_audio": { "type": "string" },
+            "alt_arts": { "type": "object" }
+          }
+        },
+        
+        "display": {
+          "type": "object",
+          "properties": {
+            "position": {
+              "type": "object",
+              "properties": {
+                "x": { "type": "number" },
+                "y": { "type": "number" }
+              }
+            },
+            "intro_text": { "type": "string" },
+            "card_description": { "type": "string" },
+            "card_skills": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        },
+        
+        "skills": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/skill" }
+        },
+        
+        "capabilities": { "type": "object" },
+        "collaboration": { "type": "object" },
+        "style_system": { "type": "object" }
+      }
+    },
+    
+    "skill": {
+      "type": "object",
+      "required": ["id", "name"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "description": { "type": "string" },
+        "triggers": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    
+    "dream": {
+      "type": "object",
+      "required": ["id", "date", "title", "status"],
+      "properties": {
+        "id": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "source": { 
+          "type": "string",
+          "enum": ["emergent", "seeded", "collaborative", "requested"]
+        },
+        "type": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["active", "promoted", "sunset", "archived"]
+        },
+        "url": { "type": "string", "format": "uri" },
+        "description": { "type": "string" },
+        "reflection": { "type": "string" },
+        "due_date": { "type": "string", "format": "date" },
+        "sunset_date": { "type": "string", "format": "date" },
+        "evolution": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -25,6 +25,7 @@ export interface Celestial {
   status: string;
   model: string;
   created_date: string;
+  "session-greet"?: string;
   identity: {
     primary_color: string;
     color_name: string;
@@ -55,6 +56,7 @@ export interface ConstellationManifest {
     description: string;
     website: string;
     data_endpoint: string;
+    asset_base_url: string;
     status: string;
   };
   celestials: Celestial[];
@@ -99,24 +101,38 @@ export interface StarChartEntity {
   };
 }
 
-export function celestialToStarChartEntity(celestial: Celestial): StarChartEntity {
+// Resolve relative asset path to absolute URL
+function resolveAssetUrl(path: string, baseUrl: string): string {
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    return path; // Already absolute
+  }
+  // Remove leading slash if present, then join with base
+  const cleanPath = path.startsWith('/') ? path.slice(1) : path;
+  return `${baseUrl}/${cleanPath}`;
+}
+
+export function celestialToStarChartEntity(celestial: Celestial, assetBaseUrl: string): StarChartEntity {
   return {
     id: celestial.id,
     name: celestial.name,
-    icon: celestial.assets.symbol,
+    icon: resolveAssetUrl(celestial.assets.symbol, assetBaseUrl),
     role: celestial.archetype,
     description: celestial.display.card_description,
-    avatarSrc: celestial.assets.avatar,
+    avatarSrc: resolveAssetUrl(celestial.assets.avatar, assetBaseUrl),
     accentColor: celestial.identity.primary_color,
     position: celestial.display.position,
     skills: celestial.display.card_skills,
-    introAudio: celestial.assets.intro_audio,
+    introAudio: resolveAssetUrl(celestial.assets.intro_audio, assetBaseUrl),
     introText: celestial.display.intro_text,
-    altArts: celestial.assets.alt_arts,
+    altArts: {
+      deity: resolveAssetUrl(celestial.assets.alt_arts.deity, assetBaseUrl),
+      divine_geo: resolveAssetUrl(celestial.assets.alt_arts.divine_geo, assetBaseUrl),
+    },
   };
 }
 
 // Static export for SSG - reads from local file at build time
 import manifestData from '../public/celestials.json';
 export const staticManifest = manifestData as ConstellationManifest;
-export const staticEntities = staticManifest.celestials.map(celestialToStarChartEntity);
+export const assetBaseUrl = staticManifest.constellation.asset_base_url;
+export const staticEntities = staticManifest.celestials.map(c => celestialToStarChartEntity(c, assetBaseUrl));

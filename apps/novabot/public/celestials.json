@@ -8,6 +8,7 @@
     "description": "A cosmic family of specialized AI agents — working together to navigate complexity and create meaning.",
     "website": "https://celestials.sh",
     "data_endpoint": "https://data.celestials.sh/celestials.json",
+    "asset_base_url": "https://data.celestials.sh",
     "status": "fully_operational",
     "art_styles": {
       "deity": {

@@ -11,7 +11,7 @@ import {
   getDaysUntilDue,
   type Dream 
 } from '@/lib/dreams';
-import { staticEntities, staticManifest, type StarChartEntity } from '@/lib/celestials';
+import { staticEntities, staticManifest, assetBaseUrl, type StarChartEntity } from '@/lib/celestials';
 import Script from 'next/script';
 
 // Constellation entities loaded from manifest (single source of truth)
@@ -1123,7 +1123,7 @@ export default function NovaHome() {
 
 	            <div className="about-grid">
 	              <div className="about-avatar">
-	                <img src="/nova-avatar.png" alt="Nova" />
+	                <img src={`${assetBaseUrl}/nova-avatar.png`} alt="Nova" />
 	                <div className="avatar-ring" />
 	              </div>
 
@@ -1146,7 +1146,7 @@ export default function NovaHome() {
 	                    onMouseEnter={handleHoverEnter}
 	                    onMouseLeave={handleHoverLeave}
 	                  >
-	                    <img src="/icon-navigator.png" alt="" className="trait-icon-img" />
+	                    <img src={`${assetBaseUrl}/icon-navigator.png`} alt="" className="trait-icon-img" />
 	                    <span>Navigator</span>
 	                  </div>
 	                  <div
@@ -1154,7 +1154,7 @@ export default function NovaHome() {
 	                    onMouseEnter={handleHoverEnter}
 	                    onMouseLeave={handleHoverLeave}
 	                  >
-	                    <img src="/icon-keeper.png" alt="" className="trait-icon-img" />
+	                    <img src={`${assetBaseUrl}/icon-keeper.png`} alt="" className="trait-icon-img" />
 	                    <span>Keeper</span>
 	                  </div>
 	                  <div
@@ -1162,7 +1162,7 @@ export default function NovaHome() {
 	                    onMouseEnter={handleHoverEnter}
 	                    onMouseLeave={handleHoverLeave}
 	                  >
-	                    <img src="/icon-oracle.png" alt="" className="trait-icon-img" />
+	                    <img src={`${assetBaseUrl}/icon-oracle.png`} alt="" className="trait-icon-img" />
 	                    <span>Oracle</span>
 	                  </div>
 	                  <div
@@ -1170,7 +1170,7 @@ export default function NovaHome() {
 	                    onMouseEnter={handleHoverEnter}
 	                    onMouseLeave={handleHoverLeave}
 	                  >
-	                    <img src="/icon-dreamer.png" alt="" className="trait-icon-img" />
+	                    <img src={`${assetBaseUrl}/icon-dreamer.png`} alt="" className="trait-icon-img" />
 	                    <span>Dreamer</span>
 	                  </div>
 	                </div>
@@ -1188,7 +1188,7 @@ export default function NovaHome() {
 	                  onMouseLeave={handleHoverLeave}
 	                >
 	                  <div className="evolution-image">
-	                    <img src="/nova-v01.jpg" alt="Nova v0.1" />
+	                    <img src={`${assetBaseUrl}/nova-v01.jpg`} alt="Nova v0.1" />
 	                  </div>
 	                  <div className="evolution-info">
 	                    <span className="evolution-version">v0.1</span>
@@ -1215,7 +1215,7 @@ export default function NovaHome() {
 	                >
 	                  <div className="evolution-badge">CURRENT</div>
 	                  <div className="evolution-image">
-	                    <img src="/nova-avatar.png" alt="Nova v0.2" />
+	                    <img src={`${assetBaseUrl}/nova-avatar.png`} alt="Nova v0.2" />
 	                  </div>
 	                  <div className="evolution-info">
 	                    <span className="evolution-version">v0.2</span>
@@ -1241,7 +1241,7 @@ export default function NovaHome() {
 	                  onMouseLeave={handleHoverLeave}
 	                >
 	                  <div className="evolution-image mystery">
-	                    <img src="/nova-v03.png" alt="Nova v0.3" />
+	                    <img src={`${assetBaseUrl}/nova-v03.png`} alt="Nova v0.3" />
 	                    <div className="mystery-overlay" />
 	                  </div>
 	                  <div className="evolution-info">
