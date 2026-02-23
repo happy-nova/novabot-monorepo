@@ -2,7 +2,7 @@
   "$schema": "https://data.celestials.sh/schema/constellation-v2.json",
   "version": "2.1.0",
   "last_updated": "2026-02-17T18:08:22Z",
-  "constellation": {
+  "deployment": {
     "name": "The Constellation",
     "tagline": "A constellation of AI agents",
     "description": "A cosmic family of specialized AI agents — working together to navigate complexity and create meaning.",
@@ -10,6 +10,12 @@
     "data_endpoint": "https://data.celestials.sh/celestials.json",
     "asset_base_url": "https://data.celestials.sh",
     "status": "fully_operational",
+    "terminology": {
+      "agent_singular": "Celestial",
+      "agent_plural": "Celestials",
+      "collection_name": "The Constellation",
+      "collection_noun": "constellation"
+    },
     "art_styles": {
       "deity": {
         "name": "Stained Glass Ethereal Profile",
@@ -110,7 +116,7 @@
       }
     }
   },
-  "celestials": [
+  "agents": [
     {
       "id": "nova",
       "name": "Nova",

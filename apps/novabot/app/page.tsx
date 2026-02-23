@@ -1090,7 +1090,7 @@ export default function NovaHome() {
             </p>
             
             <p className="hero-tagline">
-              {staticManifest.constellation.description}
+              {staticManifest.deployment.description}
             </p>
             
             <button 

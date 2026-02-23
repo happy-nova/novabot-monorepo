@@ -46,11 +46,18 @@ export interface Celestial {
   constellation_role: string;
 }
 
+export interface DeploymentTerminology {
+  agent_singular: string;
+  agent_plural: string;
+  collection_name: string;
+  collection_noun: string;
+}
+
 export interface ConstellationManifest {
   $schema: string;
   version: string;
   last_updated: string;
-  constellation: {
+  deployment: {
     name: string;
     tagline: string;
     description: string;
@@ -58,8 +65,9 @@ export interface ConstellationManifest {
     data_endpoint: string;
     asset_base_url: string;
     status: string;
+    terminology: DeploymentTerminology;
   };
-  celestials: Celestial[];
+  agents: Celestial[];
   shared_infrastructure: Record<string, unknown>;
 }
 
@@ -134,5 +142,6 @@ export function celestialToStarChartEntity(celestial: Celestial, assetBaseUrl: s
 // Static export for SSG - reads from local file at build time
 import manifestData from '../public/celestials.json';
 export const staticManifest = manifestData as ConstellationManifest;
-export const assetBaseUrl = staticManifest.constellation.asset_base_url;
-export const staticEntities = staticManifest.celestials.map(c => celestialToStarChartEntity(c, assetBaseUrl));
+export const assetBaseUrl = staticManifest.deployment.asset_base_url;
+export const terminology = staticManifest.deployment.terminology;
+export const staticEntities = staticManifest.agents.map(c => celestialToStarChartEntity(c, assetBaseUrl));
