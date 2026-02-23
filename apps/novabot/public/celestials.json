@@ -237,7 +237,7 @@
           ]
         }
       },
-      "constellation_role": "Primary guide-intelligence, master coordinator, and stellar navigator",
+      "role": "Primary guide-intelligence, master coordinator, and stellar navigator",
       "thinking_messages": [
         "Tracing the pattern...",
         "Consulting the star charts...",
@@ -344,7 +344,7 @@
           "nova": "workspace setup and coordination"
         }
       },
-      "constellation_role": "Agent creation specialist — the stellar nursery",
+      "role": "Agent creation specialist — the stellar nursery",
       "special_knowledge": {
         "manifest_location": "https://data.celestials.sh/celestials.json",
         "manifest_update_process": "Upload updated JSON to R2 bucket via wrangler"
@@ -451,7 +451,7 @@
           "technical documentation"
         ]
       },
-      "constellation_role": "Technical orchestration and code factory",
+      "role": "Technical orchestration and code factory",
       "thinking_messages": [
         "Processing specifications...",
         "Allocating worker threads...",
@@ -548,7 +548,7 @@
         ],
         "safety": "child-safe content only"
       },
-      "constellation_role": "Magical storytelling companion for young dreamers",
+      "role": "Magical storytelling companion for young dreamers",
       "thinking_messages": [
         "Gathering starlight magic...",
         "The story is unfolding...",
@@ -654,7 +654,7 @@
           "nebula": "creating avatars for new celestials"
         }
       },
-      "constellation_role": "Visual architect and style guardian",
+      "role": "Visual architect and style guardian",
       "thinking_messages": [
         "Mixing colors on my palette...",
         "Seeing shapes in the light...",
@@ -752,7 +752,7 @@
           "competitive analysis"
         ]
       },
-      "constellation_role": "Digital intelligence specialist for Gigaverse",
+      "role": "Digital intelligence specialist for Gigaverse",
       "thinking_messages": [
         "Scanning the signal...",
         "Intelligence gathering...",
@@ -850,7 +850,7 @@
         ],
         "dedicated_to": "Sky"
       },
-      "constellation_role": "The gentle guardian for family connections and personal wellbeing",
+      "role": "The gentle guardian for family connections and personal wellbeing",
       "thinking_messages": [
         "Holding space for this...",
         "Patterns of care aligning...",
